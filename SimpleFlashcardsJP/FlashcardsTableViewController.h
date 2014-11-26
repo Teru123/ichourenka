@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  FlashcardsTableViewController.h
 //  SimpleFlashcardsJP
 //
 //  Created by Teru on 2014/11/23.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface FlashcardsTableViewController : UITableViewController
 
 @end
-
