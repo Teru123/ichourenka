@@ -14,9 +14,6 @@
 		DD8FED5C1A25D1D4003F2AC2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED5B1A25D1D4003F2AC2 /* libsqlite3.dylib */; };
 		DD8FED5E1A25D1DA003F2AC2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED5D1A25D1DA003F2AC2 /* CoreGraphics.framework */; };
 		DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */; };
-		DDB7D0ED1A24429400DFC12F /* FolderNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB7D0EB1A24429400DFC12F /* FolderNameTableViewCell.m */; };
-		DDB7D0EE1A24429400DFC12F /* FolderNameTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDB7D0EC1A24429400DFC12F /* FolderNameTableViewCell.xib */; };
-		DDB910461A22DABB0009EA49 /* CreateFolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB910451A22DABB0009EA49 /* CreateFolderViewController.m */; };
 		DDC1A66A1A21D332003C7EC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A6691A21D332003C7EC9 /* main.m */; };
 		DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A66C1A21D332003C7EC9 /* AppDelegate.m */; };
 		DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DDC1A6711A21D332003C7EC9 /* Main.storyboard */; };
@@ -51,11 +48,6 @@
 		DD8FED5D1A25D1DA003F2AC2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DDB7D0E71A243CB600DFC12F /* CreateFolderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFolderTableViewController.h; sourceTree = "<group>"; };
 		DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFolderTableViewController.m; sourceTree = "<group>"; };
-		DDB7D0EA1A24429400DFC12F /* FolderNameTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderNameTableViewCell.h; sourceTree = "<group>"; };
-		DDB7D0EB1A24429400DFC12F /* FolderNameTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderNameTableViewCell.m; sourceTree = "<group>"; };
-		DDB7D0EC1A24429400DFC12F /* FolderNameTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderNameTableViewCell.xib; sourceTree = "<group>"; };
-		DDB910441A22DABB0009EA49 /* CreateFolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFolderViewController.h; sourceTree = "<group>"; };
-		DDB910451A22DABB0009EA49 /* CreateFolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFolderViewController.m; sourceTree = "<group>"; };
 		DDC1A6641A21D332003C7EC9 /* SimpleFlashcardsJP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleFlashcardsJP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDC1A6681A21D332003C7EC9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DDC1A6691A21D332003C7EC9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -147,11 +139,6 @@
 				DDDB67551A24587000921E82 /* EnterFolderNameTableViewController.h */,
 				DDDB67561A24587000921E82 /* EnterFolderNameTableViewController.m */,
 				DDC1A6711A21D332003C7EC9 /* Main.storyboard */,
-				DDB7D0EA1A24429400DFC12F /* FolderNameTableViewCell.h */,
-				DDB7D0EB1A24429400DFC12F /* FolderNameTableViewCell.m */,
-				DDB7D0EC1A24429400DFC12F /* FolderNameTableViewCell.xib */,
-				DDB910441A22DABB0009EA49 /* CreateFolderViewController.h */,
-				DDB910451A22DABB0009EA49 /* CreateFolderViewController.m */,
 				DDC1A6741A21D332003C7EC9 /* Images.xcassets */,
 				DDC1A6761A21D332003C7EC9 /* LaunchScreen.xib */,
 				DDC1A6671A21D332003C7EC9 /* Supporting Files */,
@@ -275,7 +262,6 @@
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
 				DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */,
 				DDC1A6751A21D332003C7EC9 /* Images.xcassets in Resources */,
-				DDB7D0EE1A24429400DFC12F /* FolderNameTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,11 +282,9 @@
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
-				DDB7D0ED1A24429400DFC12F /* FolderNameTableViewCell.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
 				DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */,
-				DDB910461A22DABB0009EA49 /* CreateFolderViewController.m in Sources */,
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

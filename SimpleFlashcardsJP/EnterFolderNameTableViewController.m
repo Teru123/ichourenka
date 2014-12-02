@@ -8,21 +8,12 @@
 
 #import "EnterFolderNameTableViewController.h"
 #import "CreateFolderTableViewController.h"
-#import "FolderNameDB.h"
-
-@interface EnterFolderNameTableViewController ()
-
-@property (nonatomic, strong) FolderNameDB *folderNameDB;
-
--(void)loadInfoToEdit;
-
-@end
+#import "FolderNameDataObject.h"
+#import "AppDelegateProtocol.h"
 
 @interface EnterFolderNameTableViewController ()
 
 @property (strong, nonatomic)CreateFolderTableViewController *createFolderView;
-
--(void)setCreateFolderView;
 
 @end
 
@@ -45,7 +36,6 @@
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.folderNameText.delegate = self;
     // Initialize the dbManager object.
-    self.FolderNameDB = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderNameDB.sql"];
     //set bounds of the textfield
     self.folderNameText.bounds = [self editingRectForBounds:self.folderNameText.bounds];
 
@@ -65,11 +55,13 @@
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    //self.createFolderView.tempFolderName = self.folderNameText.text;
-    [_createFolderView setTempFolderName:[NSString stringWithFormat:@"%@", self.folderNameText.text]];
-    NSLog(@"%@", self.createFolderView.tempFolderName);
     [self.navigationController popViewControllerAnimated:YES];
     return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+
 }
 
 - (IBAction)backToCreateFolder:(id)sender {
@@ -77,9 +69,6 @@
 }
 
 - (IBAction)saveFolderName:(id)sender {
-    //self.createFolderView.tempFolderName = self.folderNameText.text;
-    [_createFolderView setTempFolderName:[NSString stringWithFormat:@"%@", self.folderNameText.text]] ;
-    NSLog(@"%@", self.createFolderView.tempFolderName);
     [self.navigationController popViewControllerAnimated:YES];
 }
 

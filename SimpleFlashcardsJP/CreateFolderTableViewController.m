@@ -10,38 +10,17 @@
 
 @interface CreateFolderTableViewController ()
 
-@property (strong, nonatomic)CreateFolderTableViewController *createFolderView;
-
--(void)setCreateFolderView;
--(void)setTempFolderName:(NSString *)tempFolderName;
-
 @end
 
 @implementation CreateFolderTableViewController
 
--(void)setCreateFolderView{
-    self.createFolderView  = [[CreateFolderTableViewController alloc] init];
-}
-
--(void)setTempFolderName:(NSString *)tempFolderName{
-    _tempFolderName = tempFolderName;
-    //tempFolderNameがnullでなければ処理実行
-    if (self.createFolderView.tempFolderName) {
-        //folderNameにtempFolderNameを追加
-        self.folderName.text = [self.folderName.text stringByAppendingString:self.createFolderView.tempFolderName];
-        NSLog(@"%@", self.createFolderView.tempFolderName);
-    }
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.tableView reloadData];
-    NSLog(@"%@", self.tempFolderName);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self createFolderView];
 }
 
 - (void)didReceiveMemoryWarning {

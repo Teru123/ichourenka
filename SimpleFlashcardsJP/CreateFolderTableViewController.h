@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreateFolderTableViewController : UITableViewController
+@interface CreateFolderTableViewController : UITableViewController 
+{
+     
+}
 
-@property (strong, nonatomic)NSString *tempFolderName;
 @property (weak, nonatomic) IBOutlet UILabel *folderName;
 
 @end
