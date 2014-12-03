@@ -8,20 +8,18 @@
 
 #import "EnterFolderNameTableViewController.h"
 #import "CreateFolderTableViewController.h"
-#import "FolderNameDataObject.h"
-#import "AppDelegateProtocol.h"
+#import "FolderNameDB.h"
 
 @interface EnterFolderNameTableViewController ()
 
-@property (strong, nonatomic)CreateFolderTableViewController *createFolderView;
+@property (nonatomic, strong) FolderNameDB *dbFolderManager;
+@property (nonatomic, strong) NSArray *folderInfo;
+@property (nonatomic, strong) NSString *checkData;
+- (void)loadInfoToEdit;
 
 @end
 
 @implementation EnterFolderNameTableViewController
-
--(void)setCreateFolderView{
-    _createFolderView  = [[CreateFolderTableViewController alloc] init];
-}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -31,14 +29,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setCreateFolderView];
-    
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.folderNameText.delegate = self;
     // Initialize the dbManager object.
     //set bounds of the textfield
     self.folderNameText.bounds = [self editingRectForBounds:self.folderNameText.bounds];
 
+    // Initialize the dbManager object.
+    self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    
+    //Load specific data
+    NSString *queryLoad = @"select * from FolderNameInfo";
+    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
+    
+    if (self.folderInfo.count != 0) {
+        [self loadInfoToEdit];
+    }
+    
     /* add textfield on imageView
      UIImageView *textImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WhiteTextViewRectangle.png"]];
      [self.view addSubview:textImageView];
@@ -55,13 +64,42 @@
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
+    
+    //Load specific data
+    NSString *queryLoad = @"select * from FolderNameInfo";
+    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
+    
+    // Prepare the query string.
+    // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
+    NSString *query;
+    
+    if (self.folderInfo.count == 0) {
+        query = [NSString stringWithFormat:@"insert into FolderNameInfo values(%d, '%@')", 1, self.folderNameText.text];
+    }
+    else{
+        query = [NSString stringWithFormat:@"update FolderNameInfo set foldername='%@' ", self.folderNameText.text];
+    }
+    
+    
+    // Execute the query.
+    [self.dbFolderManager executeQuery:query];
+    
+    // If the query was successfully executed then pop the view controller.
+    if (self.dbFolderManager.affectedRows != 0) {
+        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
+        
+        // Inform the delegate that the editing was finished.
+        [self.delegate editingInfoWasFinished];
+    }
+    else{
+        NSLog(@"Could not execute the query.");
+    }
+    
+    // Pop the view controller.
     [self.navigationController popViewControllerAnimated:YES];
     return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-
 }
 
 - (IBAction)backToCreateFolder:(id)sender {
@@ -69,7 +107,48 @@
 }
 
 - (IBAction)saveFolderName:(id)sender {
+    // Prepare the query string.
+    // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
+    NSString *query;
+   
+    if (self.folderInfo.count == 0){
+        query = [NSString stringWithFormat:@"insert into FolderNameInfo values(null, '%@')", self.folderNameText.text];
+    }
+    else{
+        query = [NSString stringWithFormat:@"update FolderNameInfo set foldername='%@' ", self.folderNameText.text];
+    }
+    
+    
+    // Execute the query.
+    [self.dbFolderManager executeQuery:query];
+    
+    // If the query was successfully executed then pop the view controller.
+    if (self.dbFolderManager.affectedRows != 0) {
+        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
+        
+        // Inform the delegate that the editing was finished.
+        [self.delegate editingInfoWasFinished];
+    }
+    else{
+        NSLog(@"Could not execute the query.");
+    }
+    
+    // Pop the view controller.
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)loadInfoToEdit{
+    // Create the query.
+    NSString *query = [NSString stringWithFormat:@"select * from FolderNameInfo where peopleInfoID=%d", 0];
+    
+    // Load the relevant data.
+    NSArray *results = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
+    
+    if (self.checkData != nil) {
+        // Set the loaded data to the textfields.
+        self.folderNameText.text = [[results objectAtIndex:0] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"]];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -7,8 +7,6 @@
 //
 
 #import "FlashcardsTableViewController.h"
-#import "AppDelegateProtocol.h"
-#import "FolderNameDataObject.h"
 
 @interface FlashcardsTableViewController ()
 

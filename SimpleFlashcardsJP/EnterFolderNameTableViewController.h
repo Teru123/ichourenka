@@ -7,15 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FolderNameDataObject.h"
+
+@protocol EnterFolderNameTableViewControllerDelegate
+
+-(void)editingInfoWasFinished;
+
+@end
 
 @interface EnterFolderNameTableViewController : UITableViewController<UITextFieldDelegate>
 {
 
 }
 
-@property (nonatomic, retain) FolderNameDataObject* theFolderNameObject;
+@property (nonatomic, strong) id<EnterFolderNameTableViewControllerDelegate> delegate;
+@property (nonatomic) int recordIDToEdit;
 @property (weak, nonatomic) IBOutlet UITextField *folderNameText;
+
 - (IBAction)backToCreateFolder:(id)sender;
 - (IBAction)saveFolderName:(id)sender;
 

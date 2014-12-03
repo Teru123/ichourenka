@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
-        <!--Folders-->
+        <!--フォルダー-->
         <scene sceneID="DVf-Wu-Tmv">
             <objects>
                 <tableViewController id="Sai-LG-mrs" customClass="FlashcardsTableViewController" sceneMemberID="viewController">
@@ -25,7 +25,7 @@
                             <outlet property="delegate" destination="Sai-LG-mrs" id="S7R-mA-gnu"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Folders" id="med-a4-5IL">
+                    <navigationItem key="navigationItem" title="フォルダー" id="med-a4-5IL">
                         <barButtonItem key="leftBarButtonItem" image="gear.png" id="hhS-vE-eyf"/>
                     </navigationItem>
                     <connections>
@@ -44,11 +44,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <textView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="フォルダーは大量のファイルを整理するのに役立ちます。フォルダーはファイルのリストのみ編集できます。" textAlignment="center" id="qcF-TO-KGn">
-                            <rect key="frame" x="0.0" y="130" width="320" height="68"/>
+                        <textView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="フォルダーは大量のファイルを保存します。ファイルはフォルダー作成後に編集できます。" textAlignment="center" id="qcF-TO-KGn">
+                            <rect key="frame" x="0.0" y="197" width="320" height="50"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                         </textView>
                         <sections>

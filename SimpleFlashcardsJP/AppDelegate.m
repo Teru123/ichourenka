@@ -7,8 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "FolderNameDB.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, strong) FolderNameDB *dbFolderManager;
+@property (nonatomic, strong) NSArray *folderInfo;
+@property (nonatomic, strong) NSString *checkData;
 
 @end
 
@@ -17,6 +22,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
     return YES;
 }
 
@@ -40,6 +46,25 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    // Initialize the dbManager property.
+    self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    
+    //Load specific data
+    NSString *queryLoad = @"select * from FolderNameInfo";
+    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
+    
+    if (self.folderInfo.count != 0) {
+        // Prepare the query.
+        NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo where foldernameinfoID=%d", 1];
+        NSLog(@"%@", query);
+        
+        // Execute the query.
+        [self.dbFolderManager executeQuery:query];
+    }
+
 }
 
 @end

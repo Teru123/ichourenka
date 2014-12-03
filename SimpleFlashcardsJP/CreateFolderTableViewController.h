@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EnterFolderNameTableViewController.h"
 
-@interface CreateFolderTableViewController : UITableViewController 
+@interface CreateFolderTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, EnterFolderNameTableViewControllerDelegate>
 {
      
 }

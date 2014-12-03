@@ -7,8 +7,16 @@
 //
 
 #import "CreateFolderTableViewController.h"
+#import "EnterFolderNameTableViewController.h"
+#import "FolderNameDB.h"
 
 @interface CreateFolderTableViewController ()
+
+@property (nonatomic, strong) FolderNameDB *dbFolderManager;
+@property (nonatomic, strong) NSArray *folderInfo;
+@property (nonatomic, strong) NSString *checkData;
+
+-(void)loadData;
 
 @end
 
@@ -20,12 +28,45 @@
 }
 
 - (void)viewDidLoad {
+    // Initialize the dbManager property.
+    self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    
+    // Load the data.
+    [self loadData];
     [super viewDidLoad];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    EnterFolderNameTableViewController *editInfoViewController = [segue destinationViewController];
+    editInfoViewController.delegate = self;
+}
+
+-(void)editingInfoWasFinished{
+    // Reload the data.
+    [self loadData];
+}
+
+-(void)loadData{
+    // Form the query.
+    NSString *query = @"select * from FolderNameInfo";
+    
+    //Load specific data
+    NSString *queryLoad = @"select * from FolderNameInfo";
+    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
+    
+    // Get the results.
+    if (self.folderInfo.count != 0) {
+        self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
+        NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+        _folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+        //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
+    }
+   
+    
+    // Reload the table view.
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -34,6 +75,12 @@
 {
     
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 
 /**
  * テーブル全体のセクションの数を返す
