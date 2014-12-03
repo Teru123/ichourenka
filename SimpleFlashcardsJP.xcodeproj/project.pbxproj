@@ -13,6 +13,8 @@
 		DD8FED5A1A25D1C4003F2AC2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED551A25D15E003F2AC2 /* Foundation.framework */; };
 		DD8FED5C1A25D1D4003F2AC2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED5B1A25D1D4003F2AC2 /* libsqlite3.dylib */; };
 		DD8FED5E1A25D1DA003F2AC2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED5D1A25D1DA003F2AC2 /* CoreGraphics.framework */; };
+		DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DDB63BB51A2F041C005566D5 /* FolderDB.sql */; };
+		DDB63BB91A2F0432005566D5 /* FolderDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB63BB81A2F0432005566D5 /* FolderDB.m */; };
 		DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */; };
 		DDC1A66A1A21D332003C7EC9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A6691A21D332003C7EC9 /* main.m */; };
 		DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A66C1A21D332003C7EC9 /* AppDelegate.m */; };
@@ -46,6 +48,9 @@
 		DD8FED581A25D1BA003F2AC2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DD8FED5B1A25D1D4003F2AC2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DD8FED5D1A25D1DA003F2AC2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DDB63BB51A2F041C005566D5 /* FolderDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FolderDB.sql; sourceTree = "<group>"; };
+		DDB63BB71A2F0432005566D5 /* FolderDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderDB.h; sourceTree = "<group>"; };
+		DDB63BB81A2F0432005566D5 /* FolderDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderDB.m; sourceTree = "<group>"; };
 		DDB7D0E71A243CB600DFC12F /* CreateFolderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFolderTableViewController.h; sourceTree = "<group>"; };
 		DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFolderTableViewController.m; sourceTree = "<group>"; };
 		DDC1A6641A21D332003C7EC9 /* SimpleFlashcardsJP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleFlashcardsJP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +114,9 @@
 				DD8FED531A25D0AC003F2AC2 /* FolderName.sql */,
 				DD8FED501A25CAFD003F2AC2 /* FolderNameDB.h */,
 				DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */,
+				DDB63BB51A2F041C005566D5 /* FolderDB.sql */,
+				DDB63BB71A2F0432005566D5 /* FolderDB.h */,
+				DDB63BB81A2F0432005566D5 /* FolderDB.m */,
 				DDC1A6661A21D332003C7EC9 /* SimpleFlashcardsJP */,
 				DDC1A6801A21D332003C7EC9 /* SimpleFlashcardsJPTests */,
 				DDC1A6651A21D332003C7EC9 /* Products */,
@@ -259,6 +267,7 @@
 				DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */,
 				DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */,
 				DDDB67591A2473EB00921E82 /* textView_White.png in Resources */,
+				DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */,
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
 				DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */,
 				DDC1A6751A21D332003C7EC9 /* Images.xcassets in Resources */,
@@ -286,6 +295,7 @@
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
 				DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */,
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,
+				DDB63BB91A2F0432005566D5 /* FolderDB.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

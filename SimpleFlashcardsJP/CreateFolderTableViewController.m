@@ -9,12 +9,16 @@
 #import "CreateFolderTableViewController.h"
 #import "EnterFolderNameTableViewController.h"
 #import "FolderNameDB.h"
+#import "FolderDB.h"
 
 @interface CreateFolderTableViewController ()
 
 @property (nonatomic, strong) FolderNameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
-@property (nonatomic, strong) NSString *checkData;
+@property (nonatomic, strong) FolderDB *FolderManagerDB;
+@property (nonatomic, strong) NSArray *folderInfoDB;
+@property (nonatomic, assign) NSInteger indexOfFolder;
+@property (nonatomic, assign) NSInteger indexOfFolderMenu;
 
 -(void)loadData;
 
@@ -29,7 +33,13 @@
 
 - (void)viewDidLoad {
     // Initialize the dbManager property.
+    //FolderNameDB初期化
     self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    //FolderDB初期化
+    self.FolderManagerDB = [[FolderDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
+    //FolderDBの読込み
+    NSString *queryToSave = @"select * from folderInfo";
+    self.folderInfoDB = [[NSArray alloc] initWithArray:[self.FolderManagerDB loadDataFromDB:queryToSave]];
     
     // Load the data.
     [self loadData];
@@ -53,14 +63,12 @@
     //Load specific data
     NSString *queryLoad = @"select * from FolderNameInfo";
     self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
-    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
     
     // Get the results.
     if (self.folderInfo.count != 0) {
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
         NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-        _folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+        _folderName.text = [NSString stringWithFormat:@"フォルダー名   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
    
@@ -73,7 +81,39 @@
 //セルが選択された時の挙動を決定する。
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.row == 1) {
+        //作成タップでフォルダーに表示する名前をFolderName.sqlからFolderDB.sqlに移す
+        NSString *queryInsert;
+        //FolderName.sqlから
+        self.indexOfFolder = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+        //FolderDB.sqlへ
+        self.indexOfFolderMenu = [self.FolderManagerDB.arrColumnNames indexOfObject:@"folderInfoID"];
+        
+        queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder]];
+        // Execute the query.
+        [self.FolderManagerDB executeQuery:queryInsert];
+        
+        /*else if (self.folderInfoDB.count == 0){
+            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(%d, '%@')", 0, [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolderMenu]];
+            // Execute the query.
+            [self.FolderManagerDB executeQuery:queryInsert];
+        }*/
+        
+        //Load specific data to delete
+        NSString *queryLoad = @"select * from FolderNameInfo";
+        self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+        
+        if (self.folderInfo.count != 0) {
+            // Prepare the query.
+            NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo where foldernameinfoID=%d", 1];
+            NSLog(@"%@", query);
+            
+            // Execute the query.
+            [self.dbFolderManager executeQuery:query];
+        }
+        
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

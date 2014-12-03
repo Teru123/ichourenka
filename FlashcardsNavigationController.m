@@ -18,6 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    [self applicationDocumentsDirectory];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,6 +26,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+// Returns the URL to the application's Documents directory.
+- (NSURL *)applicationDocumentsDirectory
+{
+    NSLog(@"%@",[[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory  inDomains:NSUserDomainMask] lastObject]);
+    
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
 /*
 #pragma mark - Navigation
 

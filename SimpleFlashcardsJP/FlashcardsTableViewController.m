@@ -7,8 +7,14 @@
 //
 
 #import "FlashcardsTableViewController.h"
+#import "FolderDB.h"
 
 @interface FlashcardsTableViewController ()
+
+@property (nonatomic, strong) FolderDB *FolderManagerDB;
+@property (nonatomic, strong) NSArray *folderInfoDB;
+
+-(void)loadData;
 
 @end
 
@@ -31,6 +37,10 @@
     
     NSArray *actionButtonItems = @[editItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    // Initialize the dbManager property.
+    self.FolderManagerDB = [[FolderDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
+    [self loadData];
 }
 
 -(void)addFolder: (UIBarButtonItem *)sender{
@@ -47,36 +57,66 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.folderInfoDB.count;
+    
 }
 
-/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FolderViewCell" forIndexPath:indexPath];
     
-    // Configure the cell...
-    
+    NSInteger indexOfFoldername = [self.FolderManagerDB.arrColumnNames indexOfObject:@"foldername"];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", 0];
+
     return cell;
 }
-*/
 
-/*
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+-(void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+- (void)loadData{
+    // Form the query.
+    NSString *query = @"select * from folderInfo";
+    self.folderInfoDB = [[NSArray alloc] initWithArray:[self.FolderManagerDB loadDataFromDB:query]];
+    //NSLog(@"%ld", self.folderInfoDB.count);
+    
+    [self.tableView reloadData];
+}
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -86,7 +126,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

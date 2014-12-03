@@ -41,8 +41,6 @@
     //Load specific data
     NSString *queryLoad = @"select * from FolderNameInfo";
     self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
-    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
     
     if (self.folderInfo.count != 0) {
         [self loadInfoToEdit];
@@ -64,12 +62,6 @@
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
-    
-    //Load specific data
-    NSString *queryLoad = @"select * from FolderNameInfo";
-    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
-    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
     
     // Prepare the query string.
     // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
@@ -139,15 +131,12 @@
 
 -(void)loadInfoToEdit{
     // Create the query.
-    NSString *query = [NSString stringWithFormat:@"select * from FolderNameInfo where peopleInfoID=%d", 0];
+    NSString *query = [NSString stringWithFormat:@"select * from FolderNameInfo"];
     
     // Load the relevant data.
-    NSArray *results = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
-    
-    if (self.checkData != nil) {
-        // Set the loaded data to the textfields.
-        self.folderNameText.text = [[results objectAtIndex:0] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"]];
-    }
+    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
+    NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    _folderNameText.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
     
 }
 

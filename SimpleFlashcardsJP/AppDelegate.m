@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) FolderNameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
-@property (nonatomic, strong) NSString *checkData;
 
 @end
 
@@ -50,11 +49,9 @@
     // Initialize the dbManager property.
     self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
     
-    //Load specific data
+    //Load specific data to delete
     NSString *queryLoad = @"select * from FolderNameInfo";
     self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
-    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    //self.checkData = [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername];
     
     if (self.folderInfo.count != 0) {
         // Prepare the query.

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FlashcardsTableViewController : UITableViewController
+@interface FlashcardsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 {
 
 }
