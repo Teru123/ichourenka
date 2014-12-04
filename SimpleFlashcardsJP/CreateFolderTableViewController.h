@@ -9,11 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "EnterFolderNameTableViewController.h"
 
+@protocol CreateFolderTableViewControllerDelegate
+
+-(void)folderEditingInfoWasFinished;
+
+@end
+
 @interface CreateFolderTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, EnterFolderNameTableViewControllerDelegate>
 {
      
 }
 
+@property (nonatomic, strong) id<CreateFolderTableViewControllerDelegate> folderDelegate;
 @property (weak, nonatomic) IBOutlet UILabel *folderName;
 
 @end

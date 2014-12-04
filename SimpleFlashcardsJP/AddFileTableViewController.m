@@ -1,24 +1,24 @@
 //
-//  FlashcardsTableViewController.m
+//  AddFileTableViewController.m
 //  SimpleFlashcardsJP
 //
-//  Created by Teru on 2014/11/23.
+//  Created by Teru on 2014/12/04.
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
-#import "FlashcardsTableViewController.h"
-#import "FolderDB.h"
+#import "AddFileTableViewController.h"
+#import "FileDB.h"
 
-@interface FlashcardsTableViewController ()
+@interface AddFileTableViewController ()
 
-@property (nonatomic, strong) FolderDB *FolderManagerDB;
-@property (nonatomic, strong) NSArray *folderInfoDB;
+@property (nonatomic, strong) FileDB *dbFileManager;
+@property (nonatomic, strong) NSArray *dbFileInfo;
 
 -(void)loadData;
 
 @end
 
-@implementation FlashcardsTableViewController
+@implementation AddFileTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,29 +32,17 @@
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
     
     //@selector()で指定メソッドをコール
-    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFolder:)];
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFile:)];
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
     
     NSArray *actionButtonItems = @[editItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
-    
-    // Initialize the dbManager property.
-    self.FolderManagerDB = [[FolderDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
-    [self loadData];
 }
 
--(void)addFolder: (UIBarButtonItem *)sender{
-    CreateFolderTableViewController *createFolder =[[CreateFolderTableViewController alloc] init];
-    createFolder.folderDelegate = self;
-    
-    [self performSegueWithIdentifier:@"CreateFolderTableViewController" sender:sender];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([[segue identifier] isEqualToString:@"CreateFolderTableViewController"]) {
-        CreateFolderTableViewController *createFolder = [segue destinationViewController];
-        createFolder.folderDelegate = self;
-    }
+-(void)addFile: (UIBarButtonItem *)sender{
+    //self.navigationcontroller it's not navigationcontroller in this case
+    //sender: The object that you want to use to initiate the segue.
+    [self performSegueWithIdentifier:@"CreateFileTableViewController" sender:sender];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,17 +59,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return self.folderInfoDB.count;
+    return self.dbFileInfo.count;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FolderViewCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FileViewCell" forIndexPath:indexPath];
     
-    NSInteger indexOfFoldername = [self.FolderManagerDB.arrColumnNames indexOfObject:@"foldername"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
+    NSInteger indexOfFoldername = [self.dbFileManager.arrColumnNames indexOfObject:@"filename"];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", 0];
-
+    
     return cell;
 }
 
@@ -111,26 +99,32 @@
 
 - (void)loadData{
     // Form the query.
-    NSString *query = @"select * from folderInfo";
-    
-    // Get the results.
-    if (self.folderInfoDB != nil) {
-        self.folderInfoDB = nil;
-    }
-    
-    self.folderInfoDB = [[NSArray alloc] initWithArray:[self.FolderManagerDB loadDataFromDB:query]];
-    //NSLog(@"%ld", self.folderInfoDB.count);
+    NSString *query = @"select * from fileInfo";
+    self.dbFileInfo = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:query]];
+    //NSLog(@"%ld", self.dbFileInfo.count);
     
     [self.tableView reloadData];
 }
 
+/*
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    // Configure the cell...
+    
+    return cell;
+}
+*/
+
+/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+*/
 
-
+/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -140,12 +134,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-
--(void)folderEditingInfoWasFinished{
-    // Reload the data.
-    NSLog(@"called editing");
-    [self loadData];
-}
+*/
 
 /*
 // Override to support rearranging the table view.

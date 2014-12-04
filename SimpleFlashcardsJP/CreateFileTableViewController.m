@@ -1,22 +1,22 @@
 //
-//  CreateFolderTableViewController.m
+//  CreateFileTableViewController.m
 //  SimpleFlashcardsJP
 //
-//  Created by Teru on 2014/11/25.
+//  Created by Teru on 2014/12/04.
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
-#import "CreateFolderTableViewController.h"
-#import "EnterFolderNameTableViewController.h"
+#import "CreateFileTableViewController.h"
+#import "EnterFileNameTableViewController.h"
 #import "FolderNameDB.h"
-#import "FolderDB.h"
+#import "FileDB.h"
 
-@interface CreateFolderTableViewController ()
+@interface CreateFileTableViewController ()
 
 @property (nonatomic, strong) FolderNameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
-@property (nonatomic, strong) FolderDB *FolderManagerDB;
-@property (nonatomic, strong) NSArray *folderInfoDB;
+@property (nonatomic, strong) FileDB *dbFileManager;
+//@property (nonatomic, strong) NSArray *folderInfoDB;
 @property (nonatomic, assign) NSInteger indexOfFolder;
 @property (nonatomic, assign) NSInteger indexOfFolderMenu;
 
@@ -24,7 +24,11 @@
 
 @end
 
-@implementation CreateFolderTableViewController
+@interface CreateFileTableViewController ()
+
+@end
+
+@implementation CreateFileTableViewController
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -35,11 +39,11 @@
     // Initialize the dbManager property.
     //FolderNameDB初期化
     self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
-    //FolderDB初期化
-    self.FolderManagerDB = [[FolderDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
-    //FolderDBの読込み
-    NSString *queryToSave = @"select * from folderInfo";
-    self.folderInfoDB = [[NSArray alloc] initWithArray:[self.FolderManagerDB loadDataFromDB:queryToSave]];
+    //FileDB初期化
+    self.dbFileManager = [[FileDB alloc] initWithDatabaseFilename:@"FileDB.sql"];
+    //FileDBの読込み
+    //NSString *queryToSave = @"select * from folderInfo";
+    //self.folderInfoDB = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryToSave]];
     
     // Load the data.
     [self loadData];
@@ -47,7 +51,7 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    EnterFolderNameTableViewController *editInfoViewController = [segue destinationViewController];
+    EnterFileNameTableViewController *editInfoViewController = [segue destinationViewController];
     editInfoViewController.delegate = self;
 }
 
@@ -68,10 +72,10 @@
     if (self.folderInfo.count != 0) {
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
         NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-        _folderName.text = [NSString stringWithFormat:@"フォルダー名   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+        _fileName.text = [NSString stringWithFormat:@"ファイル名   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
-   
+    
     
     // Reload the table view.
     [self.tableView reloadData];
@@ -82,22 +86,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 1) {
-        //作成タップでフォルダーに表示する名前をFolderName.sqlからFolderDB.sqlに移す
+        //作成タップでフォルダーに表示する名前をFolderName.sqlからFileDB.sqlに移す
         NSString *queryInsert;
         //FolderName.sqlから
         self.indexOfFolder = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-        //FolderDB.sqlへ
-        self.indexOfFolderMenu = [self.FolderManagerDB.arrColumnNames indexOfObject:@"folderInfoID"];
+        //FileDB.sqlへ
+        //self.indexOfFolderMenu = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
         
-        queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder]];
+        queryInsert = [NSString stringWithFormat:@"insert into fileInfo values(null, '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder]];
         // Execute the query.
-        [self.FolderManagerDB executeQuery:queryInsert];
+        [self.dbFileManager executeQuery:queryInsert];
         
         /*else if (self.folderInfoDB.count == 0){
-            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(%d, '%@')", 0, [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolderMenu]];
-            // Execute the query.
-            [self.FolderManagerDB executeQuery:queryInsert];
-        }*/
+         queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(%d, '%@')", 0, [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolderMenu]];
+         // Execute the query.
+         [self.dbFileManager executeQuery:queryInsert];
+         }*/
         
         //Load specific data to delete
         NSString *queryLoad = @"select * from FolderNameInfo";
@@ -112,9 +116,6 @@
             [self.dbFolderManager executeQuery:query];
         }
         
-        // Inform the delegate that the editing was finished.
-        [self.folderDelegate folderEditingInfoWasFinished];
-        
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
@@ -124,50 +125,29 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-/**
- * テーブル全体のセクションの数を返す
- 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}*/
-
-/*指定されたセクションの項目数を返す
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    // 行の数
-    return [self.sectionList count];
-}*/
-
-/**
- * 指定されたセクションのセクション名を返す
- 
- - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
- {
- return [self.sectionList objectAtIndex:section];
- }*/
-
+#pragma mark - Table view data source
 /*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    //セルの生成時に、forIndexPath:indexPathを渡さないよう変更
-    //static NSString *CellIdentifier = @"Cell";
-    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    //_2 cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-  
-    static NSString *simpleTableIdentifier = @"SimpleTableCell";
-    FolderNameTableViewCell *cell = (FolderNameTableViewCell *)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    if (cell == nil)
-    {
-        //_2 custom cellの場合はNibを渡す
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"FolderNameTableViewCell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
-    }
- 
-    return cell;
-}*/
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    // Return the number of rows in the section.
+    return 0;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    // Configure the cell...
+    
+    return cell;
+}
+*/
 
 /*
 // Override to support conditional editing of the table view.

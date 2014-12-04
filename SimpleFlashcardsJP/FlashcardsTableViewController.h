@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CreateFolderTableViewController.h"
 
-@interface FlashcardsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface FlashcardsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CreateFolderTableViewControllerDelegate>
 {
 
 }

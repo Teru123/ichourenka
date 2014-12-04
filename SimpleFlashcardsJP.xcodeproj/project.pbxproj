@@ -25,9 +25,14 @@
 		DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A6911A21D6B8003C7EC9 /* FlashcardsNavigationController.m */; };
 		DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A6941A21D6E7003C7EC9 /* FlashcardsTableViewController.m */; };
 		DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = DDC1A6961A21D7D4003C7EC9 /* gear.png */; };
+		DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD520851A30130200527740 /* AddFileTableViewController.m */; };
+		DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD520881A3014AC00527740 /* CreateFileTableViewController.m */; };
 		DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDB67561A24587000921E82 /* EnterFolderNameTableViewController.m */; };
 		DDDB67591A2473EB00921E82 /* textView_White.png in Resources */ = {isa = PBXBuildFile; fileRef = DDDB67581A2473EB00921E82 /* textView_White.png */; };
 		DDDB675B1A24790800921E82 /* WhiteTextViewRectangle.png in Resources */ = {isa = PBXBuildFile; fileRef = DDDB675A1A24790800921E82 /* WhiteTextViewRectangle.png */; };
+		DDDC2FAA1A303C1D00F342C7 /* EnterFileNameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDC2FA91A303C1D00F342C7 /* EnterFileNameTableViewController.m */; };
+		DDDC2FAD1A30412700F342C7 /* FileDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DDDC2FAC1A30412700F342C7 /* FileDB.m */; };
+		DDDC2FAF1A30449800F342C7 /* FileDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DDDC2FAE1A30449800F342C7 /* FileDB.sql */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,10 +74,19 @@
 		DDC1A6931A21D6E7003C7EC9 /* FlashcardsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashcardsTableViewController.h; sourceTree = "<group>"; };
 		DDC1A6941A21D6E7003C7EC9 /* FlashcardsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlashcardsTableViewController.m; sourceTree = "<group>"; };
 		DDC1A6961A21D7D4003C7EC9 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		DDD520841A30130200527740 /* AddFileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddFileTableViewController.h; sourceTree = "<group>"; };
+		DDD520851A30130200527740 /* AddFileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddFileTableViewController.m; sourceTree = "<group>"; };
+		DDD520871A3014AC00527740 /* CreateFileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateFileTableViewController.h; sourceTree = "<group>"; };
+		DDD520881A3014AC00527740 /* CreateFileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateFileTableViewController.m; sourceTree = "<group>"; };
 		DDDB67551A24587000921E82 /* EnterFolderNameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterFolderNameTableViewController.h; sourceTree = "<group>"; };
 		DDDB67561A24587000921E82 /* EnterFolderNameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterFolderNameTableViewController.m; sourceTree = "<group>"; };
 		DDDB67581A2473EB00921E82 /* textView_White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = textView_White.png; sourceTree = "<group>"; };
 		DDDB675A1A24790800921E82 /* WhiteTextViewRectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteTextViewRectangle.png; sourceTree = "<group>"; };
+		DDDC2FA81A303C1D00F342C7 /* EnterFileNameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterFileNameTableViewController.h; sourceTree = "<group>"; };
+		DDDC2FA91A303C1D00F342C7 /* EnterFileNameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterFileNameTableViewController.m; sourceTree = "<group>"; };
+		DDDC2FAB1A30412700F342C7 /* FileDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileDB.h; sourceTree = "<group>"; };
+		DDDC2FAC1A30412700F342C7 /* FileDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileDB.m; sourceTree = "<group>"; };
+		DDDC2FAE1A30449800F342C7 /* FileDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FileDB.sql; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +131,9 @@
 				DDB63BB51A2F041C005566D5 /* FolderDB.sql */,
 				DDB63BB71A2F0432005566D5 /* FolderDB.h */,
 				DDB63BB81A2F0432005566D5 /* FolderDB.m */,
+				DDDC2FAE1A30449800F342C7 /* FileDB.sql */,
+				DDDC2FAB1A30412700F342C7 /* FileDB.h */,
+				DDDC2FAC1A30412700F342C7 /* FileDB.m */,
 				DDC1A6661A21D332003C7EC9 /* SimpleFlashcardsJP */,
 				DDC1A6801A21D332003C7EC9 /* SimpleFlashcardsJPTests */,
 				DDC1A6651A21D332003C7EC9 /* Products */,
@@ -146,6 +163,12 @@
 				DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */,
 				DDDB67551A24587000921E82 /* EnterFolderNameTableViewController.h */,
 				DDDB67561A24587000921E82 /* EnterFolderNameTableViewController.m */,
+				DDD520841A30130200527740 /* AddFileTableViewController.h */,
+				DDD520851A30130200527740 /* AddFileTableViewController.m */,
+				DDD520871A3014AC00527740 /* CreateFileTableViewController.h */,
+				DDD520881A3014AC00527740 /* CreateFileTableViewController.m */,
+				DDDC2FA81A303C1D00F342C7 /* EnterFileNameTableViewController.h */,
+				DDDC2FA91A303C1D00F342C7 /* EnterFileNameTableViewController.m */,
 				DDC1A6711A21D332003C7EC9 /* Main.storyboard */,
 				DDC1A6741A21D332003C7EC9 /* Images.xcassets */,
 				DDC1A6761A21D332003C7EC9 /* LaunchScreen.xib */,
@@ -268,6 +291,7 @@
 				DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */,
 				DDDB67591A2473EB00921E82 /* textView_White.png in Resources */,
 				DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */,
+				DDDC2FAF1A30449800F342C7 /* FileDB.sql in Resources */,
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
 				DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */,
 				DDC1A6751A21D332003C7EC9 /* Images.xcassets in Resources */,
@@ -288,10 +312,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDDC2FAA1A303C1D00F342C7 /* EnterFileNameTableViewController.m in Sources */,
+				DDDC2FAD1A30412700F342C7 /* FileDB.m in Sources */,
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */,
+				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
+				DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */,
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
 				DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */,
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,

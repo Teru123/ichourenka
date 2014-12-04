@@ -14,7 +14,7 @@
 
 @end
 
-@interface EnterFolderNameTableViewController : UITableViewController<UITextFieldDelegate>
+@interface EnterFolderNameTableViewController : UITableViewController <UITextFieldDelegate>
 {
 
 }
