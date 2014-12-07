@@ -7,12 +7,14 @@
 //
 
 #import "FlashcardsTableViewController.h"
+#import "AddFileTableViewController.h"
 #import "FolderDB.h"
 
 @interface FlashcardsTableViewController ()
 
 @property (nonatomic, strong) FolderDB *FolderManagerDB;
 @property (nonatomic, strong) NSArray *folderInfoDB;
+@property (nonatomic, strong) NSString *cellText;
 
 -(void)loadData;
 
@@ -50,10 +52,20 @@
     [self performSegueWithIdentifier:@"CreateFolderTableViewController" sender:sender];
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.cellText = cell.textLabel.text;
+    return indexPath;
+}
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"CreateFolderTableViewController"]) {
         CreateFolderTableViewController *createFolder = [segue destinationViewController];
         createFolder.folderDelegate = self;
+    }else if ([[segue identifier] isEqualToString:@"AddFileTableViewController"]){
+        AddFileTableViewController *fileView = [segue destinationViewController];
+        fileView.foldernameData = self.cellText;
+        NSLog(@"%@", self.cellText);
     }
 }
 
@@ -124,6 +136,13 @@
     [self.tableView reloadData];
 }
 
+-(void)folderEditingInfoWasFinished{
+    // Reload the data.
+    NSLog(@"called editing");
+    [self loadData];
+}
+
+/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
@@ -141,13 +160,6 @@
     }   
 }
 
--(void)folderEditingInfoWasFinished{
-    // Reload the data.
-    NSLog(@"called editing");
-    [self loadData];
-}
-
-/*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }

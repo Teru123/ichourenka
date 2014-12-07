@@ -33,7 +33,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="6qR-cU-YAN" kind="push" id="uGq-0o-d7u"/>
+                                    <segue destination="6qR-cU-YAN" kind="push" identifier="AddFileTableViewController" id="uGq-0o-d7u"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

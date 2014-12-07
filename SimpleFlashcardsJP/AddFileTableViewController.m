@@ -37,6 +37,8 @@
     
     NSArray *actionButtonItems = @[editItem, addItem];
     self.navigationItem.rightBarButtonItems = actionButtonItems;
+    
+    NSLog(@"%@", self.foldernameData);
 }
 
 -(void)addFile: (UIBarButtonItem *)sender{

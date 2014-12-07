@@ -10,4 +10,6 @@
 
 @interface AddFileTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSString *foldernameData;
+
 @end
