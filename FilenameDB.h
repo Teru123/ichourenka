@@ -1,14 +1,14 @@
 //
-//  FileDB.h
+//  FilenameDB.h
 //  SimpleFlashcardsJP
 //
-//  Created by Teru on 2014/12/04.
+//  Created by Teru on 2014/12/07.
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface FileDB : NSObject
+@interface FilenameDB : NSObject
 
 @property (nonatomic, strong) NSMutableArray *arrColumnNames;
 @property (nonatomic) int affectedRows;

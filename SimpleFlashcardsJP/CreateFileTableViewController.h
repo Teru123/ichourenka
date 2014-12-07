@@ -11,6 +11,7 @@
 
 @interface CreateFileTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, EnterFileNameTableViewControllerDelegate>
 
+@property (nonatomic, strong) NSString *foldernameData;
 @property (weak, nonatomic) IBOutlet UILabel *fileName;
 
 @end

@@ -9,13 +9,13 @@
 #import "CreateFileTableViewController.h"
 #import "EnterFileNameTableViewController.h"
 #import "FolderNameDB.h"
-#import "FileDB.h"
+#import "FilenameDB.h"
 
 @interface CreateFileTableViewController ()
 
 @property (nonatomic, strong) FolderNameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
-@property (nonatomic, strong) FileDB *dbFileManager;
+@property (nonatomic, strong) FilenameDB *dbFileManager;
 //@property (nonatomic, strong) NSArray *folderInfoDB;
 @property (nonatomic, assign) NSInteger indexOfFolder;
 @property (nonatomic, assign) NSInteger indexOfFolderMenu;
@@ -40,11 +40,12 @@
     //FolderNameDB初期化
     self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
     //FileDB初期化
-    self.dbFileManager = [[FileDB alloc] initWithDatabaseFilename:@"FileDB.sql"];
+    self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     //FileDBの読込み
     //NSString *queryToSave = @"select * from folderInfo";
     //self.folderInfoDB = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryToSave]];
     
+    NSLog(@"%@", self.foldernameData);
     // Load the data.
     [self loadData];
     [super viewDidLoad];
@@ -93,7 +94,7 @@
         //FileDB.sqlへ
         //self.indexOfFolderMenu = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
         
-        queryInsert = [NSString stringWithFormat:@"insert into fileInfo values(null, '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder]];
+        queryInsert = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], self.foldernameData];
         // Execute the query.
         [self.dbFileManager executeQuery:queryInsert];
         

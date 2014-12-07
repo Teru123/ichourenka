@@ -7,11 +7,12 @@
 //
 
 #import "AddFileTableViewController.h"
-#import "FileDB.h"
+#import "FilenameDB.h"
+#import "CreateFileTableViewController.h"
 
 @interface AddFileTableViewController ()
 
-@property (nonatomic, strong) FileDB *dbFileManager;
+@property (nonatomic, strong) FilenameDB *dbFileManager;
 @property (nonatomic, strong) NSArray *dbFileInfo;
 
 -(void)loadData;
@@ -39,12 +40,22 @@
     self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     NSLog(@"%@", self.foldernameData);
+    // Initialize the dbManager property.
+    self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+    [self loadData];
 }
 
 -(void)addFile: (UIBarButtonItem *)sender{
     //self.navigationcontroller it's not navigationcontroller in this case
     //sender: The object that you want to use to initiate the segue.
     [self performSegueWithIdentifier:@"CreateFileTableViewController" sender:sender];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([[segue identifier] isEqualToString:@"CreateFileTableViewController"]){
+        CreateFileTableViewController *fileView = [segue destinationViewController];
+        fileView.foldernameData = self.foldernameData;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,8 +112,9 @@
 
 - (void)loadData{
     // Form the query.
-    NSString *query = @"select * from fileInfo";
+    NSString *query = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", self.foldernameData];
     self.dbFileInfo = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:query]];
+    
     //NSLog(@"%ld", self.dbFileInfo.count);
     
     [self.tableView reloadData];

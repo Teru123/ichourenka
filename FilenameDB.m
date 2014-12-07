@@ -1,15 +1,15 @@
 //
-//  FileDB.m
+//  FilenameDB.m
 //  SimpleFlashcardsJP
 //
-//  Created by Teru on 2014/12/04.
+//  Created by Teru on 2014/12/07.
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
-#import "FileDB.h"
+#import "FilenameDB.h"
 #import <sqlite3.h>
 
-@interface FileDB()
+@interface FilenameDB()
 
 @property (nonatomic, strong) NSMutableArray *arrResults;
 @property (nonatomic, strong) NSString *documentsDirectory;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation FileDB
+@implementation FilenameDB
 
 -(instancetype)initWithDatabaseFilename:(NSString *)dbFilename{
     self = [super init];
