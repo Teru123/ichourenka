@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) FilenameDB *dbFileManager;
 @property (nonatomic, strong) NSArray *dbFileInfo;
+@property (nonatomic, strong) NSArray *actionButtonItems;
 
 -(void)loadData;
 
@@ -34,10 +35,10 @@
     
     //@selector()で指定メソッドをコール
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFile:)];
-    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:nil];
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editingButtonPressed:)];
     
-    NSArray *actionButtonItems = @[editItem, addItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    self.actionButtonItems = @[editItem, addItem];
+    self.navigationItem.rightBarButtonItems = self.actionButtonItems;
     
     NSLog(@"%@", self.foldernameData);
     // Initialize the dbManager property.
@@ -49,6 +50,25 @@
     //self.navigationcontroller it's not navigationcontroller in this case
     //sender: The object that you want to use to initiate the segue.
     [self performSegueWithIdentifier:@"CreateFileTableViewController" sender:sender];
+}
+
+- (void)editingButtonPressed:(UIBarButtonItem *)sender {
+    //[sender setText:@"Done" forState:UIControlStateNormal];
+    [self setEditing:YES animated:YES];
+    self.navigationItem.rightBarButtonItems = nil;
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(loadButtonItems:)];
+    self.navigationItem.rightBarButtonItem = doneButton;
+}
+
+-(void)loadButtonItems: (UIBarButtonItem *)sender{
+    [self setEditing:NO animated:YES];
+    
+    //@selector()で指定メソッドをコール
+    UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFile:)];
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editingButtonPressed:)];
+    
+    self.actionButtonItems = @[editItem, addItem];
+    self.navigationItem.rightBarButtonItems = self.actionButtonItems;
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
