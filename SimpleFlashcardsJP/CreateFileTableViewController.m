@@ -117,6 +117,9 @@
             [self.dbFolderManager executeQuery:query];
         }
         
+        // Inform the delegate that the editing was finished.
+        [self.fileDelegate editingFileInfoWasFinished];
+        
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

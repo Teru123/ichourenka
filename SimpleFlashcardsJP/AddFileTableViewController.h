@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CreateFileTableViewController.h"
 
-@interface AddFileTableViewController : UITableViewController
+@interface AddFileTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, CreateFileTableViewControllerDelegate>
 
 @property (nonatomic, strong) NSString *foldernameData;
 

@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "EnterFileNameTableViewController.h"
 
+@protocol CreateFileTableViewControllerDelegate
+
+-(void)editingFileInfoWasFinished;
+
+@end
+
 @interface CreateFileTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, EnterFileNameTableViewControllerDelegate>
 
+@property (nonatomic, strong) id<CreateFileTableViewControllerDelegate> fileDelegate;
 @property (nonatomic, strong) NSString *foldernameData;
 @property (weak, nonatomic) IBOutlet UILabel *fileName;
 

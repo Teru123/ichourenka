@@ -15,6 +15,8 @@
 @property (nonatomic, strong) FilenameDB *dbFileManager;
 @property (nonatomic, strong) NSArray *dbFileInfo;
 @property (nonatomic, strong) NSArray *actionButtonItems;
+@property (nonatomic, strong) NSString *cellText;
+@property (nonatomic, assign) BOOL editIsTapped;
 
 -(void)loadData;
 
@@ -39,6 +41,7 @@
     
     self.actionButtonItems = @[editItem, addItem];
     self.navigationItem.rightBarButtonItems = self.actionButtonItems;
+    self.editIsTapped = NO;
     
     NSLog(@"%@", self.foldernameData);
     // Initialize the dbManager property.
@@ -54,6 +57,7 @@
 
 - (void)editingButtonPressed:(UIBarButtonItem *)sender {
     //[sender setText:@"Done" forState:UIControlStateNormal];
+    self.editIsTapped = YES;
     [self setEditing:YES animated:YES];
     self.navigationItem.rightBarButtonItems = nil;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(loadButtonItems:)];
@@ -61,6 +65,7 @@
 }
 
 -(void)loadButtonItems: (UIBarButtonItem *)sender{
+    self.editIsTapped = NO;
     [self setEditing:NO animated:YES];
     
     //@selector()で指定メソッドをコール
@@ -75,7 +80,37 @@
     if ([[segue identifier] isEqualToString:@"CreateFileTableViewController"]){
         CreateFileTableViewController *fileView = [segue destinationViewController];
         fileView.foldernameData = self.foldernameData;
+        fileView.fileDelegate = self;
     }
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the selected record.
+        // Find the filename.
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        self.cellText = cell.textLabel.text;
+        
+        // Prepare the query.
+        NSString *query = [NSString stringWithFormat:@"delete from filenameInfo where filename = '%@' ", self.cellText];
+        NSLog(@"%@", query);
+        
+        // Execute the query.
+        [self.dbFileManager executeQuery:query];
+        
+        // Reload the table view.
+        [self loadData];
+    }
+}
+
+- (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(!self.editIsTapped) {
+        //UITableViewCellEditingStyleNone will NOT support delete (in your case, the first row is returning this)
+        return UITableViewCellEditingStyleNone;
+    }
+    
+    //UITableViewCellEditingStyleDelete will support delete (in your case, all but the first row is returning this)
+    return UITableViewCellEditingStyleDelete;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -140,33 +175,15 @@
     [self.tableView reloadData];
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+-(void)editingFileInfoWasFinished{
+    [self loadData];
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
 }
 */
 
@@ -181,16 +198,6 @@
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the item to be re-orderable.
     return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
 }
 */
 
