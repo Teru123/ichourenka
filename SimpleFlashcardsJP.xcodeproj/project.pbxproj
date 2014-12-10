@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */; };
 		DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */; };
 		DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD8FED531A25D0AC003F2AC2 /* FolderName.sql */; };
 		DD8FED591A25D1BA003F2AC2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED581A25D1BA003F2AC2 /* UIKit.framework */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTableViewController.h; sourceTree = "<group>"; };
+		DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTableViewController.m; sourceTree = "<group>"; };
 		DD8FED501A25CAFD003F2AC2 /* FolderNameDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolderNameDB.h; path = SimpleFlashcardsJP/FolderNameDB.h; sourceTree = "<group>"; };
 		DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolderNameDB.m; path = SimpleFlashcardsJP/FolderNameDB.m; sourceTree = "<group>"; };
 		DD8FED531A25D0AC003F2AC2 /* FolderName.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FolderName.sql; sourceTree = "<group>"; };
@@ -169,6 +172,8 @@
 				DDD520881A3014AC00527740 /* CreateFileTableViewController.m */,
 				DDDC2FA81A303C1D00F342C7 /* EnterFileNameTableViewController.h */,
 				DDDC2FA91A303C1D00F342C7 /* EnterFileNameTableViewController.m */,
+				DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */,
+				DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */,
 				DDC1A6711A21D332003C7EC9 /* Main.storyboard */,
 				DDC1A6741A21D332003C7EC9 /* Images.xcassets */,
 				DDC1A6761A21D332003C7EC9 /* LaunchScreen.xib */,
@@ -313,6 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DDDC2FAA1A303C1D00F342C7 /* EnterFileNameTableViewController.m in Sources */,
+				DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */,
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */,
 				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,

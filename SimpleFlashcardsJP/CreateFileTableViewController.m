@@ -52,8 +52,12 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    EnterFileNameTableViewController *editInfoViewController = [segue destinationViewController];
-    editInfoViewController.delegate = self;
+    if ([[segue identifier] isEqualToString:@"CardTableViewController"]) {
+        
+    }else if([[segue identifier] isEqualToString:@"EnterFileNameTableViewController"]){
+        EnterFileNameTableViewController *editInfoViewController = [segue destinationViewController];
+        editInfoViewController.delegate = self;
+    }
 }
 
 -(void)editingInfoWasFinished{
@@ -73,7 +77,7 @@
     if (self.folderInfo.count != 0) {
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
         NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-        _fileName.text = [NSString stringWithFormat:@"ファイル名   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+        _fileName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
     
@@ -86,7 +90,8 @@
 //セルが選択された時の挙動を決定する。
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    if (indexPath.row == 1 && ![[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
         //作成タップでフォルダーに表示する名前をFolderName.sqlからFileDB.sqlに移す
         NSString *queryInsert;
         //FolderName.sqlから
@@ -120,8 +125,27 @@
         // Inform the delegate that the editing was finished.
         [self.fileDelegate editingFileInfoWasFinished];
         
-        [self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popViewControllerAnimated:YES];
+    }else if (indexPath.row == 1 && [[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
+        UIAlertView *alertName = [[UIAlertView alloc] initWithTitle:@"" message:@"ファイル名を入力してください。" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertName show];
+        
     }
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"CardTableViewController"]) {
+        // perform your computation to determine whether segue should occur
+        NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+
+        if ([[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
+            // prevent segue from occurring
+            return NO;
+        }
+    }
+    
+    // by default perform the segue transition
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -188,13 +212,7 @@
 */
 
 /*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
 */
 
 @end
