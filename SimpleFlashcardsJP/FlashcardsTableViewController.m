@@ -80,6 +80,7 @@
     self.navigationItem.rightBarButtonItems = self.actionButtonItems;
 }
 
+//didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     self.cellText = cell.textLabel.text;

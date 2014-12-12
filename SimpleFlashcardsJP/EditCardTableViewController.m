@@ -8,10 +8,14 @@
 
 #import "EditCardTableViewController.h"
 #import "EnterCardnameTableViewController.h"
+#import "CardText.h"
 
 @interface EditCardTableViewController ()
 
 @property (nonatomic, strong) NSString *titlenumberOfThis;
+@property (nonatomic, strong) CardText *cardTextManager;
+@property (nonatomic, strong) NSArray *cardTextInfo;
+@property (nonatomic, strong) NSString *cellText;
 
 @end
 
@@ -20,11 +24,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    // Initialize the dbManager object.
+    self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    NSLog(@"%@", self.filenameData);
 }
 
 #pragma mark - Navigation
@@ -34,19 +37,36 @@
     if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController1"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"1";
+        cardnameView.filenameData = self.filenameData;
+        cardnameView.cellText = self.cellText;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController2"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"2";
+        cardnameView.filenameData = self.filenameData;
+        cardnameView.cellText = self.cellText;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController3"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"3";
+        cardnameView.filenameData = self.filenameData;
+        cardnameView.cellText = self.cellText;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController4"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"4";
+        cardnameView.filenameData = self.filenameData;
+        cardnameView.cellText = self.cellText;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController5"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"5";
+        cardnameView.filenameData = self.filenameData;
+        cardnameView.cellText = self.cellText;
     }
+}
+
+//didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.cellText = cell.textLabel.text;
+    return indexPath;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,11 +75,6 @@
 }
 
 /*
-#pragma mark - Table view data source
-//セルが選択された時の挙動を決定する。
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.titlenumberOfThis = [NSString stringWithFormat:@"%ld", indexPath.row];
-}
 
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

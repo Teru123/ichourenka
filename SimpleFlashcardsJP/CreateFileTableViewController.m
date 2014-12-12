@@ -8,6 +8,7 @@
 
 #import "CreateFileTableViewController.h"
 #import "EnterFileNameTableViewController.h"
+#import "CardTableViewController.h"
 #import "FolderNameDB.h"
 #import "FilenameDB.h"
 
@@ -53,7 +54,8 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"CardTableViewController"]) {
-        
+        CardTableViewController *cardView = [segue destinationViewController];
+        cardView.filenameData = self.filenameData;
     }else if([[segue identifier] isEqualToString:@"EnterFileNameTableViewController"]){
         EnterFileNameTableViewController *editInfoViewController = [segue destinationViewController];
         editInfoViewController.delegate = self;
@@ -81,7 +83,7 @@
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
     
-    
+    NSLog(@"%@", self.filenameData);
     // Reload the table view.
     [self.tableView reloadData];
 }

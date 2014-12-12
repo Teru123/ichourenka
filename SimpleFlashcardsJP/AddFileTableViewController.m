@@ -81,20 +81,18 @@
     if ([[segue identifier] isEqualToString:@"CreateFileTableViewController"]){
         CreateFileTableViewController *fileView = [segue destinationViewController];
         fileView.foldernameData = self.foldernameData;
+        fileView.filenameData = self.cellText;
         fileView.fileDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"AddToEditCards"]){
         CardTableViewController *editCards = [segue destinationViewController];
         editCards.editCardsOrNot = @"EditCardname";
+        editCards.filenameData = self.cellText;
     }
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the selected record.
-        // Find the filename.
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        self.cellText = cell.textLabel.text;
-        
         // Prepare the query.
         NSString *query = [NSString stringWithFormat:@"delete from filenameInfo where filename = '%@' ", self.cellText];
         NSLog(@"%@", query);
@@ -115,6 +113,13 @@
     
     //UITableViewCellEditingStyleDelete will support delete (in your case, all but the first row is returning this)
     return UITableViewCellEditingStyleDelete;
+}
+
+//didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    self.cellText = cell.textLabel.text;
+    return indexPath;
 }
 
 - (void)didReceiveMemoryWarning {

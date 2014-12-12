@@ -7,11 +7,20 @@
 //
 
 #import "EnterCardnameTableViewController.h"
+#import "CardText.h"
+//#import "FilenameDB.h"
 
 @interface EnterCardnameTableViewController ()
 
 @property (nonatomic, assign) int currentIndex;
 @property (nonatomic, strong) NSArray *titleList;
+@property (nonatomic, strong) CardText *cardTextManager;
+@property (nonatomic, strong) NSArray *cardTextInfo;
+//@property (nonatomic, strong) FilenameDB *dbFileManager;
+//@property (nonatomic, strong) NSArray *fileInfo;
+//@property (nonatomic, assign) NSInteger indexOfFile;
+
+- (void)loadInfoToEdit;
 
 @end
 
@@ -20,6 +29,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.cardText becomeFirstResponder];
+    
     //set bounds of the textview
     self.cardText.bounds = [self editingRectForBounds:self.cardText.bounds];
     //改行するとずれるのでInsetの初期設定を調整
@@ -64,6 +74,14 @@
         self.navigationItem.title = [self.titleList objectAtIndex:self.currentIndex];
     }
 
+    // Initialize the dbManager object.
+    self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    
+    if (![self.cellText isEqual:@""] && self.cellText != nil) {
+        [self loadInfoToEdit];
+    }
+    
+    NSLog(@"%@, %@, %d", self.cellText, self.filenameData, self.currentIndex);
 }
 
 // text position: inset for the textfield
@@ -82,12 +100,45 @@
 }
 
 - (void)doneItem:(UIBarButtonItem *)sender {
-    //[sender setText:@"Done" forState:UIControlStateNormal];
+    // Prepare the query string.
+    NSString *query;
     
+    if ([self.cellText isEqual:@""]){
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@')", self.cardText.text, self.currentIndex, self.filenameData];
+    }else{
+        query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d", self.cardText.text, self.currentIndex];
+    }
+    
+    // Execute the query.
+    [self.cardTextManager executeQuery:query];
+    
+    // If the query was successfully executed then pop the view controller.
+    if (self.cardTextManager.affectedRows != 0) {
+        NSLog(@"Query was executed successfully. Affected rows = %d", self.cardTextManager.affectedRows);
+        
+        // Inform the delegate that the editing was finished.
+        //[self.delegate editingInfoWasFinished];
+    }
+    else{
+        NSLog(@"Could not execute the query.");
+    }
+    
+    // Pop the view controller.
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)cancelButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)loadInfoToEdit{
+    // Create the query.
+    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where textNumber = %d", self.currentIndex];
+    
+    // Load the relevant data.
+    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
+    NSInteger indexOfcardText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
+    self.cardText.text = [NSString stringWithFormat:@"%@", [[self.cardTextInfo objectAtIndex:0] objectAtIndex:indexOfcardText]];
 }
 
 - (void)didReceiveMemoryWarning {

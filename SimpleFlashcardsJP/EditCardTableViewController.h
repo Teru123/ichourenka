@@ -10,4 +10,6 @@
 
 @interface EditCardTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSString *filenameData;
+
 @end

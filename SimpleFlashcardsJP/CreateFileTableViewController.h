@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) id<CreateFileTableViewControllerDelegate> fileDelegate;
 @property (nonatomic, strong) NSString *foldernameData;
+@property (nonatomic, strong) NSString *filenameData;
 @property (weak, nonatomic) IBOutlet UILabel *fileName;
 
 @end

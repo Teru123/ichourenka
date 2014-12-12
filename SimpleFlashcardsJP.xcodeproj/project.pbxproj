@@ -14,6 +14,8 @@
 		DD8FED5A1A25D1C4003F2AC2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED551A25D15E003F2AC2 /* Foundation.framework */; };
 		DD8FED5C1A25D1D4003F2AC2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED5B1A25D1D4003F2AC2 /* libsqlite3.dylib */; };
 		DD8FED5E1A25D1DA003F2AC2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED5D1A25D1DA003F2AC2 /* CoreGraphics.framework */; };
+		DDA0C8F71A3AE8DF00B5F4E9 /* CardText.sql in Resources */ = {isa = PBXBuildFile; fileRef = DDA0C8F61A3AE8DF00B5F4E9 /* CardText.sql */; };
+		DDA0C8FA1A3AE8F800B5F4E9 /* CardText.m in Sources */ = {isa = PBXBuildFile; fileRef = DDA0C8F91A3AE8F800B5F4E9 /* CardText.m */; };
 		DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DDB63BB51A2F041C005566D5 /* FolderDB.sql */; };
 		DDB63BB91A2F0432005566D5 /* FolderDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB63BB81A2F0432005566D5 /* FolderDB.m */; };
 		DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */; };
@@ -58,6 +60,9 @@
 		DD8FED581A25D1BA003F2AC2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DD8FED5B1A25D1D4003F2AC2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DD8FED5D1A25D1DA003F2AC2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DDA0C8F61A3AE8DF00B5F4E9 /* CardText.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = CardText.sql; sourceTree = "<group>"; };
+		DDA0C8F81A3AE8F800B5F4E9 /* CardText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardText.h; sourceTree = "<group>"; };
+		DDA0C8F91A3AE8F800B5F4E9 /* CardText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardText.m; sourceTree = "<group>"; };
 		DDB63BB51A2F041C005566D5 /* FolderDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FolderDB.sql; sourceTree = "<group>"; };
 		DDB63BB71A2F0432005566D5 /* FolderDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FolderDB.h; sourceTree = "<group>"; };
 		DDB63BB81A2F0432005566D5 /* FolderDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FolderDB.m; sourceTree = "<group>"; };
@@ -131,7 +136,7 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DDC1A65B1A21D332003C7EC9 = {
+		DDA0C8FB1A3AEC2E00B5F4E9 /* DB */ = {
 			isa = PBXGroup;
 			children = (
 				DD8FED531A25D0AC003F2AC2 /* FolderName.sql */,
@@ -143,6 +148,17 @@
 				DDCCF7571A34898B00C6BA63 /* FilenameDB.sql */,
 				DDCCF7591A3489BC00C6BA63 /* FilenameDB.h */,
 				DDCCF75A1A3489BC00C6BA63 /* FilenameDB.m */,
+				DDA0C8F61A3AE8DF00B5F4E9 /* CardText.sql */,
+				DDA0C8F81A3AE8F800B5F4E9 /* CardText.h */,
+				DDA0C8F91A3AE8F800B5F4E9 /* CardText.m */,
+			);
+			name = DB;
+			sourceTree = "<group>";
+		};
+		DDC1A65B1A21D332003C7EC9 = {
+			isa = PBXGroup;
+			children = (
+				DDA0C8FB1A3AEC2E00B5F4E9 /* DB */,
 				DDC1A6661A21D332003C7EC9 /* SimpleFlashcardsJP */,
 				DDC1A6801A21D332003C7EC9 /* SimpleFlashcardsJPTests */,
 				DDC1A6651A21D332003C7EC9 /* Products */,
@@ -306,6 +322,7 @@
 				DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */,
 				DDDB67591A2473EB00921E82 /* textView_White.png in Resources */,
 				DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */,
+				DDA0C8F71A3AE8DF00B5F4E9 /* CardText.sql in Resources */,
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
 				DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */,
 				DDCCF7581A34898B00C6BA63 /* FilenameDB.sql in Resources */,
@@ -331,6 +348,7 @@
 				DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */,
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */,
+				DDA0C8FA1A3AE8F800B5F4E9 /* CardText.m in Sources */,
 				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,

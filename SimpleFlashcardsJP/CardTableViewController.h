@@ -10,6 +10,7 @@
 
 @interface CardTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSString *editCardsOrNot;
 
 @end

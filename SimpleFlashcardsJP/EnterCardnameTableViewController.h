@@ -10,6 +10,8 @@
 
 @interface EnterCardnameTableViewController : UITableViewController <UITextViewDelegate>
 
+@property (nonatomic, strong) NSString *cellText;
+@property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSString *titleNumber;
 @property (weak, nonatomic) IBOutlet UITextView *cardText;
 
