@@ -124,9 +124,13 @@
         
         // Inform the delegate that the editing was finished.
         [self.fileDelegate editingFileInfoWasFinished];
+        self.fileName.text = [NSString stringWithFormat:@""];
         
         //[self.navigationController popViewControllerAnimated:YES];
     }else if (indexPath.row == 1 && [[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
+        //ハイライト解除
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
         UIAlertView *alertName = [[UIAlertView alloc] initWithTitle:@"" message:@"ファイル名を入力してください。" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
         [alertName show];
         

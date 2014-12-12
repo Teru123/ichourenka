@@ -26,6 +26,8 @@
 		DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A6911A21D6B8003C7EC9 /* FlashcardsNavigationController.m */; };
 		DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC1A6941A21D6E7003C7EC9 /* FlashcardsTableViewController.m */; };
 		DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = DDC1A6961A21D7D4003C7EC9 /* gear.png */; };
+		DDC50F401A39538C009F4BFC /* EditCardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC50F3F1A39538C009F4BFC /* EditCardTableViewController.m */; };
+		DDC50F431A39659C009F4BFC /* EnterCardnameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDC50F421A39659C009F4BFC /* EnterCardnameTableViewController.m */; };
 		DDCCF7581A34898B00C6BA63 /* FilenameDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DDCCF7571A34898B00C6BA63 /* FilenameDB.sql */; };
 		DDCCF75B1A3489BC00C6BA63 /* FilenameDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DDCCF75A1A3489BC00C6BA63 /* FilenameDB.m */; };
 		DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD520851A30130200527740 /* AddFileTableViewController.m */; };
@@ -77,6 +79,10 @@
 		DDC1A6931A21D6E7003C7EC9 /* FlashcardsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlashcardsTableViewController.h; sourceTree = "<group>"; };
 		DDC1A6941A21D6E7003C7EC9 /* FlashcardsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlashcardsTableViewController.m; sourceTree = "<group>"; };
 		DDC1A6961A21D7D4003C7EC9 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
+		DDC50F3E1A39538C009F4BFC /* EditCardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditCardTableViewController.h; sourceTree = "<group>"; };
+		DDC50F3F1A39538C009F4BFC /* EditCardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditCardTableViewController.m; sourceTree = "<group>"; };
+		DDC50F411A39659C009F4BFC /* EnterCardnameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterCardnameTableViewController.h; sourceTree = "<group>"; };
+		DDC50F421A39659C009F4BFC /* EnterCardnameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterCardnameTableViewController.m; sourceTree = "<group>"; };
 		DDCCF7571A34898B00C6BA63 /* FilenameDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FilenameDB.sql; sourceTree = "<group>"; };
 		DDCCF7591A3489BC00C6BA63 /* FilenameDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilenameDB.h; sourceTree = "<group>"; };
 		DDCCF75A1A3489BC00C6BA63 /* FilenameDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilenameDB.m; sourceTree = "<group>"; };
@@ -174,6 +180,10 @@
 				DDDC2FA91A303C1D00F342C7 /* EnterFileNameTableViewController.m */,
 				DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */,
 				DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */,
+				DDC50F3E1A39538C009F4BFC /* EditCardTableViewController.h */,
+				DDC50F3F1A39538C009F4BFC /* EditCardTableViewController.m */,
+				DDC50F411A39659C009F4BFC /* EnterCardnameTableViewController.h */,
+				DDC50F421A39659C009F4BFC /* EnterCardnameTableViewController.m */,
 				DDC1A6711A21D332003C7EC9 /* Main.storyboard */,
 				DDC1A6741A21D332003C7EC9 /* Images.xcassets */,
 				DDC1A6761A21D332003C7EC9 /* LaunchScreen.xib */,
@@ -326,10 +336,12 @@
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
 				DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */,
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
+				DDC50F431A39659C009F4BFC /* EnterCardnameTableViewController.m in Sources */,
 				DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */,
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,
 				DDCCF75B1A3489BC00C6BA63 /* FilenameDB.m in Sources */,
 				DDB63BB91A2F0432005566D5 /* FolderDB.m in Sources */,
+				DDC50F401A39538C009F4BFC /* EditCardTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

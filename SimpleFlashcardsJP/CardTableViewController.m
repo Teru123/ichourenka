@@ -16,6 +16,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (![self.editCardsOrNot isEqualToString:@"EditCardname"]) {
+        [self performSegueWithIdentifier:@"EditCardTableViewController" sender:self];
+    }
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -29,7 +32,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardTableViewCell" forIndexPath:indexPath];
     
@@ -37,9 +40,6 @@
     
     return cell;
 }
-
-
-/*
  
  #pragma mark - Table view data source
  

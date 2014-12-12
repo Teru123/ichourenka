@@ -10,4 +10,6 @@
 
 @interface CardTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSString *editCardsOrNot;
+
 @end

@@ -68,7 +68,7 @@
     if (self.folderInfo.count != 0) {
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
         NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-        _folderName.text = [NSString stringWithFormat:@"フォルダー名   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+        _folderName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
    
@@ -81,7 +81,8 @@
 //セルが選択された時の挙動を決定する。
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 1) {
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    if (indexPath.row == 1 && ![[self.folderName.text stringByTrimmingCharactersInSet: set] length] == 0) {
         //作成タップでフォルダーに表示する名前をFolderName.sqlからFolderDB.sqlに移す
         NSString *queryInsert;
         //FolderName.sqlから
@@ -114,8 +115,17 @@
         
         // Inform the delegate that the editing was finished.
         [self.folderDelegate folderEditingInfoWasFinished];
+        //self.folderName.text = [NSString stringWithFormat:@""];
         
         [self.navigationController popViewControllerAnimated:YES];
+        
+    }else if (indexPath.row == 1 && [[self.folderName.text stringByTrimmingCharactersInSet: set] length] == 0) {
+        //ハイライト解除
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
+        UIAlertView *alertName = [[UIAlertView alloc] initWithTitle:@"" message:@"フォルダー名を入力してください。" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        [alertName show];
+        
     }
 }
 

@@ -42,8 +42,8 @@
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFolder:)];
     UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editingButtonPressed:)];
     
-    NSArray *actionButtonItems = @[editItem, addItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
+    self.actionButtonItems = @[editItem, addItem];
+    self.navigationItem.rightBarButtonItems = self.actionButtonItems;
     self.editIsTapped = NO;
     
     // Initialize the dbManager property.

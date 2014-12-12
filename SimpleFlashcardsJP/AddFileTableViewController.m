@@ -7,8 +7,9 @@
 //
 
 #import "AddFileTableViewController.h"
-#import "FilenameDB.h"
 #import "CreateFileTableViewController.h"
+#import "CardTableViewController.h"
+#import "FilenameDB.h"
 
 @interface AddFileTableViewController ()
 
@@ -81,6 +82,9 @@
         CreateFileTableViewController *fileView = [segue destinationViewController];
         fileView.foldernameData = self.foldernameData;
         fileView.fileDelegate = self;
+    }else if ([[segue identifier] isEqualToString:@"AddToEditCards"]){
+        CardTableViewController *editCards = [segue destinationViewController];
+        editCards.editCardsOrNot = @"EditCardname";
     }
 }
 
