@@ -17,7 +17,6 @@
 @property (nonatomic, strong) FolderNameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
 @property (nonatomic, strong) FilenameDB *dbFileManager;
-//@property (nonatomic, strong) NSArray *folderInfoDB;
 @property (nonatomic, assign) NSInteger indexOfFolder;
 @property (nonatomic, assign) NSInteger indexOfFolderMenu;
 
@@ -99,22 +98,15 @@
         //FolderName.sqlから
         self.indexOfFolder = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
         //FileDB.sqlへ
-        //self.indexOfFolderMenu = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
-        
         queryInsert = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], self.foldernameData];
         // Execute the query.
         [self.dbFileManager executeQuery:queryInsert];
-        
-        /*else if (self.folderInfoDB.count == 0){
-         queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(%d, '%@')", 0, [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolderMenu]];
-         // Execute the query.
-         [self.dbFileManager executeQuery:queryInsert];
-         }*/
         
         //Load specific data to delete
         NSString *queryLoad = @"select * from FolderNameInfo";
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
         
+        //新しいfoldernameを作る為に古いのを消す
         if (self.folderInfo.count != 0) {
             // Prepare the query.
             NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo where foldernameinfoID=%d", 1];

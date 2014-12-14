@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol EditCardTableViewControllerDelegate
+
+-(void)cardEditingInfoWasFinished;
+
+@end
+
 @interface EditCardTableViewController : UITableViewController
 
+@property (nonatomic, strong) id<EditCardTableViewControllerDelegate> editCardDelegate;
 @property (nonatomic, strong) NSString *filenameData;
+@property (nonatomic) int recordIDToEdit;
 
 @end

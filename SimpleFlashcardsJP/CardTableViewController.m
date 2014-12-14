@@ -7,6 +7,7 @@
 //
 
 #import "CardTableViewController.h"
+#import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
 
 @interface CardTableViewController ()
@@ -28,6 +29,9 @@
     if ([[segue identifier] isEqualToString:@"EditCardTableViewController"]) {
         EditCardTableViewController *editView = [segue destinationViewController];
         editView.filenameData = self.filenameData;
+    }else if ([[segue identifier] isEqualToString:@"CardListTableViewController"]) {
+        CardListTableViewController *listView = [segue destinationViewController];
+        listView.filenameData = self.filenameData;
     }
 }
 

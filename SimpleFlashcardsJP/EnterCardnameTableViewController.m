@@ -8,7 +8,7 @@
 
 #import "EnterCardnameTableViewController.h"
 #import "CardText.h"
-//#import "FilenameDB.h"
+#import "CardNumber.h"
 
 @interface EnterCardnameTableViewController ()
 
@@ -16,11 +16,12 @@
 @property (nonatomic, strong) NSArray *titleList;
 @property (nonatomic, strong) CardText *cardTextManager;
 @property (nonatomic, strong) NSArray *cardTextInfo;
-//@property (nonatomic, strong) FilenameDB *dbFileManager;
-//@property (nonatomic, strong) NSArray *fileInfo;
-//@property (nonatomic, assign) NSInteger indexOfFile;
+@property (nonatomic, strong) CardNumber *dbCardNumber;
+@property (nonatomic, strong) NSArray *cardNumberInfo;
+@property (nonatomic, assign) int cardNumberToEdit;
 
 - (void)loadInfoToEdit;
+- (void)loadCardNumberToEdit;
 
 @end
 
@@ -76,12 +77,13 @@
 
     // Initialize the dbManager object.
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     
     if (![self.cellText isEqual:@""] && self.cellText != nil) {
         [self loadInfoToEdit];
     }
     
-    NSLog(@"%@, %@, %d", self.cellText, self.filenameData, self.currentIndex);
+    NSLog(@"cellText %@, filenameData %@, currentIndex %d, recordIDToEdit %d", self.cellText, self.filenameData, self.currentIndex, self.recordIDToEdit);
 }
 
 // text position: inset for the textfield
@@ -100,15 +102,30 @@
 }
 
 - (void)doneItem:(UIBarButtonItem *)sender {
+    // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
+    NSString *queryForCardNumber;
+    if (self.recordIDToEdit == -1) {
+        queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
+        self.recordIDToEdit = 1;
+    }
+    // Execute the query.
+    [self.dbCardNumber executeQuery:queryForCardNumber];
+    
+    if (self.dbCardNumber.affectedRows != 0) {
+        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
+    }else{
+        NSLog(@"Could not execute the query.");
+    }
+    //Load the Data.
+    [self loadCardNumberToEdit];
+    
     // Prepare the query string.
     NSString *query;
-    
     if ([self.cellText isEqual:@""]){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@')", self.cardText.text, self.currentIndex, self.filenameData];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.cardNumberToEdit];
     }else{
-        query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d", self.cardText.text, self.currentIndex];
+        query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.cardNumberToEdit];
     }
-    
     // Execute the query.
     [self.cardTextManager executeQuery:query];
     
@@ -118,8 +135,7 @@
         
         // Inform the delegate that the editing was finished.
         //[self.delegate editingInfoWasFinished];
-    }
-    else{
+    }else{
         NSLog(@"Could not execute the query.");
     }
     
@@ -127,13 +143,37 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    if (self.cardNumberInfo != nil) {
+        
+    }
+}
+
 - (IBAction)cancelButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)loadCardNumberToEdit{
+    // Create the query.
+    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
+ 
+    // Get the results.
+    if (self.cardNumberInfo != nil) {
+        self.cardNumberInfo = nil;
+    }
+    // Load the relevant data.
+    self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
+    
+    // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
+    // objectAtIndex:0 == CNinfoID NSInteger primary key
+    self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:0] objectAtIndex:0] intValue];
+    
+    NSLog(@"%d", self.cardNumberToEdit);
+}
+
 -(void)loadInfoToEdit{
     // Create the query.
-    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where textNumber = %d", self.currentIndex];
+    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where textNumber = %d AND cardNumber = %d", self.currentIndex, self.cardNumberToEdit];
     
     // Load the relevant data.
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];

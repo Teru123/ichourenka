@@ -9,6 +9,7 @@
 #import "EditCardTableViewController.h"
 #import "EnterCardnameTableViewController.h"
 #import "CardText.h"
+#import "CardNumber.h"
 
 @interface EditCardTableViewController ()
 
@@ -16,6 +17,10 @@
 @property (nonatomic, strong) CardText *cardTextManager;
 @property (nonatomic, strong) NSArray *cardTextInfo;
 @property (nonatomic, strong) NSString *cellText;
+@property (nonatomic, strong) CardNumber *dbCardNumber;
+@property (nonatomic, strong) NSArray *arrCNInfo;
+
+-(void)loadInfoToEdit;
 
 @end
 
@@ -26,8 +31,15 @@
     
     // Initialize the dbManager object.
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     
+    // Check if should load specific record for editing.
+    if (self.recordIDToEdit != -1) {
+        // Load the record with the specific ID from the database.
+        [self loadInfoToEdit];
+    }
     NSLog(@"%@", self.filenameData);
+    NSLog(@"recordID %d", self.recordIDToEdit);
 }
 
 #pragma mark - Navigation
@@ -39,26 +51,31 @@
         cardnameView.titleNumber = @"1";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
+        cardnameView.recordIDToEdit = self.recordIDToEdit;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController2"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"2";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
+        cardnameView.recordIDToEdit = self.recordIDToEdit;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController3"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"3";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
+        cardnameView.recordIDToEdit = self.recordIDToEdit;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController4"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"4";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
+        cardnameView.recordIDToEdit = self.recordIDToEdit;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController5"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"5";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
+        cardnameView.recordIDToEdit = self.recordIDToEdit;
     }
 }
 
@@ -67,6 +84,14 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     self.cellText = cell.textLabel.text;
     return indexPath;
+}
+
+-(void)loadInfoToEdit{
+    // Create the query.
+    //NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber=%d", self.recordIDToEdit];
+    
+    // Load the relevant data.
+    //NSArray *results = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:query]];
 }
 
 - (void)didReceiveMemoryWarning {

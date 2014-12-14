@@ -13,6 +13,8 @@
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSString *titleNumber;
+@property (nonatomic) int recordIDToEdit;
+@property (nonatomic) int doneIsTapped;
 @property (weak, nonatomic) IBOutlet UITextView *cardText;
 
 - (IBAction)cancelButton:(id)sender;

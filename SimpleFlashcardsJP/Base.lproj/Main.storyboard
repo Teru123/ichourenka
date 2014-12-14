@@ -260,7 +260,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="fQD-uc-Qfx" kind="push" identifier="EditCardTableViewController" id="jSt-jV-d1s"/>
+                                            <segue destination="xi7-na-ssX" kind="push" identifier="CardListTableViewController" id="4HI-lh-muF"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -276,6 +276,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y73-rs-Hru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1273" y="1831"/>
+        </scene>
+        <!--Card List Table View Controller-->
+        <scene sceneID="dV3-aN-5li">
+            <objects>
+                <tableViewController id="xi7-na-ssX" customClass="CardListTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DAU-mc-2Lq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" id="wge-5T-cZx">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ListCell" id="2As-SX-Aw1">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2As-SX-Aw1" id="vY0-Jl-jQC">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="fQD-uc-Qfx" kind="push" identifier="EditCardTableViewController" id="8bZ-FA-wEe"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="xi7-na-ssX" id="VcW-jz-4TK"/>
+                            <outlet property="delegate" destination="xi7-na-ssX" id="kIC-VC-Edw"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="JBz-PJ-ZsZ"/>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="f6V-db-Nhm" id="V5e-pS-2Tk"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g4s-oh-Hzw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="PGd-R0-p6n">
+                    <connections>
+                        <outlet property="delegate" destination="xi7-na-ssX" id="JPe-P7-ZVf"/>
+                        <outlet property="searchContentsController" destination="xi7-na-ssX" id="tUR-Gd-lwr"/>
+                        <outlet property="searchResultsDataSource" destination="xi7-na-ssX" id="rrw-zs-B69"/>
+                        <outlet property="searchResultsDelegate" destination="xi7-na-ssX" id="j53-c3-W1s"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="f6V-db-Nhm">
+                    <connections>
+                        <outlet property="delegate" destination="xi7-na-ssX" id="A0h-Q2-RZ8"/>
+                        <outlet property="searchContentsController" destination="xi7-na-ssX" id="gdE-M1-5Ga"/>
+                        <outlet property="searchResultsDataSource" destination="xi7-na-ssX" id="Gz1-Jf-FS5"/>
+                        <outlet property="searchResultsDelegate" destination="xi7-na-ssX" id="lZj-9a-KCS"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1719" y="1831"/>
         </scene>
         <!--Edit Card Table View Controller-->
         <scene sceneID="U5t-jW-Y49">
@@ -543,7 +597,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6NH-lZ-L2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1719" y="1831"/>
+            <point key="canvasLocation" x="2174" y="1831"/>
         </scene>
         <!--Enter Cardname Table View Controller-->
         <scene sceneID="H8q-Xg-LQd">
@@ -591,7 +645,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jK-Ds-TSX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2166" y="1831"/>
+            <point key="canvasLocation" x="3064" y="386"/>
         </scene>
         <!--Enter File Name Table View Controller-->
         <scene sceneID="KXK-Pe-6yZ">
@@ -728,6 +782,6 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="qNq-oO-Ynq"/>
-        <segue reference="OZI-dp-Al5"/>
+        <segue reference="N3z-Et-Hnr"/>
     </inferredMetricsTieBreakers>
 </document>
