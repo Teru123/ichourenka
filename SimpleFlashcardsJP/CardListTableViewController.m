@@ -16,7 +16,6 @@
 @property (nonatomic, assign) BOOL editIsTapped;
 @property (nonatomic, strong) CardNumber *dbCardNumber;
 @property (nonatomic, strong) NSArray *arrCNInfo;
-@property (nonatomic) int recordIDToEdit;
 
 -(void)loadData;
 

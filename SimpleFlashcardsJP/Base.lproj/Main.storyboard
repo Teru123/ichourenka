@@ -594,6 +594,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Nj3-xP-77l"/>
+                    <connections>
+                        <outlet property="textFive" destination="Ngm-eJ-HnV" id="kAo-As-g21"/>
+                        <outlet property="textFour" destination="R8l-GV-eRT" id="Azi-ox-4bL"/>
+                        <outlet property="textOne" destination="9hX-wM-Pxo" id="8hr-ON-dKD"/>
+                        <outlet property="textThree" destination="kpk-9I-bjc" id="LT5-uG-dRB"/>
+                        <outlet property="textTwo" destination="9F0-3f-oDX" id="jEr-Dj-hul"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6NH-lZ-L2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

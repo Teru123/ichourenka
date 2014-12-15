@@ -8,13 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol EnterCardnameTableViewControllerDelegate
+
+-(void)editingCardTextInfoWasFinished;
+
+@end
+
 @interface EnterCardnameTableViewController : UITableViewController <UITextViewDelegate>
 
+@property (nonatomic, strong) id<EnterCardnameTableViewControllerDelegate> cardTextDelegate;
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSString *titleNumber;
 @property (nonatomic) int recordIDToEdit;
-@property (nonatomic) int doneIsTapped;
 @property (weak, nonatomic) IBOutlet UITextView *cardText;
 
 - (IBAction)cancelButton:(id)sender;

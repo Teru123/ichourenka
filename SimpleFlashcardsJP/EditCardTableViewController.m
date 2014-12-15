@@ -26,6 +26,10 @@
 
 @implementation EditCardTableViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -42,8 +46,6 @@
     NSLog(@"recordID %d", self.recordIDToEdit);
 }
 
-#pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController1"]) {
@@ -52,30 +54,35 @@
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController2"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"2";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController3"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"3";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController4"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"4";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController5"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
         cardnameView.titleNumber = @"5";
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.cardTextDelegate = self;
     }
 }
 
@@ -87,11 +94,41 @@
 }
 
 -(void)loadInfoToEdit{
-    // Create the query.
-    //NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber=%d", self.recordIDToEdit];
+    // Form the query.
+    for (int i = 0; i < 5; i++) {
+        NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, i];
+        self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
+        NSLog(@"count %ld", self.cardTextInfo.count);
+        
+        // Set the loaded data to the textfields.
+        if (self.cardTextInfo.count && i == 0) {
+            self.textOne.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
+        }else if (self.cardTextInfo.count && i == 1) {
+            self.textTwo.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
+        }else if (self.cardTextInfo.count && i == 2) {
+            self.textThree.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
+        }else if (self.cardTextInfo.count && i == 3) {
+            self.textFour.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
+        }else if (self.cardTextInfo.count && i == 4) {
+            self.textFive.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
+        }else if (self.cardTextInfo.count == 0 && i == 0) {
+            self.textOne.text = @"";
+        }else if (self.cardTextInfo.count == 0 && i == 1) {
+            self.textTwo.text = @"";
+        }else if (self.cardTextInfo.count == 0 && i == 2) {
+            self.textThree.text = @"";
+        }else if (self.cardTextInfo.count == 0 && i == 3) {
+            self.textFour.text = @"";
+        }else if (self.cardTextInfo.count == 0 && i == 4) {
+            self.textFive.text = @"";
+        }
+    }
     
-    // Load the relevant data.
-    //NSArray *results = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:query]];
+    [self.tableView reloadData];
+}
+
+-(void)editingCardTextInfoWasFinished{
+    [self loadInfoToEdit];
 }
 
 - (void)didReceiveMemoryWarning {

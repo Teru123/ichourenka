@@ -21,7 +21,6 @@
 @property (nonatomic, assign) int cardNumberToEdit;
 
 - (void)loadInfoToEdit;
-- (void)loadCardNumberToEdit;
 
 @end
 
@@ -83,7 +82,7 @@
         [self loadInfoToEdit];
     }
     
-    NSLog(@"cellText %@, filenameData %@, currentIndex %d, recordIDToEdit %d", self.cellText, self.filenameData, self.currentIndex, self.recordIDToEdit);
+    //NSLog(@"cellText %@, filenameData %@, currentIndex %d, recordIDToEdit %d", self.cellText, self.filenameData, self.currentIndex, self.recordIDToEdit);
 }
 
 // text position: inset for the textfield
@@ -116,8 +115,23 @@
     }else{
         NSLog(@"Could not execute the query.");
     }
+    
     //Load the Data.
-    [self loadCardNumberToEdit];
+    //Create the query.
+    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
+    // Get the results.
+    if (self.cardNumberInfo != nil) {
+        self.cardNumberInfo = nil;
+    }
+    // Load the relevant data.
+    self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
+    // Get the last object of cardNumberInfo.
+    //countは1から数える。objectAtIndexは0からなので、-1せずにそのまま使うとRangeExceptionエラーとなる。
+    NSInteger numberCount = [self.cardNumberInfo count] - 1;
+    // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
+    // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
+    self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
+    NSLog(@"cardNumberToEdit %d", self.cardNumberToEdit);
     
     // Prepare the query string.
     NSString *query;
@@ -139,36 +153,14 @@
         NSLog(@"Could not execute the query.");
     }
     
+    [self.cardTextDelegate editingCardTextInfoWasFinished];
+    
     // Pop the view controller.
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
-    if (self.cardNumberInfo != nil) {
-        
-    }
-}
-
 - (IBAction)cancelButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void)loadCardNumberToEdit{
-    // Create the query.
-    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
- 
-    // Get the results.
-    if (self.cardNumberInfo != nil) {
-        self.cardNumberInfo = nil;
-    }
-    // Load the relevant data.
-    self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
-    
-    // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
-    // objectAtIndex:0 == CNinfoID NSInteger primary key
-    self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:0] objectAtIndex:0] intValue];
-    
-    NSLog(@"%d", self.cardNumberToEdit);
 }
 
 -(void)loadInfoToEdit{
