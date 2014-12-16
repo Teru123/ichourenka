@@ -18,7 +18,9 @@
 @property (nonatomic, strong) NSArray *cardTextInfo;
 @property (nonatomic, strong) CardNumber *dbCardNumber;
 @property (nonatomic, strong) NSArray *cardNumberInfo;
+//@property (nonatomic, strong) NSArray *textNumberInfo;
 @property (nonatomic, assign) int cardNumberToEdit;
+//@property (nonatomic, assign) int textNumberToEdit;
 
 - (void)loadInfoToEdit;
 
@@ -27,7 +29,7 @@
 @implementation EnterCardnameTableViewController
 
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    //テキスト入力画面表示
     [self.cardText becomeFirstResponder];
     
     //set bounds of the textview
@@ -39,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Make self the delegate of the textfields .h <UITextFieldDelegate>
+    // Make self the delegate of the textfields .h <UITextViewDelegate>
     self.cardText.delegate = self;
     
     //@selector()で指定メソッドをコール
@@ -78,11 +80,48 @@
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     
-    if (![self.cellText isEqual:@""] && self.cellText != nil) {
-        [self loadInfoToEdit];
+    //Load the Data.
+    //Create the query.
+    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
+    // Get the results.
+    if (self.cardNumberInfo != nil) {
+        self.cardNumberInfo = nil;
+    }
+    // Load the relevant data.
+    self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
+    if (self.cardNumberInfo.count) {
+        // Get the last object of cardNumberInfo.
+        //countは1から数える。objectAtIndexは0からなので、-1せずにそのまま使うとRangeExceptionエラーとなる。
+        NSInteger numberCount = [self.cardNumberInfo count] - 1;
+        // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
+        // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
+        self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
+        NSLog(@"cardNumberToEdit %d", self.cardNumberToEdit);
+        
+        if (self.cardNumberToEdit == self.recordIDToEdit){
+            [self loadInfoToEdit];
+        }
     }
     
-    //NSLog(@"cellText %@, filenameData %@, currentIndex %d, recordIDToEdit %d", self.cellText, self.filenameData, self.currentIndex, self.recordIDToEdit);
+    /*
+    //Load the Data.
+    //Create the query.
+    NSString *queryForTN = [NSString stringWithFormat:@"select textNumber from cardTextInfo where cardNumber = %d ", self.recordIDToEdit];
+    // Get the results.
+    if (self.textNumberInfo != nil) {
+        self.textNumberInfo = nil;
+    }
+    // Load the relevant data.
+    self.textNumberInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryForTN]];
+    if (self.textNumberInfo.count) {
+        // Get the last object of cardNumberInfo.
+        //countは1から数える。objectAtIndexは0からなので、-1せずにそのまま使うとRangeExceptionエラーとなる。
+        NSInteger numberCount = [self.textNumberInfo count] - 1;
+        // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
+        // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
+        self.textNumberToEdit = [[[self.textNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
+        NSLog(@"textNumberToEdit %d", self.textNumberToEdit);
+    }*/
 }
 
 // text position: inset for the textfield
@@ -101,21 +140,21 @@
 }
 
 - (void)doneItem:(UIBarButtonItem *)sender {
+    /*
     // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
     NSString *queryForCardNumber;
     if (self.recordIDToEdit == -1) {
         queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
-        self.recordIDToEdit = 1;
+        // Execute the query.
+        [self.dbCardNumber executeQuery:queryForCardNumber];
+        
+        if (self.dbCardNumber.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
+        }else{
+            NSLog(@"Could not execute the query.");
+        }
     }
-    // Execute the query.
-    [self.dbCardNumber executeQuery:queryForCardNumber];
-    
-    if (self.dbCardNumber.affectedRows != 0) {
-        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
-    }else{
-        NSLog(@"Could not execute the query.");
-    }
-    
+   
     //Load the Data.
     //Create the query.
     NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
@@ -132,16 +171,111 @@
     // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
     self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
     NSLog(@"cardNumberToEdit %d", self.cardNumberToEdit);
+    */
     
+    //Load the Data.
+    NSString *queryForLoad = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, 0];
+    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryForLoad]];
     // Prepare the query string.
     NSString *query;
-    if ([self.cellText isEqual:@""]){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.cardNumberToEdit];
+    if (self.cardTextInfo.count == 0 && self.currentIndex == 0){
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+    }else if (self.cardTextInfo.count == 0 && self.currentIndex == 1){
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+    }else if (self.cardTextInfo.count == 0 && self.currentIndex == 2){
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+    }else if (self.cardTextInfo.count == 0 && self.currentIndex == 3){
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+    }else if (self.cardTextInfo.count == 0 && self.currentIndex == 4){
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        // Execute the query.
+        [self.cardTextManager executeQuery:query];
     }else{
-        query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.cardNumberToEdit];
+        NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, self.currentIndex];
+        self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
+        // Set the loaded data to the textfields.
+        //データがある場合は更新。
+        if (self.cardTextInfo.count && self.currentIndex == 0) {
+            query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (self.cardTextInfo.count && self.currentIndex == 1) {
+            query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (self.cardTextInfo.count && self.currentIndex == 2) {
+            query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (self.cardTextInfo.count && self.currentIndex == 3) {
+            query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (self.cardTextInfo.count && self.currentIndex == 4) {
+            query = [NSString stringWithFormat:@"update cardTextInfo set cardText = '%@' where textNumber = %d AND cardNumber = %d", self.cardText.text, self.currentIndex, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        //データがない場合は新規保存。
+        }else if (!self.cardTextInfo.count && self.currentIndex == 0){
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (!self.cardTextInfo.count && self.currentIndex == 1){
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (!self.cardTextInfo.count && self.currentIndex == 2){
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (!self.cardTextInfo.count && self.currentIndex == 3){
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }else if (!self.cardTextInfo.count && self.currentIndex == 4){
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            // Execute the query.
+            [self.cardTextManager executeQuery:query];
+        }
     }
-    // Execute the query.
-    [self.cardTextManager executeQuery:query];
     
     // If the query was successfully executed then pop the view controller.
     if (self.cardTextManager.affectedRows != 0) {
@@ -165,12 +299,13 @@
 
 -(void)loadInfoToEdit{
     // Create the query.
-    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where textNumber = %d AND cardNumber = %d", self.currentIndex, self.cardNumberToEdit];
-    
+    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, self.currentIndex];
     // Load the relevant data.
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
-    NSInteger indexOfcardText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
-    self.cardText.text = [NSString stringWithFormat:@"%@", [[self.cardTextInfo objectAtIndex:0] objectAtIndex:indexOfcardText]];
+    //NSLog(@"count %ld, index %d, id %d", self.cardTextInfo.count, self.currentIndex, self.recordIDToEdit);
+    if (self.cardTextInfo.count) {
+        self.cardText.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

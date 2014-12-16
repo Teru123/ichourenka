@@ -12,6 +12,6 @@
 @interface CardListTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, EditCardTableViewControllerDelegate>
 
 @property (nonatomic, strong) NSString *filenameData;
-@property (nonatomic) int recordIDToEdit;
+//@property (nonatomic) int recordIDToEdit;
 
 @end
