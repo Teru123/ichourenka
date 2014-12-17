@@ -19,6 +19,7 @@
 @property (nonatomic, strong) FilenameDB *dbFileManager;
 @property (nonatomic, assign) NSInteger indexOfFolder;
 @property (nonatomic, assign) NSInteger indexOfFolderMenu;
+@property (nonatomic, strong) NSString *cellText;
 
 -(void)loadData;
 
@@ -45,7 +46,7 @@
     //NSString *queryToSave = @"select * from folderInfo";
     //self.folderInfoDB = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryToSave]];
     
-    NSLog(@"%@", self.foldernameData);
+    //NSLog(@"%@", self.foldernameData);
     // Load the data.
     [self loadData];
     [super viewDidLoad];
@@ -54,7 +55,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"CardTableViewController"]) {
         CardTableViewController *cardView = [segue destinationViewController];
-        cardView.filenameData = self.filenameData;
+        cardView.filenameData = self.fileName.text;
     }else if([[segue identifier] isEqualToString:@"EnterFileNameTableViewController"]){
         EnterFileNameTableViewController *editInfoViewController = [segue destinationViewController];
         editInfoViewController.delegate = self;
@@ -81,8 +82,8 @@
         _fileName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
+    //NSLog(@"%@", self.foldernameData);
     
-    NSLog(@"%@", self.filenameData);
     // Reload the table view.
     [self.tableView reloadData];
 }
@@ -135,7 +136,6 @@
     if ([identifier isEqualToString:@"CardTableViewController"]) {
         // perform your computation to determine whether segue should occur
         NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
-
         if ([[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
             // prevent segue from occurring
             return NO;

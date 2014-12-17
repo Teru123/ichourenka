@@ -30,12 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
     
     //@selector()で指定メソッドをコール
@@ -108,7 +102,6 @@
         // Prepare the query.
         NSString *queryFolder = [NSString stringWithFormat:@"delete from folderInfo where foldername = '%@' ", self.cellText];
         NSString *queryFile = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", self.cellText];
-        
         // Execute the query.
         if (queryFile) {
             NSString *queryFile = [NSString stringWithFormat:@"delete from filenameInfo where foldername = '%@' ", self.cellText];

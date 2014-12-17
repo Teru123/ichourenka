@@ -34,19 +34,16 @@
     [super viewWillAppear:animated];
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [self.editCardDelegate cardEditingInfoWasFinished];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Initialize the dbManager object.
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
-    
-    /*
-    // Check if should load specific record for editing.
-    if (self.recordIDToEdit != -1) {
-        // Load the record with the specific ID from the database.
-        [self loadInfoToEdit];
-    }*/
     
     //Load the Data.
     //Create the query.
@@ -61,8 +58,8 @@
         [self justLoadInfo];
     }
     
-    //NSLog(@"%@", self.filenameData);
-    NSLog(@"recordID %d", self.recordIDToEdit);
+    NSLog(@"%@", self.filenameData);
+    //NSLog(@"recordID %d", self.recordIDToEdit);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -219,9 +216,7 @@
             self.textFive.text = @"";
         }
     }
-    //既にカード番号は割り当てているので、recordIDを1にして新しいカード番号を記録しない。
-    //self.recordIDToEdit = 1;
-
+    
     [self.tableView reloadData];
 }
 

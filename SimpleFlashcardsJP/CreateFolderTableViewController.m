@@ -94,12 +94,6 @@
         // Execute the query.
         [self.FolderManagerDB executeQuery:queryInsert];
         
-        /*else if (self.folderInfoDB.count == 0){
-            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(%d, '%@')", 0, [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolderMenu]];
-            // Execute the query.
-            [self.FolderManagerDB executeQuery:queryInsert];
-        }*/
-        
         //Load specific data to delete
         NSString *queryLoad = @"select * from FolderNameInfo";
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];

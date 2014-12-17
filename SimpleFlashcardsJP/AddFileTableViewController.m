@@ -10,6 +10,8 @@
 #import "CreateFileTableViewController.h"
 #import "CardTableViewController.h"
 #import "FilenameDB.h"
+#import "CardNumber.h"
+#import "CardText.h"
 
 @interface AddFileTableViewController ()
 
@@ -18,6 +20,8 @@
 @property (nonatomic, strong) NSArray *actionButtonItems;
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, assign) BOOL editIsTapped;
+@property (nonatomic, strong) CardText *dbCardText;
+@property (nonatomic, strong) CardNumber *dbCardNumber;
 
 -(void)loadData;
 
@@ -27,12 +31,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
     
@@ -44,9 +42,13 @@
     self.navigationItem.rightBarButtonItems = self.actionButtonItems;
     self.editIsTapped = NO;
     
-    NSLog(@"%@", self.foldernameData);
+    //NSLog(@"%@", self.foldernameData);
+    
     // Initialize the dbManager property.
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    
     [self loadData];
 }
 
@@ -85,7 +87,8 @@
         fileView.fileDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"AddToEditCards"]){
         CardTableViewController *editCards = [segue destinationViewController];
-        editCards.editCardsOrNot = @"EditCardname";
+        //CardListTableViewControllerに遷移させないようにeditCardsOrNotを設定。
+        editCards.editCardsOrNot = @"CardListTableViewController";
         editCards.filenameData = self.cellText;
     }
 }
@@ -96,9 +99,18 @@
         // Prepare the query.
         NSString *query = [NSString stringWithFormat:@"delete from filenameInfo where filename = '%@' ", self.cellText];
         NSLog(@"%@", query);
-        
         // Execute the query.
         [self.dbFileManager executeQuery:query];
+        
+        // Prepare the query.
+        NSString *queryCN = [NSString stringWithFormat:@"delete from cardNumberInfo where filename = '%@' ", self.cellText];
+        // Execute the query.
+        [self.dbCardNumber executeQuery:queryCN];
+        
+        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where filename = '%@' ", self.cellText];
+        NSLog(@"%@", queryText);
+        // Execute the query.
+        [self.dbCardText executeQuery:queryText];
         
         // Reload the table view.
         [self loadData];

@@ -18,18 +18,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (![self.editCardsOrNot isEqualToString:@"EditCardname"]) {
-        [self performSegueWithIdentifier:@"EditCardTableViewController" sender:self];
+    //AddFileTableViewからCardListTableViewControllerに直接遷移阻止。editCardsOrNotのStringで判断。
+    if (![self.editCardsOrNot isEqualToString:@"CardListTableViewController"]) {
+        [self performSegueWithIdentifier:@"CardListTableViewController" sender:self];
     }
     
-    NSLog(@"%@", self.filenameData);
+    //NSLog(@"filenameData %@", self.filenameData);
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"EditCardTableViewController"]) {
-        EditCardTableViewController *editView = [segue destinationViewController];
-        editView.filenameData = self.filenameData;
-    }else if ([[segue identifier] isEqualToString:@"CardListTableViewController"]) {
+    if ([[segue identifier] isEqualToString:@"CardListTableViewController"]) {
         CardListTableViewController *listView = [segue destinationViewController];
         listView.filenameData = self.filenameData;
     }

@@ -9,6 +9,7 @@
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
 #import "CardNumber.h"
+#import "CardText.h"
 
 @interface CardListTableViewController ()
 
@@ -18,6 +19,7 @@
 @property (nonatomic, strong) NSArray *arrCNInfo;
 @property (nonatomic, strong) NSArray *cardNumberInfo;
 @property (nonatomic, assign) int cardNumberToEdit;
+@property (nonatomic, strong) CardText *dbCardText;
 
 -(void)loadData;
 
@@ -39,9 +41,12 @@
     
     // Initialize the dbManager property.
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
     // Load the data.
     [self loadData];
+    
+    //NSLog(@"%@", self.filenameData);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -50,16 +55,13 @@
         EditCardTableViewController *editView = [segue destinationViewController];
         editView.filenameData = self.filenameData;
         editView.recordIDToEdit = self.cardNumberToEdit;
+        editView.editCardDelegate = self;
     }
 }
 
 -(void)addFolder: (UIBarButtonItem *)sender{
     EditCardTableViewController *editCard =[[EditCardTableViewController alloc] init];
     editCard.editCardDelegate = self;
-    
-    // Before performing the segue, set the -1 value to the recordIDToEdit. That way we'll indicate that we want to add a new record and not to edit an existing one.
-    //self.recordIDToEdit = -1;
-    //NSLog(@"%d", self.recordIDToEdit);
     
     //Load the Data.
     //Create the query.
@@ -141,6 +143,35 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the selected record.
+        // Prepare the query.
+        self.cardNumberToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
+        NSString *query = [NSString stringWithFormat:@"delete from cardNumberInfo where cardNumberInfoID = %d ", self.cardNumberToEdit];
+        // Execute the query.
+        [self.dbCardNumber executeQuery:query];
+        
+        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where cardNumber = %d ", self.cardNumberToEdit];
+        NSLog(@"%@", queryText);
+        // Execute the query.
+        [self.dbCardText executeQuery:queryText];
+        
+        // Reload the table view.
+        [self loadData];
+    }
+}
+
+- (UITableViewCellEditingStyle) tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(!self.editIsTapped) {
+        //UITableViewCellEditingStyleNone will NOT support delete (in your case, the first row is returning this)
+        return UITableViewCellEditingStyleNone;
+    }
+    
+    //UITableViewCellEditingStyleDelete will support delete (in your case, all but the first row is returning this)
+    return UITableViewCellEditingStyleDelete;
+}
+
 //didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     self.cardNumberToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
@@ -150,7 +181,6 @@
 }
 
 -(void)cardEditingInfoWasFinished{
-    NSLog(@"called editing");
     // Reload the data.
     [self loadData];
 }

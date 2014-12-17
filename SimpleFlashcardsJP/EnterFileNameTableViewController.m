@@ -45,13 +45,6 @@
     if (self.folderInfo.count != 0) {
         [self loadInfoToEdit];
     }
-    
-    /* add textfield on imageView
-     UIImageView *textImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WhiteTextViewRectangle.png"]];
-     [self.view addSubview:textImageView];
-     textImageView.frame = CGRectMake(0, 35, 320, 220);
-     [textImageView addSubview:_filenameText];
-     */
 }
 
 // text position: inset for the textfield

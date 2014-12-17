@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */; };
+		DD8E03971A417A270067999E /* TempCardText.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD8E03961A417A270067999E /* TempCardText.sql */; };
+		DD8E039A1A417A3C0067999E /* TempCardText.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8E03991A417A3C0067999E /* TempCardText.m */; };
 		DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */; };
 		DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD8FED531A25D0AC003F2AC2 /* FolderName.sql */; };
 		DD8FED591A25D1BA003F2AC2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED581A25D1BA003F2AC2 /* UIKit.framework */; };
@@ -56,6 +58,9 @@
 /* Begin PBXFileReference section */
 		DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTableViewController.h; sourceTree = "<group>"; };
 		DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTableViewController.m; sourceTree = "<group>"; };
+		DD8E03961A417A270067999E /* TempCardText.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = TempCardText.sql; sourceTree = "<group>"; };
+		DD8E03981A417A3C0067999E /* TempCardText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempCardText.h; sourceTree = "<group>"; };
+		DD8E03991A417A3C0067999E /* TempCardText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempCardText.m; sourceTree = "<group>"; };
 		DD8FED501A25CAFD003F2AC2 /* FolderNameDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolderNameDB.h; path = SimpleFlashcardsJP/FolderNameDB.h; sourceTree = "<group>"; };
 		DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolderNameDB.m; path = SimpleFlashcardsJP/FolderNameDB.m; sourceTree = "<group>"; };
 		DD8FED531A25D0AC003F2AC2 /* FolderName.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FolderName.sql; sourceTree = "<group>"; };
@@ -162,6 +167,9 @@
 				DDCBA1D81A3D4704000F8AE8 /* CardText.sql */,
 				DDA0C8F81A3AE8F800B5F4E9 /* CardText.h */,
 				DDA0C8F91A3AE8F800B5F4E9 /* CardText.m */,
+				DD8E03961A417A270067999E /* TempCardText.sql */,
+				DD8E03981A417A3C0067999E /* TempCardText.h */,
+				DD8E03991A417A3C0067999E /* TempCardText.m */,
 			);
 			name = DB;
 			sourceTree = "<group>";
@@ -333,6 +341,7 @@
 				DDDB675B1A24790800921E82 /* WhiteTextViewRectangle.png in Resources */,
 				DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */,
 				DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */,
+				DD8E03971A417A270067999E /* TempCardText.sql in Resources */,
 				DDDB67591A2473EB00921E82 /* textView_White.png in Resources */,
 				DDCBA1DB1A3D4A1B000F8AE8 /* CardNumber.sql in Resources */,
 				DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */,
@@ -366,6 +375,7 @@
 				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
+				DD8E039A1A417A3C0067999E /* TempCardText.m in Sources */,
 				DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */,
 				DDB941BF1A3C6425004189B3 /* CardListTableViewController.m in Sources */,
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
