@@ -291,7 +291,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="ListCell" id="2As-SX-Aw1">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" id="2As-SX-Aw1">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2As-SX-Aw1" id="vY0-Jl-jQC">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -564,6 +564,11 @@
                         <barButtonItem key="leftBarButtonItem" title="キャンセル" id="ulX-gz-dhp">
                             <connections>
                                 <action selector="cancelButton:" destination="fQt-c7-I5D" id="Ia6-FL-TK2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Be0-xx-oou">
+                            <connections>
+                                <action selector="doneAction:" destination="fQt-c7-I5D" id="T9N-Qx-JPZ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

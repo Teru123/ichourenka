@@ -21,7 +21,9 @@
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSString *titleNumber;
 @property (nonatomic) int recordIDToEdit;
+@property (nonatomic) int newCard;
 @property (weak, nonatomic) IBOutlet UITextView *cardText;
+- (IBAction)doneAction:(id)sender;
 
 - (IBAction)cancelButton:(id)sender;
 

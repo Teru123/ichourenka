@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */; };
-		DD8E03971A417A270067999E /* TempCardText.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD8E03961A417A270067999E /* TempCardText.sql */; };
-		DD8E039A1A417A3C0067999E /* TempCardText.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8E03991A417A3C0067999E /* TempCardText.m */; };
+		DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */; };
+		DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */; };
 		DD8FED521A25CAFD003F2AC2 /* FolderNameDB.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */; };
 		DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD8FED531A25D0AC003F2AC2 /* FolderName.sql */; };
 		DD8FED591A25D1BA003F2AC2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED581A25D1BA003F2AC2 /* UIKit.framework */; };
@@ -58,9 +58,9 @@
 /* Begin PBXFileReference section */
 		DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTableViewController.h; sourceTree = "<group>"; };
 		DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTableViewController.m; sourceTree = "<group>"; };
-		DD8E03961A417A270067999E /* TempCardText.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = TempCardText.sql; sourceTree = "<group>"; };
-		DD8E03981A417A3C0067999E /* TempCardText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempCardText.h; sourceTree = "<group>"; };
-		DD8E03991A417A3C0067999E /* TempCardText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempCardText.m; sourceTree = "<group>"; };
+		DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardListTableViewCell.h; sourceTree = "<group>"; };
+		DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardListTableViewCell.m; sourceTree = "<group>"; };
+		DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardListTableViewCell.xib; sourceTree = "<group>"; };
 		DD8FED501A25CAFD003F2AC2 /* FolderNameDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolderNameDB.h; path = SimpleFlashcardsJP/FolderNameDB.h; sourceTree = "<group>"; };
 		DD8FED511A25CAFD003F2AC2 /* FolderNameDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolderNameDB.m; path = SimpleFlashcardsJP/FolderNameDB.m; sourceTree = "<group>"; };
 		DD8FED531A25D0AC003F2AC2 /* FolderName.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FolderName.sql; sourceTree = "<group>"; };
@@ -167,9 +167,6 @@
 				DDCBA1D81A3D4704000F8AE8 /* CardText.sql */,
 				DDA0C8F81A3AE8F800B5F4E9 /* CardText.h */,
 				DDA0C8F91A3AE8F800B5F4E9 /* CardText.m */,
-				DD8E03961A417A270067999E /* TempCardText.sql */,
-				DD8E03981A417A3C0067999E /* TempCardText.h */,
-				DD8E03991A417A3C0067999E /* TempCardText.m */,
 			);
 			name = DB;
 			sourceTree = "<group>";
@@ -221,6 +218,9 @@
 				DDC50F3F1A39538C009F4BFC /* EditCardTableViewController.m */,
 				DDC50F411A39659C009F4BFC /* EnterCardnameTableViewController.h */,
 				DDC50F421A39659C009F4BFC /* EnterCardnameTableViewController.m */,
+				DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */,
+				DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */,
+				DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */,
 				DDC1A6711A21D332003C7EC9 /* Main.storyboard */,
 				DDC1A6741A21D332003C7EC9 /* Images.xcassets */,
 				DDC1A6761A21D332003C7EC9 /* LaunchScreen.xib */,
@@ -341,11 +341,11 @@
 				DDDB675B1A24790800921E82 /* WhiteTextViewRectangle.png in Resources */,
 				DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */,
 				DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */,
-				DD8E03971A417A270067999E /* TempCardText.sql in Resources */,
 				DDDB67591A2473EB00921E82 /* textView_White.png in Resources */,
 				DDCBA1DB1A3D4A1B000F8AE8 /* CardNumber.sql in Resources */,
 				DDB63BB61A2F041C005566D5 /* FolderDB.sql in Resources */,
 				DDCBA1D91A3D4704000F8AE8 /* CardText.sql in Resources */,
+				DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */,
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
 				DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */,
 				DDCCF7581A34898B00C6BA63 /* FilenameDB.sql in Resources */,
@@ -375,7 +375,6 @@
 				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
-				DD8E039A1A417A3C0067999E /* TempCardText.m in Sources */,
 				DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */,
 				DDB941BF1A3C6425004189B3 /* CardListTableViewController.m in Sources */,
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
@@ -384,6 +383,7 @@
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,
 				DDCCF75B1A3489BC00C6BA63 /* FilenameDB.m in Sources */,
 				DDB63BB91A2F0432005566D5 /* FolderDB.m in Sources */,
+				DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */,
 				DDCBA1DE1A3D4A3C000F8AE8 /* CardNumber.m in Sources */,
 				DDC50F401A39538C009F4BFC /* EditCardTableViewController.m in Sources */,
 			);

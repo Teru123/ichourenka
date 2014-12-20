@@ -9,7 +9,6 @@
 #import "EnterCardnameTableViewController.h"
 #import "CardText.h"
 #import "CardNumber.h"
-#import "TempCardText.h"
 
 @interface EnterCardnameTableViewController ()
 
@@ -20,8 +19,6 @@
 @property (nonatomic, strong) CardNumber *dbCardNumber;
 @property (nonatomic, strong) NSArray *cardNumberInfo;
 @property (nonatomic, assign) int cardNumberToEdit;
-@property (nonatomic, strong) TempCardText *dbTempText;
-@property (nonatomic, strong) NSArray *tempTextInfo;
 
 - (void)loadInfoToEdit;
 
@@ -44,13 +41,6 @@
     
     // Make self the delegate of the textfields .h <UITextViewDelegate>
     self.cardText.delegate = self;
-    
-    //@selector()で指定メソッドをコール
-    UIBarButtonItem *nextItem = [[UIBarButtonItem alloc] initWithTitle:@"Next" style:UIBarButtonItemStylePlain target:self action:@selector(nextItem:)];
-    UIBarButtonItem *doneItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(doneItem:)];
-    
-    NSArray *actionButtonItems = @[doneItem, nextItem];
-    self.navigationItem.rightBarButtonItems = actionButtonItems;
     
     NSString *titleOne = [NSString stringWithFormat:@"Text 1"];
     NSString *titleTwo = [NSString stringWithFormat:@"Text 2"];
@@ -81,6 +71,8 @@
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     
+    NSLog(@"newCard %d", self.newCard);
+    
     //Load the Data.
     //Create the query.
     NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
@@ -90,17 +82,30 @@
     }
     // Load the relevant data.
     self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
-    if (self.cardNumberInfo.count) {
-        // Get the last object of cardNumberInfo.
-        //countは1から数える。objectAtIndexは0からなので、-1せずにそのまま使うとRangeExceptionエラーとなる。
-        NSInteger numberCount = [self.cardNumberInfo count] - 1;
+    if (self.cardNumberInfo.count && self.newCard != -1) {
         // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
         // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
-        self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
-        NSLog(@"cardNumberToEdit %d", self.cardNumberToEdit);
+        //recordIDToEditは1から設定されている。objectAtIndexに1を渡すと0,1の二番目の値が返されてしまうので-1をする。
+        self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:self.recordIDToEdit - 1] objectAtIndex:0] intValue];
+        NSLog(@"cardNumberToEdit %d, recordIDToEdit %d", self.cardNumberToEdit, self.recordIDToEdit);
         
         if (self.cardNumberToEdit == self.recordIDToEdit){
             [self loadInfoToEdit];
+        }
+    }
+}
+
+-(void)loadInfoToEdit{
+    // Create the query.
+    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, self.currentIndex];
+    // Load the relevant data.
+    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
+    //NSLog(@"count %ld, index %d, id %d", self.cardTextInfo.count, self.currentIndex, self.recordIDToEdit);
+    if (self.cardTextInfo.count) {
+        if ([[[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]] isEqualToString:@"(blank)"]) {
+            self.cardText.text = @"";
+        }else{
+            self.cardText.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
         }
     }
 }
@@ -110,17 +115,7 @@
     return CGRectInset( bounds , 5 , 10 );
 }
 
--(void)nextItem: (UIBarButtonItem *)sender{
-    self.currentIndex += 1;
-    if (self.currentIndex > 4) {
-        self.currentIndex = 0;
-        self.navigationItem.title = [self.titleList objectAtIndex:self.currentIndex];
-    }else{
-        self.navigationItem.title = [self.titleList objectAtIndex:self.currentIndex];
-    }
-}
-
-- (void)doneItem:(UIBarButtonItem *)sender {
+- (IBAction)doneAction:(id)sender {
     //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
     self.cardText.text = [self.cardText.text stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
     //NSLog(@"%@", self.cardText.text);
@@ -131,14 +126,22 @@
     // Prepare the query string.
     NSString *query;
     if (self.cardTextInfo.count == 0 && self.currentIndex == 0){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        if ([self.cardText.text isEqualToString:@""]) {
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", self.currentIndex, self.filenameData, self.recordIDToEdit];
+        }else{
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        }
         // Execute the query.
         [self.cardTextManager executeQuery:query];
     }else if (self.cardTextInfo.count == 0 && self.currentIndex == 1){
         query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
         // Execute the query.
         [self.cardTextManager executeQuery:query];
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        if ([self.cardText.text isEqualToString:@""]) {
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", self.currentIndex, self.filenameData, self.recordIDToEdit];
+        }else{
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        }
         // Execute the query.
         [self.cardTextManager executeQuery:query];
     }else if (self.cardTextInfo.count == 0 && self.currentIndex == 2){
@@ -239,6 +242,7 @@
         NSLog(@"Could not execute the query.");
     }
     
+    //Delegate先のviewで変更したい値を与える。
     [self.cardTextDelegate editingCardTextInfoWasFinished];
     
     // Pop the view controller.
@@ -247,17 +251,6 @@
 
 - (IBAction)cancelButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void)loadInfoToEdit{
-    // Create the query.
-    NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, self.currentIndex];
-    // Load the relevant data.
-    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
-    //NSLog(@"count %ld, index %d, id %d", self.cardTextInfo.count, self.currentIndex, self.recordIDToEdit);
-    if (self.cardTextInfo.count) {
-        self.cardText.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

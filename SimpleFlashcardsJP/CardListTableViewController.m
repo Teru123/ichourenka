@@ -8,6 +8,7 @@
 
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
+#import "CardListTableViewCell.h"
 #import "CardNumber.h"
 #import "CardText.h"
 
@@ -18,14 +19,38 @@
 @property (nonatomic, strong) CardNumber *dbCardNumber;
 @property (nonatomic, strong) NSArray *arrCNInfo;
 @property (nonatomic, strong) NSArray *cardNumberInfo;
-@property (nonatomic, assign) int cardNumberToEdit;
+@property (nonatomic, assign) int recordIDToEdit;
 @property (nonatomic, strong) CardText *dbCardText;
+@property (nonatomic, assign) int newCard;
+@property (nonatomic, strong) NSArray *cardTextInfo;
+@property (nonatomic, strong) NSMutableArray *stringArr;
+@property (nonatomic, strong) NSString *checkStr;
 
 -(void)loadData;
 
 @end
 
 @implementation CardListTableViewController
+
+-(void)viewWillAppear:(BOOL)animated{
+    NSLog(@"newCard %d", self.newCard);
+    // Load the Data
+    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
+    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
+    NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
+    //stringArrを初期化。
+    self.stringArr = [[NSMutableArray alloc] init];
+    self.stringArr = [NSMutableArray array];
+    for (int i = 0 ; i < self.cardTextInfo.count; i++) {
+        self.checkStr = [NSString stringWithFormat:@"%@", [[self.cardTextInfo objectAtIndex:i] objectAtIndex:indexOfcardText]];
+        if ([self.checkStr isEqualToString:@""]) {
+            self.checkStr = @"(blank)";
+        }
+        [self.stringArr insertObject:self.checkStr atIndex:i];
+        NSLog(@"%@", self.checkStr);
+    }
+    NSLog(@"%ld", self.stringArr.count);
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,8 +70,6 @@
     
     // Load the data.
     [self loadData];
-    
-    //NSLog(@"%@", self.filenameData);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -54,9 +77,16 @@
     if ([[segue identifier] isEqualToString:@"EditCardTableViewController"]) {
         EditCardTableViewController *editView = [segue destinationViewController];
         editView.filenameData = self.filenameData;
-        editView.recordIDToEdit = self.cardNumberToEdit;
+        editView.recordIDToEdit = self.recordIDToEdit;
+        editView.newCard = self.newCard;
         editView.editCardDelegate = self;
     }
+}
+
+//CustomCellを設定したのでdidSelectRowでsegueを実行する。didSelectRowを呼ばないと遷移されない。
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"EditCardTableViewController" sender:self.tableView];
 }
 
 -(void)addFolder: (UIBarButtonItem *)sender{
@@ -78,13 +108,14 @@
         NSInteger numberCount = [self.cardNumberInfo count] - 1;
         // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
         // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
-        self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
+        self.recordIDToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
         //最後尾オブジェクトの番号に一を足して編集せずに新しいカードを作る。
-        self.cardNumberToEdit += 1;
-        NSLog(@"cardNumberToEdit %d", self.cardNumberToEdit);
+        self.recordIDToEdit += 1;
+        NSLog(@"recordIDToEdit %d", self.recordIDToEdit);
+        self.newCard = -1;
     }else if (self.cardNumberInfo.count == 0){
         //追加、編集するカード番号を保存。
-        self.cardNumberToEdit = 1;
+        self.recordIDToEdit = 1;
     }
     
     [self performSegueWithIdentifier:@"EditCardTableViewController" sender:sender];
@@ -122,6 +153,10 @@
     self.arrCNInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:query]];
     //NSLog(@"%ld", self.arrCNInfo.count);
     
+    if (self.newCard == -1) {
+        self.newCard = 1;
+    }
+    
     // Reload the table view.
     [self.tableView reloadData];
 }
@@ -135,10 +170,24 @@
     return self.arrCNInfo.count;
 }
 
+//indexPath.rowはnumberOfRowsで指定したRowの数だけ処理を繰り返す。
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     
+    static NSString *cellIdentifier = @"ListCell";
+    
+    CardListTableViewCell *cell = (CardListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardListTableViewCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
+
     // Configure the cell...
+    cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [self.stringArr objectAtIndex:indexPath.row]];
+    
+    //cell.textLabel_1.text = @"2";
+    cell.textLabel_2.text = @"2";
     
     return cell;
 }
@@ -147,12 +196,12 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the selected record.
         // Prepare the query.
-        self.cardNumberToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
-        NSString *query = [NSString stringWithFormat:@"delete from cardNumberInfo where cardNumberInfoID = %d ", self.cardNumberToEdit];
+        self.recordIDToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
+        NSString *query = [NSString stringWithFormat:@"delete from cardNumberInfo where cardNumberInfoID = %d ", self.recordIDToEdit];
         // Execute the query.
         [self.dbCardNumber executeQuery:query];
         
-        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where cardNumber = %d ", self.cardNumberToEdit];
+        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where cardNumber = %d ", self.recordIDToEdit];
         NSLog(@"%@", queryText);
         // Execute the query.
         [self.dbCardText executeQuery:queryText];
@@ -174,8 +223,8 @@
 
 //didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    self.cardNumberToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
-    NSLog(@"cardNumberToEdit %d", [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue]);
+    self.recordIDToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
+    NSLog(@"recordIDToEdit %d", [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue]);
     
     return indexPath;
 }

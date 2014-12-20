@@ -35,6 +35,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
+    //viewが消える際にDelegate先のviewで変更したい値を与える。
     [self.editCardDelegate cardEditingInfoWasFinished];
 }
 
@@ -70,6 +71,7 @@
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.newCard = self.newCard;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController2"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -77,6 +79,7 @@
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.newCard = self.newCard;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController3"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -84,6 +87,7 @@
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.newCard = self.newCard;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController4"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -91,6 +95,7 @@
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.newCard = self.newCard;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController5"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -98,6 +103,7 @@
         cardnameView.filenameData = self.filenameData;
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
+        cardnameView.newCard = self.newCard;
         cardnameView.cardTextDelegate = self;
     }
 }
@@ -216,6 +222,11 @@
             self.textFive.text = @"";
         }
     }
+    
+    if (self.newCard == -1) {
+        self.newCard = 1;
+    }
+    NSLog(@"newCard %d", self.newCard);
     
     [self.tableView reloadData];
 }
