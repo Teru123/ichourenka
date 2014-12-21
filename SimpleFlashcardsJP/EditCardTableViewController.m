@@ -149,6 +149,7 @@
 }
 
 -(void)loadInfoToEdit{
+    /*
     //Load the Data.
     //Create the query.
     NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
@@ -178,7 +179,8 @@
                 NSLog(@"Could not execute the query.");
             }
         }
-    }else if (self.cardNumberInfo.count == 0){
+    }else */
+    if (self.cardNumberInfo.count == 0){
         //追加、編集するカード番号を保存。
         self.cardNumberToEdit = 1;
         NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];

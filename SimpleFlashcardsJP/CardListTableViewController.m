@@ -23,8 +23,11 @@
 @property (nonatomic, strong) CardText *dbCardText;
 @property (nonatomic, assign) int newCard;
 @property (nonatomic, strong) NSArray *cardTextInfo;
+@property (nonatomic, strong) NSArray *cardTextInfo_1;
 @property (nonatomic, strong) NSMutableArray *stringArr;
 @property (nonatomic, strong) NSString *checkStr;
+@property (nonatomic, strong) NSMutableArray *stringArr_1;
+@property (nonatomic, strong) NSString *checkStr_1;
 
 -(void)loadData;
 
@@ -34,7 +37,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     NSLog(@"newCard %d", self.newCard);
-    // Load the Data
+    
+    // Load the first Data
     NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
     NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
@@ -50,6 +54,23 @@
         NSLog(@"%@", self.checkStr);
     }
     NSLog(@"%ld", self.stringArr.count);
+    
+    // Load the second Data
+    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 1];
+    self.cardTextInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
+    NSInteger indexOfcardText_1 = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
+    //stringArrを初期化。
+    self.stringArr_1 = [[NSMutableArray alloc] init];
+    self.stringArr_1 = [NSMutableArray array];
+    for (int i = 0 ; i < self.cardTextInfo_1.count; i++) {
+        self.checkStr_1 = [NSString stringWithFormat:@"%@", [[self.cardTextInfo_1 objectAtIndex:i] objectAtIndex:indexOfcardText_1]];
+        if ([self.checkStr_1 isEqualToString:@""]) {
+            self.checkStr_1 = @"(blank)";
+        }
+        [self.stringArr_1 insertObject:self.checkStr_1 atIndex:i];
+        NSLog(@"%@", self.checkStr_1);
+    }
+    NSLog(@"%ld", self.stringArr_1.count);
 }
 
 - (void)viewDidLoad {
@@ -185,9 +206,7 @@
 
     // Configure the cell...
     cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [self.stringArr objectAtIndex:indexPath.row]];
-    
-    //cell.textLabel_1.text = @"2";
-    cell.textLabel_2.text = @"2";
+    cell.textLabel_2.text = [NSString stringWithFormat:@"%@", [self.stringArr_1 objectAtIndex:indexPath.row]];
     
     return cell;
 }
