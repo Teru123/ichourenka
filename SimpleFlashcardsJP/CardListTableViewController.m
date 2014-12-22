@@ -36,8 +36,6 @@
 @implementation CardListTableViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"newCard %d", self.newCard);
-    
     // Load the first Data
     NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
@@ -51,9 +49,9 @@
             self.checkStr = @"(blank)";
         }
         [self.stringArr insertObject:self.checkStr atIndex:i];
-        NSLog(@"%@", self.checkStr);
+        //NSLog(@"%@", self.checkStr);
     }
-    NSLog(@"%ld", self.stringArr.count);
+    //NSLog(@"%ld", self.stringArr.count);
     
     // Load the second Data
     NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 1];
@@ -68,9 +66,9 @@
             self.checkStr_1 = @"(blank)";
         }
         [self.stringArr_1 insertObject:self.checkStr_1 atIndex:i];
-        NSLog(@"%@", self.checkStr_1);
+        //NSLog(@"%@", self.checkStr_1);
     }
-    NSLog(@"%ld", self.stringArr_1.count);
+    //NSLog(@"%ld", self.stringArr_1.count);
 }
 
 - (void)viewDidLoad {

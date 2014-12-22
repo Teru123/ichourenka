@@ -178,9 +178,20 @@
             }else{
                 NSLog(@"Could not execute the query.");
             }
+        }*/
+    
+    if (self.newCard == -1) {
+        //追加、編集するカード番号を保存。
+        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
+        // Execute the query.
+        [self.dbCardNumber executeQuery:queryForCardNumber];
+        
+        if (self.dbCardNumber.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
+        }else{
+            NSLog(@"Could not execute the query.");
         }
-    }else */
-    if (self.cardNumberInfo.count == 0){
+    }else if (self.cardNumberInfo.count == 0){
         //追加、編集するカード番号を保存。
         self.cardNumberToEdit = 1;
         NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
@@ -228,6 +239,7 @@
     if (self.newCard == -1) {
         self.newCard = 1;
     }
+    
     NSLog(@"newCard %d", self.newCard);
     
     [self.tableView reloadData];
