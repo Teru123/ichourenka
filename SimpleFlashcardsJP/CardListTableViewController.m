@@ -9,10 +9,11 @@
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
 #import "CardListTableViewCell.h"
+#import "SearchResultsTableViewController.h"
 #import "CardNumber.h"
 #import "CardText.h"
 
-@interface CardListTableViewController ()
+@interface CardListTableViewController () <UISearchResultsUpdating, UISearchBarDelegate>
 
 @property (nonatomic, strong) NSArray *actionButtonItems;
 @property (nonatomic, assign) BOOL editIsTapped;
@@ -28,6 +29,12 @@
 @property (nonatomic, strong) NSString *checkStr;
 @property (nonatomic, strong) NSMutableArray *stringArr_1;
 @property (nonatomic, strong) NSString *checkStr_1;
+@property (nonatomic, strong) NSArray *cards;
+@property (nonatomic, strong) NSArray *cardTextSearch;
+@property (nonatomic, strong) NSArray *cardNumberSearch;
+@property (nonatomic, strong) NSArray *textNumberSearch;
+@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) NSMutableArray *searchResults; // Filtered search results
 
 -(void)loadData;
 
@@ -87,8 +94,110 @@
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
+    // Initialize the dbManager property.
+    //self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    
+    // Load the first Data
+    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo"];
+    self.cardTextSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryText]];
+    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo"];
+    self.cardNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryNumber]];
+    NSString *queryTextNumber = [NSString stringWithFormat:@"select textNumber from cardTextInfo"];
+    self.textNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryTextNumber]];
+    
+    //cardText, cardNumber, textNumberを配列にinsert。resultsに使用。
+    self.cardText = [[NSMutableArray alloc] init];
+    self.cardText = [NSMutableArray array];
+    self.cardNumber = [[NSMutableArray alloc] init];
+    self.cardNumber = [NSMutableArray array];
+    self.textNumber = [[NSMutableArray alloc] init];
+    self.textNumber = [NSMutableArray array];
+    for (int i = 0; i < self.cardNumberSearch.count; i++) {
+        [self.cardText insertObject:[self.cardTextSearch objectAtIndex:i] atIndex:i];
+        [self.cardNumber insertObject:[self.cardNumberSearch objectAtIndex:i] atIndex:i];
+        [self.textNumber insertObject:[self.textNumberSearch objectAtIndex:i] atIndex:i];
+    }
+    
+    // Create a mutable array to contain products for the search results table.
+    self.searchResults = [NSMutableArray arrayWithCapacity:[self.cardText count]];
+    // The table view controller is in a nav controller, and so the containing nav controller is the 'search results controller'
+    UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"TableSearchResultsNavController"];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    
+    self.searchController.searchBar.delegate = self;
+    self.definesPresentationContext = YES;
+    
+    NSLog(@"searchResults %ld %@", self.cardText.count, [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:0]]);
+    
     // Load the data.
     [self loadData];
+}
+
+#pragma mark - UISearchResultsUpdating
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchString = [self.searchController.searchBar text];
+    NSString *scope = nil;
+    [self updateFilteredContentForProductName:searchString type:scope];
+    NSLog(@"searchString %@", searchString);
+    
+    if (self.searchController.searchResultsController) {
+        UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
+        
+        SearchResultsTableViewController *vc = (SearchResultsTableViewController *)navController.topViewController;
+        vc.searchResults = self.searchResults;
+        [vc.tableView reloadData];
+    }
+}
+
+// Workaround for bug: -updateSearchResultsForSearchController: is not called when scope buttons change
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    [self updateSearchResultsForSearchController:self.searchController];
+}
+
+#pragma mark - Content Filtering
+
+- (void)updateFilteredContentForProductName:(NSString *)name type:(NSString *)typeName{
+    
+    // Update the filtered array based on the search text and scope.
+    if ([name length] == 0) {
+        // If there is no search string and the scope is "All".
+        if (typeName == nil) {
+            self.searchResults = [self.cardText mutableCopy];
+        } else {
+            // If there is no search string and the scope is chosen.
+            NSMutableArray *searchResults = [[NSMutableArray alloc] init];
+            for (int i = 0; i < self.cardText.count; i++) {
+                NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
+                if ([checkString isEqualToString:typeName]) {
+                    [searchResults addObject:checkString];
+                }
+            }
+            self.searchResults = searchResults;
+        }
+        return;
+    }
+    
+    
+    [self.searchResults removeAllObjects]; // First clear the filtered array.
+    
+    //Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
+     
+    for (int i = 0; i < self.cardText.count; i++) {
+        NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
+        if ((typeName == nil) || [checkString isEqualToString:typeName]) {
+            NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
+            NSRange productNameRange = NSMakeRange(0, checkString.length);
+            NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
+            if (foundRange.length > 0) {
+                [self.searchResults addObject:checkString];
+            }
+        }
+    }
+    NSLog(@"%ld", self.searchResults.count);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -240,6 +349,7 @@
 
 //didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //indexPath.row番目のCardNumberを取得。
     self.recordIDToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
     NSLog(@"recordIDToEdit %d", [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue]);
     
@@ -257,38 +367,10 @@
 }
 
 /*
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
-*/
-
-/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
 }
 */
 
