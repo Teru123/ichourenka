@@ -131,7 +131,7 @@
     self.searchController.searchBar.delegate = self;
     self.definesPresentationContext = YES;
     
-    NSLog(@"searchResults %ld %@", self.cardText.count, [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:0]]);
+    NSLog(@"searchResults %ld", self.cardText.count);
     
     // Load the data.
     [self loadData];
@@ -244,6 +244,7 @@
     }else if (self.cardNumberInfo.count == 0){
         //追加、編集するカード番号を保存。
         self.recordIDToEdit = 1;
+        self.newCard = -1;
     }
     
     [self performSegueWithIdentifier:@"EditCardTableViewController" sender:sender];
