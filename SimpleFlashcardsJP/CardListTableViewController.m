@@ -34,7 +34,8 @@
 @property (nonatomic, strong) NSArray *cardNumberSearch;
 @property (nonatomic, strong) NSArray *textNumberSearch;
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) NSMutableArray *searchResults; // Filtered search results
+@property (nonatomic, strong) NSMutableArray *searchResults;
+@property (nonatomic, strong) NSMutableArray *searchResultsNumber;// Filtered search results
 
 -(void)loadData;
 
@@ -121,6 +122,7 @@
     
     // Create a mutable array to contain products for the search results table.
     self.searchResults = [NSMutableArray arrayWithCapacity:[self.cardText count]];
+    self.searchResultsNumber = [NSMutableArray arrayWithCapacity:[self.cardNumber count]];
     // The table view controller is in a nav controller, and so the containing nav controller is the 'search results controller'
     UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"TableSearchResultsNavController"];
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
@@ -185,15 +187,21 @@
     [self.searchResults removeAllObjects]; // First clear the filtered array.
     
     //Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
-     
+     NSString *confirmNumber;
     for (int i = 0; i < self.cardText.count; i++) {
         NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
+        NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
+        NSLog(@"%@", checkNumber);
         if ((typeName == nil) || [checkString isEqualToString:typeName]) {
             NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
             NSRange productNameRange = NSMakeRange(0, checkString.length);
             NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
             if (foundRange.length > 0) {
-                [self.searchResults addObject:checkString];
+                if (![confirmNumber isEqualToString:checkNumber] || confirmNumber == nil) {
+                    [self.searchResults addObject:checkString];
+                    confirmNumber = checkNumber;
+                    NSLog(@"%@", confirmNumber);
+                }
             }
         }
     }

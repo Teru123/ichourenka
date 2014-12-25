@@ -9,6 +9,7 @@
 #import "SearchResultsTableViewController.h"
 #import "CardListTableViewController.h"
 #import "CardListTableViewCell.h"
+#import "EditCardTableViewController.h"
 #import "CardNumber.h" 
 #import "CardText.h"
 
@@ -79,7 +80,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self performSegueWithIdentifier:@"EditCardTableViewController" sender:self.tableView];
+    EditCardTableViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditCardTableViewController"];
+    [self.presentingViewController.navigationController pushViewController:vc animated:YES];
 }
 
 @end

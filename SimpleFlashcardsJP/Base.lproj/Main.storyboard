@@ -329,7 +329,7 @@
         <!--Edit Card Table View Controller-->
         <scene sceneID="U5t-jW-Y49">
             <objects>
-                <tableViewController id="fQD-uc-Qfx" customClass="EditCardTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="EditCardTableViewController" id="fQD-uc-Qfx" customClass="EditCardTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="iYi-0U-Z5G">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
