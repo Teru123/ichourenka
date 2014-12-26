@@ -10,6 +10,9 @@
 
 @interface SearchResultsTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSMutableArray *searchResults; // Filtered search results
+@property (nonatomic, strong) NSMutableArray *searchResults;// Filtered search results
+@property (nonatomic, strong) NSMutableArray *searchResultsString;
+@property (nonatomic, strong) NSMutableArray *cardText;
+@property (nonatomic) int newSearch;
 
 @end

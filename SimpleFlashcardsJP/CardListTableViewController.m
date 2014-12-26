@@ -34,8 +34,10 @@
 @property (nonatomic, strong) NSArray *cardNumberSearch;
 @property (nonatomic, strong) NSArray *textNumberSearch;
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) NSMutableArray *searchResults;
-@property (nonatomic, strong) NSMutableArray *searchResultsNumber;// Filtered search results
+@property (nonatomic, strong) NSMutableArray *searchResults;// Filtered search results
+@property (nonatomic, strong) NSMutableArray *searchResultsNumber;
+@property (nonatomic, strong) NSMutableArray *searchResultsString;
+@property (nonatomic, strong) NSMutableArray *searchResultsNumberString;
 
 -(void)loadData;
 
@@ -139,6 +141,7 @@
     [self loadData];
 }
 
+//searchResultsをSearchResultsTableViewControllerに渡す。
 #pragma mark - UISearchResultsUpdating
 -(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
     NSString *searchString = [self.searchController.searchBar text];
@@ -151,6 +154,46 @@
         
         SearchResultsTableViewController *vc = (SearchResultsTableViewController *)navController.topViewController;
         vc.searchResults = self.searchResults;
+        
+        // Load the first Data
+        NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
+        self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
+        NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
+        
+        if (![searchString isEqualToString:@""]) {
+            vc.newSearch = 1;
+            
+            self.searchResultsString = [[NSMutableArray alloc] init];
+            self.searchResultsString = [NSMutableArray array];
+            for (int i = 0; i < self.searchResults.count; i++) {
+                // searchResultsのデータを渡す為に不要なStringを削除する。
+                NSString *checkTheString = [NSString stringWithFormat:@"%@", [self.searchResults objectAtIndex:i]];
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@")" withString:@""];
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@" " withString:@""];
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                
+                for (int i = 0 ; i < self.cardTextInfo.count; i++) {
+                    self.checkStr = [NSString stringWithFormat:@"%@", [[self.cardTextInfo objectAtIndex:i] objectAtIndex:indexOfcardText]];
+                    if ([self.checkStr isEqualToString:checkTheString]) {
+                        //self.checkStr = @"(blank)";
+                        NSLog(@"%@", checkTheString);
+                    }
+                    //[self.stringArr insertObject:self.checkStr atIndex:i];
+                    //NSLog(@"%@", self.checkStr);
+                }
+                /*
+                NSString *queryNumber = [NSString stringWithFormat:@"select textNumber from cardTextInfo where cardText = '%@' ", checkTheString];
+                [self.searchResultsString addObject:[NSString stringWithFormat:@"%@", [self.dbCardText loadDataFromDB:queryNumber]]];
+                NSLog(@"%@ %ld %@", checkTheString, checkTheString.length, queryNumber);*/
+                //NSLog(@"%ld %@", self.searchResultsString.count, [NSString stringWithFormat:@"%@", [self.searchResultsString objectAtIndex:0]]);
+            }
+        }else{
+            vc.newSearch = -1;
+        }
+        
+        vc.searchResultsString = self.searchResultsString;
+        
         [vc.tableView reloadData];
     }
 }
@@ -164,6 +207,7 @@
 
 - (void)updateFilteredContentForProductName:(NSString *)name type:(NSString *)typeName{
     
+    NSString *confirmNumberWithZero;
     // Update the filtered array based on the search text and scope.
     if ([name length] == 0) {
         // If there is no search string and the scope is "All".
@@ -174,8 +218,12 @@
             NSMutableArray *searchResults = [[NSMutableArray alloc] init];
             for (int i = 0; i < self.cardText.count; i++) {
                 NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
+                NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
                 if ([checkString isEqualToString:typeName]) {
-                    [searchResults addObject:checkString];
+                    if (![confirmNumberWithZero isEqualToString:checkNumber] || confirmNumberWithZero == nil) {
+                        [searchResults addObject:checkString];
+                        confirmNumberWithZero = checkNumber;
+                    }
                 }
             }
             self.searchResults = searchResults;
@@ -186,26 +234,30 @@
     
     [self.searchResults removeAllObjects]; // First clear the filtered array.
     
+    // NSCharacterSet, stringByTrimmingCharactersInSetでスペースだけでないかチェック。
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    
     //Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
-     NSString *confirmNumber;
+    NSString *confirmNumber;
     for (int i = 0; i < self.cardText.count; i++) {
         NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
         NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
-        NSLog(@"%@", checkNumber);
+        //NSLog(@"%@", checkNumber);
         if ((typeName == nil) || [checkString isEqualToString:typeName]) {
-            NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
-            NSRange productNameRange = NSMakeRange(0, checkString.length);
-            NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
-            if (foundRange.length > 0) {
-                if (![confirmNumber isEqualToString:checkNumber] || confirmNumber == nil) {
-                    [self.searchResults addObject:checkString];
-                    confirmNumber = checkNumber;
-                    NSLog(@"%@", confirmNumber);
+            if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
+                NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
+                NSRange productNameRange = NSMakeRange(0, checkString.length);
+                NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
+                if (foundRange.length > 0) {
+                    if (![confirmNumber isEqualToString:checkNumber] || confirmNumber == nil) {
+                        [self.searchResults addObject:checkString];
+                        confirmNumber = checkNumber;
+                        //NSLog(@"%@", confirmNumber);
+                    }
                 }
             }
         }
     }
-    NSLog(@"%ld", self.searchResults.count);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -232,6 +284,7 @@
     //Load the Data.
     //Create the query.
     NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
+    //NSLog(@"%@", queryForCN);
     // Get the results.
     if (self.cardNumberInfo != nil) {
         self.cardNumberInfo = nil;
@@ -307,7 +360,7 @@
     return self.arrCNInfo.count;
 }
 
-//indexPath.rowはnumberOfRowsで指定したRowの数だけ処理を繰り返す。
+// indexPath.rowはnumberOfRowsで指定したRowの数だけ処理を繰り返す。
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     

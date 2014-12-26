@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSArray *cards;
 @property (nonatomic, strong) NSArray *cardTextSearch;
 @property (nonatomic, strong) NSArray *cardNumberSearch;
+@property (nonatomic, strong) NSArray *cardTextInfo;
 @property (nonatomic, strong) CardText *dbCardText;
 @property (nonatomic, strong) CardNumber *dbCardNumber;
 
@@ -25,10 +26,17 @@
 
 @implementation SearchResultsTableViewController
 
+-(void)viewWillAppear:(BOOL)animated{
+    if (self.newSearch == 1) {
+        
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.searchResults count];
 }
 
+// numberOfRowsで指定したRowの数だけ処理を繰り返す。
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellIdentifier = @"ListCell";
     
@@ -39,10 +47,9 @@
         cell = [nib objectAtIndex:0];
     }
     
-    CardListTableViewController *card = [self.searchResults objectAtIndex:indexPath.row];
-    //CardListTableViewController *cardView = [[CardListTableViewController alloc] init];
-    //cell.textLabel.text = card.name;
-    /*
+    
+    
+   /*
     // Load the first Data
     NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];

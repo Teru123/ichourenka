@@ -92,6 +92,7 @@
 //セルが選択された時の挙動を決定する。
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // NSCharacterSet, stringByTrimmingCharactersInSetでスペースだけでないかチェック。
     NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     if (indexPath.row == 1 && ![[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
         //作成タップでフォルダーに表示する名前をFolderName.sqlからFileDB.sqlに移す
