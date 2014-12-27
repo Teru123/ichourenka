@@ -60,7 +60,8 @@
     }
     
     NSLog(@"%@", self.filenameData);
-    //NSLog(@"recordID %d", self.recordIDToEdit);
+    NSLog(@"recordID %d", self.recordIDToEdit);
+    NSLog(@"card %d", self.newCard);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -149,36 +150,6 @@
 }
 
 -(void)loadInfoToEdit{
-    /*
-    //Load the Data.
-    //Create the query.
-    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
-    // Get the results.
-    if (self.cardNumberInfo != nil) {
-        self.cardNumberInfo = nil;
-    }
-    // Load the relevant data.
-    self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
-    if (self.cardNumberInfo.count) {
-        // Get the last object of cardNumberInfo.
-        //countは1から数える。objectAtIndexは0からなので、-1せずにそのまま使うとRangeExceptionエラーとなる。
-        NSInteger numberCount = [self.cardNumberInfo count] - 1;
-        // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
-        // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
-        self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
-        NSLog(@"cardNumberToEdit %d, self.recordIDToEdit %d", self.cardNumberToEdit, self.recordIDToEdit);
-        if (self.cardNumberToEdit != self.recordIDToEdit) {
-            //追加、編集するカード番号を保存。
-            NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
-            // Execute the query.
-            [self.dbCardNumber executeQuery:queryForCardNumber];
-            
-            if (self.dbCardNumber.affectedRows != 0) {
-                NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
-            }else{
-                NSLog(@"Could not execute the query.");
-            }
-        }*/
     
     if (self.newCard == -1) {
         //追加、編集するカード番号を保存。

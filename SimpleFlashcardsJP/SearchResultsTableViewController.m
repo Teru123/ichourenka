@@ -26,12 +26,6 @@
 
 @implementation SearchResultsTableViewController
 
--(void)viewWillAppear:(BOOL)animated{
-    if (self.newSearch == 1) {
-        
-    }
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.searchResults count];
 }
@@ -47,47 +41,30 @@
         cell = [nib objectAtIndex:0];
     }
     
+    if (self.newSearch == 1) {
+        // Configure the cell...
+        cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [self.searchResultsString objectAtIndex:indexPath.row]];
+        cell.textLabel_2.text = [NSString stringWithFormat:@"%@", [self.searchResultsString_1 objectAtIndex:indexPath.row]];
     
-    
-   /*
-    // Load the first Data
-    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
-    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
-    NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
-    //stringArrを初期化。
-    self.stringArr = [[NSMutableArray alloc] init];
-    self.stringArr = [NSMutableArray array];
-    for (int i = 0 ; i < self.cardTextInfo.count; i++) {
-        self.checkStr = [NSString stringWithFormat:@"%@", [[self.cardTextInfo objectAtIndex:i] objectAtIndex:indexOfcardText]];
-        if ([self.checkStr isEqualToString:@""]) {
-            self.checkStr = @"(blank)";
-        }
-        [self.stringArr insertObject:self.checkStr atIndex:i];
-        //NSLog(@"%@", self.checkStr);
     }
-    //NSLog(@"%ld", self.stringArr.count);
-    
-    // Load the second Data
-    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 1];
-    self.cardTextInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
-    NSInteger indexOfcardText_1 = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
-    //stringArrを初期化。
-    self.stringArr_1 = [[NSMutableArray alloc] init];
-    self.stringArr_1 = [NSMutableArray array];
-    for (int i = 0 ; i < self.cardTextInfo_1.count; i++) {
-        self.checkStr_1 = [NSString stringWithFormat:@"%@", [[self.cardTextInfo_1 objectAtIndex:i] objectAtIndex:indexOfcardText_1]];
-        if ([self.checkStr_1 isEqualToString:@""]) {
-            self.checkStr_1 = @"(blank)";
-        }
-        [self.stringArr_1 insertObject:self.checkStr_1 atIndex:i];
-        //NSLog(@"%@", self.checkStr_1);
-    }*/
     
     return cell;
 }
 
+//didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //indexPath.row番目のCardNumberを取得。
+    self.recordIDToEdit = [[self.searchResultsNumber objectAtIndex:indexPath.row] intValue];
+    NSLog(@"recordIDToEdit %d", self.recordIDToEdit);
+    
+    return indexPath;
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     EditCardTableViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditCardTableViewController"];
+    vc.filenameData = self.filenameData;
+    vc.recordIDToEdit = self.recordIDToEdit;
+    vc.newCard = self.newCard;
     [self.presentingViewController.navigationController pushViewController:vc animated:YES];
 }
 

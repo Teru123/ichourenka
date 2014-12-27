@@ -82,14 +82,7 @@
     // Load the relevant data.
     self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
     if (self.cardNumberInfo.count && self.newCard != -1) {
-        // Get the cardNumber of the selected filename and set it to the cardNumberToEdit property.
-        // ...objectAtIndex:0] intValue] == CNinfoID NSInteger primary key
-        //recordIDToEditは1から設定されている。objectAtIndexに1を渡すと0,1の二番目の値が返されてしまうので-1をする。
-        //self.cardNumberToEdit = [[[self.cardNumberInfo objectAtIndex:self.recordIDToEdit - 1] objectAtIndex:0] intValue];
-        //NSLog(@"cardNumberToEdit %d, recordIDToEdit %d", self.cardNumberToEdit, self.recordIDToEdit);
-        
-        //if (self.cardNumberToEdit == self.recordIDToEdit){}
-        
+                
         [self loadInfoToEdit];
     }
 }

@@ -42,11 +42,9 @@
     self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
     //FileDB初期化
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
-    //FileDBの読込み
-    //NSString *queryToSave = @"select * from folderInfo";
-    //self.folderInfoDB = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryToSave]];
     
     //NSLog(@"%@", self.foldernameData);
+    
     // Load the data.
     [self loadData];
     [super viewDidLoad];
@@ -80,7 +78,6 @@
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
         NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
         _fileName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
-        //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
     //NSLog(@"%@", self.foldernameData);
     
