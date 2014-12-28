@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "EditCardTableViewController.h"
+#import "SearchResultsTableViewController.h"
 
 @interface CardListTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, EditCardTableViewControllerDelegate>
 

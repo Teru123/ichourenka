@@ -8,6 +8,7 @@
 
 #import "EditCardTableViewController.h"
 #import "EnterCardnameTableViewController.h"
+#import "SearchResultsTableViewController.h"
 #import "CardText.h"
 #import "CardNumber.h"
 
@@ -199,7 +200,7 @@
         self.newCard = 1;
     }
     
-    NSLog(@"newCard %d", self.newCard);
+    //NSLog(@"newCard %d", self.newCard);
     
     [self.tableView reloadData];
 }

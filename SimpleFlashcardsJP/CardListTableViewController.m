@@ -95,10 +95,6 @@
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
-    // Initialize the dbManager property.
-    //self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
-    self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
-    
     // Load the first Data
     NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo"];
     self.cardTextSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryText]];
@@ -140,6 +136,7 @@
     
     NSString *searchString = [self.searchController.searchBar text];
     NSString *scope = nil;
+    
     [self updateFilteredContentForProductName:searchString type:scope];
     
     if (self.searchController.searchResultsController) {
@@ -148,7 +145,7 @@
         SearchResultsTableViewController *vc = (SearchResultsTableViewController *)navController.topViewController;
         vc.searchResults = self.searchResults;
         
-        if (![searchString isEqualToString:@""]) {
+        if (![searchString isEqualToString:@""] && self.searchResults.count != 0) {
             vc.newSearch = 1;
             
             // NSMutableArrayを初期化。
@@ -239,6 +236,7 @@
         vc.recordIDToEdit = self.recordIDToEdit;
         self.newCard = 1;
         vc.newCard = self.newCard;
+        //vc.searchCardDelegate = self;
         
         //NSLog(@"%@", vc.filenameData);
         
@@ -395,6 +393,65 @@
         self.newCard = 1;
     }
     
+    // Edit後に各種データを検索等に使用する為、更新する。
+    
+    // Initialize the dbManager property.
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    
+    // Load the first Data
+    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo"];
+    self.cardTextSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryText]];
+    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo"];
+    self.cardNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryNumber]];
+    
+    //cardText, cardNumberを配列にinsert。resultsに使用。
+    self.cardText = [[NSMutableArray alloc] init];
+    self.cardText = [NSMutableArray array];
+    self.cardNumber = [[NSMutableArray alloc] init];
+    self.cardNumber = [NSMutableArray array];
+    for (int i = 0; i < self.cardNumberSearch.count; i++) {
+        [self.cardText insertObject:[self.cardTextSearch objectAtIndex:i] atIndex:i];
+        [self.cardNumber insertObject:[self.cardNumberSearch objectAtIndex:i] atIndex:i];
+    }
+    
+    // Create a mutable array to contain products for the search results table.
+    self.searchResults = [NSMutableArray arrayWithCapacity:[self.cardText count]];
+    
+    // Load the first Data
+    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
+    self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
+    NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
+    //stringArrを初期化。
+    self.stringArr = [[NSMutableArray alloc] init];
+    self.stringArr = [NSMutableArray array];
+    for (int i = 0 ; i < self.cardTextInfo.count; i++) {
+        NSString *checkStr = [NSString stringWithFormat:@"%@", [[self.cardTextInfo objectAtIndex:i] objectAtIndex:indexOfcardText]];
+        if ([checkStr isEqualToString:@""]) {
+            checkStr = @"(blank)";
+        }
+        [self.stringArr insertObject:checkStr atIndex:i];
+        //NSLog(@"%@", self.checkStr);
+    }
+    //NSLog(@"%ld", self.stringArr.count);
+    
+    // Load the second Data
+    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 1];
+    self.cardTextInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
+    NSInteger indexOfcardText_1 = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
+    //stringArrを初期化。
+    self.stringArr_1 = [[NSMutableArray alloc] init];
+    self.stringArr_1 = [NSMutableArray array];
+    for (int i = 0 ; i < self.cardTextInfo_1.count; i++) {
+        NSString *checkStr_1 = [NSString stringWithFormat:@"%@", [[self.cardTextInfo_1 objectAtIndex:i] objectAtIndex:indexOfcardText_1]];
+        if ([checkStr_1 isEqualToString:@""]) {
+            checkStr_1 = @"(blank)";
+        }
+        [self.stringArr_1 insertObject:checkStr_1 atIndex:i];
+    }
+    
+    //NSLog(@"Load The Data");
+    
     // Reload the table view.
     [self.tableView reloadData];
 }
@@ -467,27 +524,11 @@
 }
 
 -(void)cardEditingInfoWasFinished{
-    // Load the first Data
-    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo"];
-    self.cardTextSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryText]];
-    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo"];
-    self.cardNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryNumber]];
-    
-    //cardText, cardNumber, textNumberを配列にinsert。resultsに使用。
-    self.cardText = [[NSMutableArray alloc] init];
-    self.cardText = [NSMutableArray array];
-    self.cardNumber = [[NSMutableArray alloc] init];
-    self.cardNumber = [NSMutableArray array];
-    for (int i = 0; i < self.cardNumberSearch.count; i++) {
-        [self.cardText insertObject:[self.cardTextSearch objectAtIndex:i] atIndex:i];
-        [self.cardNumber insertObject:[self.cardNumberSearch objectAtIndex:i] atIndex:i];
-    }
-    
-    // Create a mutable array to contain products for the search results table.
-    self.searchResults = [NSMutableArray arrayWithCapacity:[self.cardText count]];
-    
     // Reload the data.
     [self loadData];
+    
+    [self updateSearchResultsForSearchController:self.searchController];
+    NSLog(@"cardEditingInfoWasFinished_1 called");
 }
 
 - (void)didReceiveMemoryWarning {
