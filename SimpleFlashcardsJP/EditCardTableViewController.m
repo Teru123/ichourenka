@@ -36,14 +36,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    //viewが消える際にDelegate先のviewで変更したい値を与える。
+    // Delegate先のviewで変更した値を与える。通知しないとDelegate先にデータを渡せない。
     [self.editCardDelegate cardEditingInfoWasFinished];
-}
-
-//追加もしくは削除された後に動作する
-- (void)willMoveToParentViewController:(UIViewController *)parent
-{
-    
 }
 
 - (void)viewDidLoad {

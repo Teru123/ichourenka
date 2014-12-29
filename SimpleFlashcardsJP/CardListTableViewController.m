@@ -23,6 +23,7 @@
 @property (nonatomic, assign) int recordIDToEdit;
 @property (nonatomic, strong) CardText *dbCardText;
 @property (nonatomic, assign) int newCard;
+@property (nonatomic, assign) int flag;
 @property (nonatomic, strong) NSArray *cardTextInfo;
 @property (nonatomic, strong) NSArray *cardTextInfo_1;
 @property (nonatomic, strong) NSArray *CNInfo;
@@ -164,14 +165,19 @@
                 NSString *checkTheString = [NSString stringWithFormat:@"%@", [self.searchResults objectAtIndex:i]];
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"(" withString:@""];
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@")" withString:@""];
-                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@" " withString:@""];
+                //最初の文字までの不要なStringを削除する。
+                if ([checkTheString rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
+                    checkTheString = [checkTheString stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
+                }
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                //NSLog(@"%@", checkTheString);
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                //NSLog(@"-%@ %ld", checkTheString, checkTheString.length);
                 
                 // searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
                 self.CNInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryBlank]];
-                NSLog(@"count %ld", self.CNInfo.count);
+                NSLog(@"count %ld queryBlank %@", self.CNInfo.count, queryBlank);
+                
                 for (int k = 0; k < self.CNInfo.count; k++) {
                     NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.CNInfo objectAtIndex:k]];
                     
@@ -180,6 +186,7 @@
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    //checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     self.indexOfcardText = [checkNumber integerValue];
                     NSLog(@"%ld", self.indexOfcardText);
                     NSString *indexOfcardString = [NSString stringWithFormat:@"%ld", self.indexOfcardText];
@@ -197,11 +204,14 @@
                     // searchResultsのStringを渡す為に不要なStringを削除する。
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@")" withString:@""];
-                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    if ([checkTheStr rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
+                        checkTheStr = [checkTheStr stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
+                    }
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     
                     // Checking if a string is equal to "
-                    if ([checkTheStr isEqualToString:@"\"\""]) {
+                    if ([checkTheStr isEqualToString:@""]) {
                         checkTheStr = @"(blank)";
                     }
                     
@@ -217,13 +227,18 @@
                     // searchResultsのStringを渡す為に不要なStringを削除する。
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"(" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@")" withString:@""];
-                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    if ([checkTheStrOne rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
+                        checkTheStrOne = [checkTheStrOne stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
+                    }
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     
                     // Checking if a string is equal to "
-                    if ([checkTheStrOne isEqualToString:@"\"\""]) {
+                    if ([checkTheStrOne isEqualToString:@""]) {
                         checkTheStrOne = @"(blank)";
                     }
+                    
+                    //NSLog(@"count %ld checkTheStrOne%@", self.CNInfo.count, checkTheStrOne);
                     
                     //cell.textに表示する文字列をarrayに渡す。
                     [self.searchResultsString_1 addObject:checkTheStrOne];
@@ -246,8 +261,6 @@
         self.newCard = 1;
         vc.newCard = self.newCard;
         vc.searchCardDelegate = self;
-        
-        //NSLog(@"%@", vc.filenameData);
         
         [vc.tableView reloadData];
     }
@@ -290,7 +303,7 @@
     [self.searchResults removeAllObjects]; // First clear the filtered array.
     
     // NSCharacterSet, stringByTrimmingCharactersInSetでスペースだけでないかチェック。
-    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    //NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
     //Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
     NSString *confirmNumber;
@@ -299,7 +312,7 @@
         NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
         //NSLog(@"%@", checkNumber);
         if ((typeName == nil) || [checkString isEqualToString:typeName]) {
-            if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
+            //if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
                 NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
                 NSRange productNameRange = NSMakeRange(0, checkString.length);
                 NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
@@ -310,7 +323,7 @@
                         //NSLog(@"%@", confirmNumber);
                     }
                 }
-            }
+            
         }
     }
 }
