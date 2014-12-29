@@ -40,6 +40,12 @@
     [self.editCardDelegate cardEditingInfoWasFinished];
 }
 
+//追加もしくは削除された後に動作する
+- (void)willMoveToParentViewController:(UIViewController *)parent
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     

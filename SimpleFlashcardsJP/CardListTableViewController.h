@@ -10,7 +10,7 @@
 #import "EditCardTableViewController.h"
 #import "SearchResultsTableViewController.h"
 
-@interface CardListTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, EditCardTableViewControllerDelegate>
+@interface CardListTableViewController : UITableViewController<UITableViewDelegate, UITableViewDataSource, EditCardTableViewControllerDelegate, SearchResultsTableViewControllerDelegate>
 
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSMutableArray *cardText;

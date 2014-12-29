@@ -234,7 +234,7 @@
         <!--Card Table View Controller-->
         <scene sceneID="5hO-Gv-sjS">
             <objects>
-                <tableViewController id="xEm-yH-Rni" customClass="CardTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CardTableViewController" id="xEm-yH-Rni" customClass="CardTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="TIC-TU-ODy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

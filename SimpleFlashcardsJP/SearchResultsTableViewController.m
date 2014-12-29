@@ -31,6 +31,7 @@
 @property (nonatomic, strong) NSArray *arrCNInfo;
 @property (nonatomic, strong) NSArray *cardNumberInfo;
 @property (nonatomic, strong) NSMutableArray *cardNumber;
+@property (nonatomic, assign) NSInteger indexOfcardText;
 
 @end
 
@@ -92,8 +93,10 @@
     // Reload the data.
     [self loadData];
     
+    [self.searchCardDelegate searchEditingInfoWasFinished];
+
+    self.searchController = [[UISearchController alloc]initWithSearchResultsController:nil];
     [self updateSearchResultsForSearchController:self.searchController];
-    [self.tableView numberOfRowsInSection:self.searchResults.count];
     NSLog(@"count %ld", self.searchResults.count);
     [self.tableView reloadData];
     NSLog(@"cardEditingInfoWasFinished_2 called");
@@ -189,7 +192,7 @@
     
     if (self.searchController.searchResultsController) {
         
-        if (![searchString isEqualToString:@""] && self.searchResults.count != 0) {
+        if (![searchString isEqualToString:@""] && self.searchResults.count) {
             
             // NSMutableArrayを初期化。
             self.searchResultsString = [[NSMutableArray alloc] init];
@@ -211,63 +214,69 @@
                 // searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
                 self.CNInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryBlank]];
-                NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.CNInfo objectAtIndex:0]];
-                
-                // searchResultsのカード番号を渡す為に不要なStringを削除する。
-                checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
-                checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
-                checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
-                checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                NSInteger indexOfcardText = [checkNumber integerValue];
-                NSLog(@"%ld", indexOfcardText);
-                NSString *indexOfcardString = [NSString stringWithFormat:@"%ld", indexOfcardText];
-                
-                //cardNumberをarrayに渡す。
-                [self.searchResultsNumber addObject:indexOfcardString];
-                
-                // searchResultsのカード番号とtextNumber0の値を取得。
-                NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", indexOfcardText, 0];
-                self.CTInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
-                // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
-                NSString *checkTheStr = [NSString stringWithFormat:@"%@", [self.CTInfo objectAtIndex:0]];
-                
-                // searchResultsのStringを渡す為に不要なStringを削除する。
-                checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
-                checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@")" withString:@""];
-                checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-                checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                
-                // Checking if a string is equal to "
-                if ([checkTheStr isEqualToString:@"\"\""]) {
-                    checkTheStr = @"(blank)";
+                NSLog(@"count %ld", self.CNInfo.count);
+                for (int k = 0; k < self.CNInfo.count; k++) {
+                    NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.CNInfo objectAtIndex:k]];
+                    
+                    // searchResultsのカード番号を渡す為に不要なStringを削除する。
+                    checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                    checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+                    checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    self.indexOfcardText = [checkNumber integerValue];
+                    NSLog(@"%ld", self.indexOfcardText);
+                    NSString *indexOfcardString = [NSString stringWithFormat:@"%ld", self.indexOfcardText];
+                    
+                    //cardNumberをarrayに渡す。
+                    [self.searchResultsNumber addObject:indexOfcardString];
+                    
+                    
+                    // searchResultsのカード番号とtextNumber0の値を取得。
+                    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 0];
+                    self.CTInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
+                    // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
+                    NSString *checkTheStr = [NSString stringWithFormat:@"%@", [self.CTInfo objectAtIndex:0]];
+                    
+                    // searchResultsのStringを渡す為に不要なStringを削除する。
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@")" withString:@""];
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    
+                    // Checking if a string is equal to "
+                    if ([checkTheStr isEqualToString:@"\"\""]) {
+                        checkTheStr = @"(blank)";
+                    }
+                    
+                    //cell.textに表示する文字列をarrayに渡す。
+                    [self.searchResultsString addObject:checkTheStr];
+                    
+                    // searchResultsのカード番号とtextNumber1の値を取得。
+                    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 1];
+                    self.CTInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
+                    // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
+                    NSString *checkTheStrOne = [NSString stringWithFormat:@"%@", [self.CTInfo_1 objectAtIndex:0]];
+                    
+                    // searchResultsのStringを渡す為に不要なStringを削除する。
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@")" withString:@""];
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@" " withString:@""];
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    
+                    // Checking if a string is equal to "
+                    if ([checkTheStrOne isEqualToString:@"\"\""]) {
+                        checkTheStrOne = @"(blank)";
+                    }
+                    
+                    //cell.textに表示する文字列をarrayに渡す。
+                    [self.searchResultsString_1 addObject:checkTheStrOne];
+                    
+                    NSLog(@"searchResultsNumber %@", [self.searchResultsNumber objectAtIndex:i]);
+                    
                 }
-                
-                //cell.textに表示する文字列をarrayに渡す。
-                [self.searchResultsString addObject:checkTheStr];
-                
-                // searchResultsのカード番号とtextNumber1の値を取得。
-                NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", indexOfcardText, 1];
-                self.CTInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
-                // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
-                NSString *checkTheStrOne = [NSString stringWithFormat:@"%@", [self.CTInfo_1 objectAtIndex:0]];
-                
-                // searchResultsのStringを渡す為に不要なStringを削除する。
-                checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"(" withString:@""];
-                checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@")" withString:@""];
-                checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@" " withString:@""];
-                checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                
-                // Checking if a string is equal to "
-                if ([checkTheStrOne isEqualToString:@"\"\""]) {
-                    checkTheStrOne = @"(blank)";
-                }
-                
-                //cell.textに表示する文字列をarrayに渡す。
-                [self.searchResultsString_1 addObject:checkTheStrOne];
-                
-                NSLog(@"%@", [self.searchResultsNumber objectAtIndex:i]);
             }
         }
+        [self.tableView reloadData];
     }
 }
 
@@ -285,7 +294,7 @@
     if ([name length] == 0) {
         // If there is no search string and the scope is "All".
         if (typeName == nil) {
-            self.searchResults = [self.cardText mutableCopy];
+            //self.searchResults = [self.cardText mutableCopy];
         } else {
             // If there is no search string and the scope is chosen.
             NSMutableArray *searchResults = [[NSMutableArray alloc] init];
