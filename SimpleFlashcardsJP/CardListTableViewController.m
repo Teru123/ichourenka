@@ -169,9 +169,11 @@
                 if ([checkTheString rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
                     checkTheString = [checkTheString stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
                 }
-                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                //最後列の改行だけを削除する。
+                checkTheString = [checkTheString stringByReplacingCharactersInRange:NSMakeRange(checkTheString.length - 1, 1) withString:@""];
+                //Stringに変わった改行を改行と認識させる。
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-                //NSLog(@"-%@ %ld", checkTheString, checkTheString.length);
                 
                 // searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
@@ -186,9 +188,9 @@
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                    //checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                    //checkNumberをqueryとして認識させる為にintegerにする。
                     self.indexOfcardText = [checkNumber integerValue];
-                    NSLog(@"%ld", self.indexOfcardText);
+                    //checkNumberをstringにする。
                     NSString *indexOfcardString = [NSString stringWithFormat:@"%ld", self.indexOfcardText];
                     
                     //cardNumberをarrayに渡す。
@@ -209,6 +211,7 @@
                     }
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                     
                     // Checking if a string is equal to "
                     if ([checkTheStr isEqualToString:@""]) {
@@ -232,6 +235,7 @@
                     }
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                     
                     // Checking if a string is equal to "
                     if ([checkTheStrOne isEqualToString:@""]) {
@@ -558,6 +562,7 @@
     [self loadData];
     
     [self updateSearchResultsForSearchController:self.searchController];
+    [self.searchController.searchBar becomeFirstResponder];
     NSLog(@"searchEditingInfoWasFinished called");
 }
 
