@@ -40,6 +40,7 @@
 @property (nonatomic, strong) NSMutableArray *searchResultsString_1;
 @property (nonatomic, strong) NSMutableArray *searchResultsNumber;
 @property (nonatomic, assign) NSInteger indexOfcardText;
+@property (nonatomic, strong) NSString *languageText;
 
 -(void)loadData;
 
@@ -174,6 +175,8 @@
                 //Stringに変わった改行を改行と認識させる。
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                //言語判定。
+                [self languageForString:checkTheString];
                 
                 // searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
@@ -314,8 +317,8 @@
     for (int i = 0; i < self.cardText.count; i++) {
         NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
         NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
-        //NSLog(@"%@", checkNumber);
-        if ((typeName == nil) || [checkString isEqualToString:typeName]) {
+        NSLog(@"%@, %@", checkString, typeName);
+        if ((typeName == nil) || [self.languageText isEqualToString:typeName]) {
             //if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
                 NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
                 NSRange productNameRange = NSMakeRange(0, checkString.length);
@@ -329,6 +332,24 @@
                 }
             
         }
+    }
+}
+
+- (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSLog(@"%@",text);
+    self.languageText = text;
+    return YES;
+}
+
+- (NSString *)languageForString:(NSString *) text{
+    
+    if (text.length < 100) {
+        
+        return (NSString *)CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, text.length)));
+    } else {
+        
+        return (NSString *)CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, 100)));
     }
 }
 
