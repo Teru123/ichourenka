@@ -10,6 +10,7 @@
 #import "EditCardTableViewController.h"
 #import "CardListTableViewCell.h"
 #import "SearchResultsTableViewController.h"
+#import "MultibyteDescription.h"
 #import "CardNumber.h"
 #import "CardText.h"
 
@@ -40,7 +41,6 @@
 @property (nonatomic, strong) NSMutableArray *searchResultsString_1;
 @property (nonatomic, strong) NSMutableArray *searchResultsNumber;
 @property (nonatomic, assign) NSInteger indexOfcardText;
-@property (nonatomic, strong) NSString *languageText;
 
 -(void)loadData;
 
@@ -80,6 +80,10 @@
         }
         [self.stringArr_1 insertObject:checkStr_1 atIndex:i];
     }
+    
+    self.tableView.rowHeight = 44;
+    
+    [MultibyteDescription install];
 }
 
 - (void)viewDidLoad {
@@ -175,8 +179,9 @@
                 //Stringに変わった改行を改行と認識させる。
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                
                 //言語判定。
-                [self languageForString:checkTheString];
+                //[self languageForString:checkTheString];
                 
                 // searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
@@ -317,8 +322,8 @@
     for (int i = 0; i < self.cardText.count; i++) {
         NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
         NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
-        NSLog(@"%@, %@", checkString, typeName);
-        if ((typeName == nil) || [self.languageText isEqualToString:typeName]) {
+        //NSLog(@"%@, %@", checkString, typeName);
+        if ((typeName == nil) || [checkString isEqualToString:typeName]) {
             //if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
                 NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
                 NSRange productNameRange = NSMakeRange(0, checkString.length);
@@ -335,9 +340,10 @@
     }
 }
 
+/*
 - (BOOL)searchBar:(UISearchBar *)searchBar shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"%@",text);
+    //NSLog(@"%@",text);
     self.languageText = text;
     return YES;
 }
@@ -351,7 +357,7 @@
         
         return (NSString *)CFBridgingRelease(CFStringTokenizerCopyBestStringLanguage((CFStringRef)text, CFRangeMake(0, 100)));
     }
-}
+}*/
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

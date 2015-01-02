@@ -32,6 +32,8 @@
     [super viewWillAppear:animated];
     NSLog(@"viewWillAppear called");
     
+    self.tableView.rowHeight = 44;
+    
     [self.tableView reloadData];
 }
 

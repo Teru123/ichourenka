@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD72C4E21A5652FD00B6FE4A /* MultibyteDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DD72C4E11A5652FD00B6FE4A /* MultibyteDescription.m */; };
 		DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */; };
 		DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */; };
 		DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */; };
@@ -57,6 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD72C4E01A5652FD00B6FE4A /* MultibyteDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultibyteDescription.h; sourceTree = "<group>"; };
+		DD72C4E11A5652FD00B6FE4A /* MultibyteDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultibyteDescription.m; sourceTree = "<group>"; };
 		DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTableViewController.h; sourceTree = "<group>"; };
 		DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTableViewController.m; sourceTree = "<group>"; };
 		DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardListTableViewCell.h; sourceTree = "<group>"; };
@@ -197,6 +200,8 @@
 		DDC1A6661A21D332003C7EC9 /* SimpleFlashcardsJP */ = {
 			isa = PBXGroup;
 			children = (
+				DD72C4E01A5652FD00B6FE4A /* MultibyteDescription.h */,
+				DD72C4E11A5652FD00B6FE4A /* MultibyteDescription.m */,
 				DDC1A66B1A21D332003C7EC9 /* AppDelegate.h */,
 				DDC1A66C1A21D332003C7EC9 /* AppDelegate.m */,
 				DDC1A6901A21D6B8003C7EC9 /* FlashcardsNavigationController.h */,
@@ -387,6 +392,7 @@
 				DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */,
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,
 				DDCCF75B1A3489BC00C6BA63 /* FilenameDB.m in Sources */,
+				DD72C4E21A5652FD00B6FE4A /* MultibyteDescription.m in Sources */,
 				DDB63BB91A2F0432005566D5 /* FolderDB.m in Sources */,
 				DD9BF61F1A49191900BCDDB8 /* SearchResultsTableViewController.m in Sources */,
 				DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */,
