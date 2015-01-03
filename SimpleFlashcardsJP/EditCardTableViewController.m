@@ -30,6 +30,7 @@
 
 -(void)loadInfoToEdit;
 -(void)justLoadInfo;
+- (void)setCellHeightAndCellText;
 
 @end
 
@@ -125,6 +126,36 @@
 }
 
 -(void)justLoadInfo{
+    [self setCellHeightAndCellText];
+}
+
+-(void)loadInfoToEdit{
+    
+    if (self.newCard == -1) {
+        //追加、編集するカード番号を保存。
+        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
+        // Execute the query.
+        [self.dbCardNumber executeQuery:queryForCardNumber];
+        
+        if (self.dbCardNumber.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
+        }else{
+            NSLog(@"Could not execute the query.");
+        }
+    }
+
+    [self setCellHeightAndCellText];
+    
+    if (self.newCard == -1) {
+        self.newCard = 1;
+    }
+    
+    //NSLog(@"newCard %d", self.newCard);
+    
+    [self.tableView reloadData];
+}
+
+- (void)setCellHeightAndCellText{
     // Form the query.
     for (int i = 0; i < 5; i++) {
         // Load the Data
@@ -143,243 +174,16 @@
             //NSLog(@"lines %ld text %ld", length, self.textOne.text.length);
             
             /*改行 new line を数える別の手段。
-            NSInteger lineNum = 0;
-            NSString *string = @"abcde\nfghijk\nlmnopq\nrstu";
-            NSInteger length = [string length];
-            NSRange range = NSMakeRange(0, length);
-            while (range.location < length) {
-                range = [string lineRangeForRange:NSMakeRange(range.location, 0)];
-                range.location = NSMaxRange(range);
-                lineNum += 1;
-            }
-            }*/
-            
-            if (length == 0) {
-                //cellの高さを指定。
-                self.customCellHeight = 44;
-            }else if (length == 1){
-                if (20 < self.textOne.text.length) {
-                    self.customCellHeight = 88;
-                }else{
-                    self.customCellHeight = 44;
-                }
-            }else if (length == 2){
-                if (45 < self.textOne.text.length) {
-                    self.customCellHeight = 100;
-                }else{
-                    self.customCellHeight = 88;
-                }
-            }else if (length == 3){
-                if (80 < self.textOne.text.length) {
-                    self.customCellHeight = 176;
-                }else{
-                    self.customCellHeight = 100;
-                }
-            }else if (length > 3){
-                self.customCellHeight = 176;
-            }
-            
-            //表示可能最大行数を指定する。= 3;　最大３行に指定。= 0;　無制限。
-             self.textOne.numberOfLines = 0;
-            //Resizes and moves the receiver view so it just encloses its subviews.
-            [self.textOne sizeToFit];
-            
-        }else if (self.cardTextInfo.count && i == 1) {
-            self.textTwo.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
-            
-            //改行 new line を数える。
-            NSInteger length = [[self.textTwo.text  componentsSeparatedByCharactersInSet:
-                                 [NSCharacterSet newlineCharacterSet]] count];
-            //NSLog(@"lines %ld text %ld", length, self.textOne.text.length);
-            
-            if (length == 0) {
-                //cellの高さを指定。
-                self.customCellHeight_1 = 44;
-            }else if (length == 1){
-                if (20 < self.textTwo.text.length) {
-                    self.customCellHeight_1 = 88;
-                }else{
-                    self.customCellHeight_1 = 44;
-                }
-            }else if (length == 2){
-                if (45 < self.textTwo.text.length) {
-                    self.customCellHeight_1 = 100;
-                }else{
-                    self.customCellHeight_1 = 88;
-                }
-            }else if (length == 3){
-                if (80 < self.textTwo.text.length) {
-                    self.customCellHeight_1 = 176;
-                }else{
-                    self.customCellHeight_1 = 100;
-                }
-            }else if (length > 3){
-                self.customCellHeight_1 = 176;
-            }
-            
-            //表示可能最大行数を指定する。= 3;　最大３行に指定。= 0;　無制限。
-            self.textTwo.numberOfLines = 0;
-            //Resizes and moves the receiver view so it just encloses its subviews.
-            [self.textTwo sizeToFit];
-            
-        }else if (self.cardTextInfo.count && i == 2) {
-            self.textThree.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
-            
-            //改行 new line を数える。
-            NSInteger length = [[self.textThree.text  componentsSeparatedByCharactersInSet:
-                                 [NSCharacterSet newlineCharacterSet]] count];
-            //NSLog(@"lines %ld text %ld", length, self.textOne.text.length);
-            
-            if (length == 0) {
-                //cellの高さを指定。
-                self.customCellHeight_2 = 44;
-            }else if (length == 1){
-                if (20 < self.textThree.text.length) {
-                    self.customCellHeight_2 = 88;
-                }else{
-                    self.customCellHeight_2 = 44;
-                }
-            }else if (length == 2){
-                if (45 < self.textThree.text.length) {
-                    self.customCellHeight_2 = 100;
-                }else{
-                    self.customCellHeight_2 = 88;
-                }
-            }else if (length == 3){
-                if (80 < self.textThree.text.length) {
-                    self.customCellHeight_2 = 176;
-                }else{
-                    self.customCellHeight_2 = 100;
-                }
-            }else if (length > 3){
-                self.customCellHeight_2 = 176;
-            }
-            
-            //表示可能最大行数を指定する。= 3;　最大３行に指定。= 0;　無制限。
-            self.textThree.numberOfLines = 0;
-            //Resizes and moves the receiver view so it just encloses its subviews.
-            [self.textThree sizeToFit];
-            
-        }else if (self.cardTextInfo.count && i == 3) {
-            self.textFour.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
-            
-            //改行 new line を数える。
-            NSInteger length = [[self.textFour.text  componentsSeparatedByCharactersInSet:
-                                 [NSCharacterSet newlineCharacterSet]] count];
-            //NSLog(@"lines %ld text %ld", length, self.textOne.text.length);
-            
-            if (length == 0) {
-                //cellの高さを指定。
-                self.customCellHeight_3 = 44;
-            }else if (length == 1){
-                if (20 < self.textFour.text.length) {
-                    self.customCellHeight_3 = 88;
-                }else{
-                    self.customCellHeight_3 = 44;
-                }
-            }else if (length == 2){
-                if (45 < self.textFour.text.length) {
-                    self.customCellHeight_3 = 100;
-                }else{
-                    self.customCellHeight_3 = 88;
-                }
-            }else if (length == 3){
-                if (80 < self.textFour.text.length) {
-                    self.customCellHeight_3 = 176;
-                }else{
-                    self.customCellHeight_3 = 100;
-                }
-            }else if (length > 3){
-                self.customCellHeight_3 = 176;
-            }
-            
-            //表示可能最大行数を指定する。= 3;　最大３行に指定。= 0;　無制限。
-            self.textFour.numberOfLines = 0;
-            //Resizes and moves the receiver view so it just encloses its subviews.
-            [self.textFour sizeToFit];
-            
-        }else if (self.cardTextInfo.count && i == 4) {
-            self.textFive.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
-            
-            //改行 new line を数える。
-            NSInteger length = [[self.textFive.text  componentsSeparatedByCharactersInSet:
-                                 [NSCharacterSet newlineCharacterSet]] count];
-            //NSLog(@"lines %ld text %ld", length, self.textOne.text.length);
-            
-            if (length == 0) {
-                //cellの高さを指定。
-                self.customCellHeight_4 = 44;
-            }else if (length == 1){
-                if (20 < self.textFive.text.length) {
-                    self.customCellHeight_4 = 88;
-                }else{
-                    self.customCellHeight_4 = 44;
-                }
-            }else if (length == 2){
-                if (45 < self.textFive.text.length) {
-                    self.customCellHeight_4 = 100;
-                }else{
-                    self.customCellHeight_4 = 88;
-                }
-            }else if (length == 3){
-                if (80 < self.textFive.text.length) {
-                    self.customCellHeight_4 = 176;
-                }else{
-                    self.customCellHeight_4 = 100;
-                }
-            }else if (length > 3){
-                self.customCellHeight_4 = 176;
-            }
-            
-            //表示可能最大行数を指定する。= 3;　最大３行に指定。= 0;　無制限。
-            self.textFive.numberOfLines = 0;
-            //Resizes and moves the receiver view so it just encloses its subviews.
-            [self.textFive sizeToFit];
-            
-        }else if (self.cardTextInfo.count == 0 && i == 0) {
-            self.textOne.text = @"";
-        }else if (self.cardTextInfo.count == 0 && i == 1) {
-            self.textTwo.text = @"";
-        }else if (self.cardTextInfo.count == 0 && i == 2) {
-            self.textThree.text = @"";
-        }else if (self.cardTextInfo.count == 0 && i == 3) {
-            self.textFour.text = @"";
-        }else if (self.cardTextInfo.count == 0 && i == 4) {
-            self.textFive.text = @"";
-        }
-    }
-}
-
--(void)loadInfoToEdit{
-    
-    if (self.newCard == -1) {
-        //追加、編集するカード番号を保存。
-        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
-        // Execute the query.
-        [self.dbCardNumber executeQuery:queryForCardNumber];
-        
-        if (self.dbCardNumber.affectedRows != 0) {
-            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
-        }else{
-            NSLog(@"Could not execute the query.");
-        }
-    }
-
-    // Form the query.
-    for (int i = 0; i < 5; i++) {
-        // Load the Data
-        NSString *query = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %d AND textNumber = %d", self.recordIDToEdit, i];
-        self.cardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:query]];
-        //NSLog(@"count %ld", self.cardTextInfo.count);
-        
-        // Set the loaded data to the textfields.
-        if (self.cardTextInfo.count && i == 0) {
-            self.textOne.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
-            
-            //改行 new line を数える。
-            NSInteger length = [[self.textOne.text  componentsSeparatedByCharactersInSet:
-                                 [NSCharacterSet newlineCharacterSet]] count];
-            //NSLog(@"lines %ld text %ld", length, self.textOne.text.length);
+             NSInteger lineNum = 0;
+             NSString *string = @"abcde\nfghijk\nlmnopq\nrstu";
+             NSInteger length = [string length];
+             NSRange range = NSMakeRange(0, length);
+             while (range.location < length) {
+             range = [string lineRangeForRange:NSMakeRange(range.location, 0)];
+             range.location = NSMaxRange(range);
+             lineNum += 1;
+             }
+             }*/
             
             if (length == 0) {
                 //cellの高さを指定。
@@ -410,9 +214,8 @@
             self.textOne.numberOfLines = 0;
             //Resizes and moves the receiver view so it just encloses its subviews.
             [self.textOne sizeToFit];
-        }else if (self.cardTextInfo.count && i == 1) {
-            self.textTwo.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
+        }else if (self.cardTextInfo.count && i == 1) {
             self.textTwo.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
             //改行 new line を数える。
@@ -449,9 +252,8 @@
             self.textTwo.numberOfLines = 0;
             //Resizes and moves the receiver view so it just encloses its subviews.
             [self.textTwo sizeToFit];
-        }else if (self.cardTextInfo.count && i == 2) {
-            self.textThree.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
+        }else if (self.cardTextInfo.count && i == 2) {
             self.textThree.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
             //改行 new line を数える。
@@ -488,6 +290,7 @@
             self.textThree.numberOfLines = 0;
             //Resizes and moves the receiver view so it just encloses its subviews.
             [self.textThree sizeToFit];
+            
         }else if (self.cardTextInfo.count && i == 3) {
             self.textFour.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
@@ -525,9 +328,8 @@
             self.textFour.numberOfLines = 0;
             //Resizes and moves the receiver view so it just encloses its subviews.
             [self.textFour sizeToFit];
-        }else if (self.cardTextInfo.count && i == 4) {
-            self.textFive.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
+        }else if (self.cardTextInfo.count && i == 4) {
             self.textFive.text = [[self.cardTextInfo objectAtIndex:0] objectAtIndex:[self.cardTextManager.arrColumnNames indexOfObject:@"cardText"]];
             
             //改行 new line を数える。
@@ -564,6 +366,7 @@
             self.textFive.numberOfLines = 0;
             //Resizes and moves the receiver view so it just encloses its subviews.
             [self.textFive sizeToFit];
+            
         }else if (self.cardTextInfo.count == 0 && i == 0) {
             self.textOne.text = @"";
         }else if (self.cardTextInfo.count == 0 && i == 1) {
@@ -576,14 +379,6 @@
             self.textFive.text = @"";
         }
     }
-    
-    if (self.newCard == -1) {
-        self.newCard = 1;
-    }
-    
-    //NSLog(@"newCard %d", self.newCard);
-    
-    [self.tableView reloadData];
 }
 
 -(void)editingCardTextInfoWasFinished{

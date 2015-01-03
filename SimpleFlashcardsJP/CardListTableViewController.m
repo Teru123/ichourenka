@@ -41,6 +41,7 @@
 @property (nonatomic, strong) NSMutableArray *searchResultsString_1;
 @property (nonatomic, strong) NSMutableArray *searchResultsNumber;
 @property (nonatomic, assign) NSInteger indexOfcardText;
+@property (nonatomic, strong) NSMutableArray *confirmNumber;
 
 -(void)loadData;
 
@@ -108,7 +109,7 @@
     NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo"];
     self.cardNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryNumber]];
     
-    //cardText, cardNumberを配列にinsert。resultsに使用。
+    //cardText, cardNumberを初期化、配列にinsert。resultsに使用。
     self.cardText = [[NSMutableArray alloc] init];
     self.cardText = [NSMutableArray array];
     self.cardNumber = [[NSMutableArray alloc] init];
@@ -186,7 +187,7 @@
                 // searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
                 self.CNInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryBlank]];
-                NSLog(@"count %ld queryBlank %@", self.CNInfo.count, queryBlank);
+                //NSLog(@"count %ld queryBlank %@", self.CNInfo.count, queryBlank);
                 
                 for (int k = 0; k < self.CNInfo.count; k++) {
                     NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.CNInfo objectAtIndex:k]];
@@ -255,7 +256,7 @@
                     //cell.textに表示する文字列をarrayに渡す。
                     [self.searchResultsString_1 addObject:checkTheStrOne];
                     
-                    NSLog(@"searchResultsNumber %@", [self.searchResultsNumber objectAtIndex:i]);
+                    //NSLog(@"searchResultsNumber %@", [self.searchResultsNumber objectAtIndex:i]);
                     
                     vc.newSearch = 1;
                 }
@@ -318,21 +319,33 @@
     //NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
     //Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
-    NSString *confirmNumber;
+    //配列を初期化。
+    self.confirmNumber = [[NSMutableArray alloc] init];
+    self.confirmNumber = [NSMutableArray array];
+    
     for (int i = 0; i < self.cardText.count; i++) {
         NSString *checkString = [NSString stringWithFormat:@"%@", [self.cardText objectAtIndex:i]];
         NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
-        //NSLog(@"%@, %@", checkString, typeName);
+        //NSLog(@"checkNumber %@", checkNumber);
         if ((typeName == nil) || [checkString isEqualToString:typeName]) {
             //if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
                 NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
                 NSRange productNameRange = NSMakeRange(0, checkString.length);
                 NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
                 if (foundRange.length > 0) {
-                    if (![confirmNumber isEqualToString:checkNumber] || confirmNumber == nil) {
+                    if (self.confirmNumber.count) {
+                        for (int k = 0; k < self.confirmNumber.count; k++) {
+                            //confirmNumberにcheckNumberが含まれているかチェック。
+                            if (![self.confirmNumber containsObject:checkNumber]) {
+                                [self.searchResults addObject:checkString];
+                                [self.confirmNumber addObject:checkNumber];
+                                NSLog(@"checkNumber %@ count %ld", checkNumber, self.confirmNumber.count);
+                            }
+                        }
+                    }else if (self.confirmNumber.count == 0){
                         [self.searchResults addObject:checkString];
-                        confirmNumber = checkNumber;
-                        //NSLog(@"%@", confirmNumber);
+                        [self.confirmNumber addObject:checkNumber];
+                        //NSLog(@"checkNumber %@ count %ld", checkNumber, self.confirmNumber.count);
                     }
                 }
             
