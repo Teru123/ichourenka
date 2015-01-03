@@ -9,6 +9,7 @@
 #import "CardTableViewController.h"
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
+#import "CardRootViewController.h"
 
 @interface CardTableViewController ()
 
@@ -18,6 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     //AddFileTableViewからCardListTableViewControllerに直接遷移阻止。editCardsOrNotのStringで判断。
     if (![self.editCardsOrNot isEqualToString:@"CardListTableViewController"]) {
         [self performSegueWithIdentifier:@"CardListTableViewController" sender:self];
@@ -39,6 +41,9 @@
 }
 
 /*
+ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+ }
+ 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardTableViewCell" forIndexPath:indexPath];
     
