@@ -135,7 +135,7 @@
     // Need to set dimsBackgroundDuringPresentation to NO since the search results are presented on the same table view controller.
     self.searchController.dimsBackgroundDuringPresentation = NO;
     
-    NSLog(@"searchResults %ld", self.cardText.count);
+    //NSLog(@"searchResults %ld", self.cardText.count);
     
     // Load the data.
     [self loadData];

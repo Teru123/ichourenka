@@ -33,7 +33,7 @@
     
     //set bounds of the textview
     self.cardText.bounds = [self editingRectForBounds:self.cardText.bounds];
-    //改行するとずれるのでInsetの初期設定を調整
+    //TextViewは改行するとずれるのでInsetの初期設定を調整
     self.cardText.contentInset = UIEdgeInsetsMake(-10,-5,0,0);
 }
 

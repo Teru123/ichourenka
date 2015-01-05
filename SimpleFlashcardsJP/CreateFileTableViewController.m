@@ -76,8 +76,10 @@
     // Get the results.
     if (self.folderInfo.count != 0) {
         self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
+        //arrColumnNamesでfoldernameのindexを取得。
         NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-        _fileName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+        //foldernameの0番目の値を取得。
+        self.fileName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
     }
     //NSLog(@"%@", self.foldernameData);
     

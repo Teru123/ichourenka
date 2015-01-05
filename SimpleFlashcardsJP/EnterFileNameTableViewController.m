@@ -23,6 +23,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [self.filenameText becomeFirstResponder];
 }
 
@@ -31,7 +32,7 @@
     
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.filenameText.delegate = self;
-    // Initialize the dbManager object.
+
     //set bounds of the textfield
     self.filenameText.bounds = [self editingRectForBounds:self.filenameText.bounds];
     
@@ -84,6 +85,7 @@
     
     // Pop the view controller.
     [self.navigationController popViewControllerAnimated:YES];
+    
     return YES;
 }
 

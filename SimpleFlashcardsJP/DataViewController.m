@@ -3,10 +3,11 @@
 //  SimpleFlashcardsJP
 //
 //  Created by Teru on 2015/01/03.
-//  Copyright (c) 2015年 Self. All rights reserved.
+//  CopyDown (c) 2015年 Self. All Downs reserved.
 //
 
 #import "DataViewController.h"
+#import "CardTableViewController.h"
 
 @interface DataViewController ()
 
@@ -17,6 +18,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self.backView addSubview:_backButton];
+    [self.backView addSubview:_textView];
+    [self.backView addSubview:_gearButton];
+    [self.backView addSubview:_stopButton];
+    [self.backView addSubview:_playButton];
+    [self.backView addSubview:_pauseButton];
+    [self.backView addSubview:_moveButton];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,14 +38,11 @@
     //self.dataLabel.text = [self.dataObject description];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)backAction:(id)sender {
+    // 隠していたNavBarを表示。
+    [self.navigationController setNavigationBarHidden:NO];
+    // コードからNavのBackボタンタップで前画面に戻る。
+    [self.navigationController popViewControllerAnimated:YES];
 }
-*/
 
 @end

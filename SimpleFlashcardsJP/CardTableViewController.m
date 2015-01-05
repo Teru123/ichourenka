@@ -10,8 +10,13 @@
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
 #import "CardRootViewController.h"
+#import "FilenameDB.h"
+
 
 @interface CardTableViewController ()
+
+@property (nonatomic, strong) FilenameDB *dbFileManager;
+@property (nonatomic, strong) NSArray *updatedFilename;
 
 @end
 
@@ -20,19 +25,75 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    //filename取得。
+    self.filenameLabel.text = self.filenameData;
+    
     //AddFileTableViewからCardListTableViewControllerに直接遷移阻止。editCardsOrNotのStringで判断。
     if (![self.editCardsOrNot isEqualToString:@"CardListTableViewController"]) {
         [self performSegueWithIdentifier:@"CardListTableViewController" sender:self];
+        
     }
     
     //NSLog(@"filenameData %@", self.filenameData);
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [self.delegate editingFileInfoWasFinished];
+    NSLog(@"called");
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"CardListTableViewController"]) {
         CardListTableViewController *listView = [segue destinationViewController];
         listView.filenameData = self.filenameData;
+    }else if([[segue identifier] isEqualToString:@"ChangeFilenameTableViewController"]){
+        ChangeFilenameTableViewController *changeFilenameViewController = [segue destinationViewController];
+        
+        if (self.fixedFilename != nil) {
+            changeFilenameViewController.filenameData = self.fixedFilename;
+        }else{
+            changeFilenameViewController.filenameData = self.filenameData;
+        }
+        
+        changeFilenameViewController.foldernameData = self.foldernameData;
+        changeFilenameViewController.delegate = self;
     }
+}
+
+-(void)editingFileInfoWasFinished{
+    // Reload the data.
+    [self loadData];
+}
+
+-(void)loadData{
+    //FileDB初期化。
+    self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+    NSString *queryLoad = [NSString stringWithFormat:@"select filename from filenameInfo where foldername = '%@' ", self.foldernameData];
+    
+    //arrColumnNamesでfoldernameのindexを取得。
+    //NSInteger indexOfFoldername = [self.dbFileManager.arrColumnNames indexOfObject:@"foldername"];
+    
+    //データを読み込んで配列に追加。
+    self.updatedFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
+    
+    self.fixedFilename = [NSString stringWithFormat:@"%@", [self.updatedFilename objectAtIndex:0]];
+    
+    // searchResultsのデータを渡す為に不要なStringを削除する。
+    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@")" withString:@""];
+    //最初の文字までの不要なStringを削除する。
+    if ([self.fixedFilename rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
+        self.fixedFilename = [self.fixedFilename stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
+    }
+    //最後列の改行だけを削除する。
+    self.fixedFilename = [self.fixedFilename stringByReplacingCharactersInRange:NSMakeRange(self.fixedFilename.length - 1, 1) withString:@""];
+    //Stringに変わった改行を改行と認識させる。
+    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+    
+    NSLog(@"%@", self.fixedFilename);
+    
+    self.filenameLabel.text = [NSString stringWithFormat:@"%@", self.fixedFilename];
 }
 
 - (void)didReceiveMemoryWarning {

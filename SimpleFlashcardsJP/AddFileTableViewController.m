@@ -87,9 +87,13 @@
         fileView.fileDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"AddToEditCards"]){
         CardTableViewController *editCards = [segue destinationViewController];
+        
         //CardListTableViewControllerに遷移させないようにeditCardsOrNotを設定。
         editCards.editCardsOrNot = @"CardListTableViewController";
+        
         editCards.filenameData = self.cellText;
+        editCards.foldernameData = self.foldernameData;
+        editCards.delegate = self;
     }
 }
 
@@ -131,6 +135,7 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     self.cellText = cell.textLabel.text;
+
     return indexPath;
 }
 
