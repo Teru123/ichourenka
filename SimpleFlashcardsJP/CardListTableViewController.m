@@ -218,12 +218,12 @@
                     if ([checkTheStr rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
                         checkTheStr = [checkTheStr stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
                     }
-                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    //checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                     
                     // Checking if a string is equal to "
-                    if ([checkTheStr isEqualToString:@""]) {
+                    if ([checkTheStr isEqualToString:@"\n"]) {
                         checkTheStr = @"(blank)";
                     }
                     
@@ -242,12 +242,12 @@
                     if ([checkTheStrOne rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
                         checkTheStrOne = [checkTheStrOne stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
                     }
-                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    //checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                     
                     // Checking if a string is equal to "
-                    if ([checkTheStrOne isEqualToString:@""]) {
+                    if ([checkTheStrOne isEqualToString:@"\n"]) {
                         checkTheStrOne = @"(blank)";
                     }
                     

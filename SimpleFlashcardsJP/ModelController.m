@@ -8,6 +8,8 @@
 
 #import "ModelController.h"
 #import "DataViewController.h"
+#import "CardText.h"
+#import "CardNumber.h"
 
 /*
  A controller object that manages a simple model -- a collection of month names.
@@ -21,7 +23,12 @@
 
 @interface ModelController ()
 
-@property (readonly, strong, nonatomic) NSArray *pageData;
+@property (nonatomic, strong) NSArray *pageData;
+@property (nonatomic, strong) NSArray *cardTextData;
+@property (nonatomic, strong) CardText *cardTextManager;
+@property (nonatomic, strong) CardNumber *dbCardNumber;
+@property (nonatomic, strong) NSArray *dbCardTextInfo;
+@property (nonatomic, strong) NSArray *dbCardNumberInfo;
 
 @end
 
@@ -30,9 +37,24 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
+        // Initialize the dbManager object.
+        self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+        self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+        
+        //クエリー作成。
+        NSString *queryLoad = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo"];
+        NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo"];
+       
+        //データを読み込んで配列に追加。
+        self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoad]];
+        self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCT]];
+        
         // Create the data model.
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        _pageData = [[dateFormatter monthSymbols] copy];
+        self.pageData = self.dbCardNumberInfo;
+        self.cardTextData = self.dbCardTextInfo;
+        
+        //NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //_pageData = [[dateFormatter monthSymbols] copy];
     }
     return self;
 }
@@ -46,6 +68,7 @@
     // Create a new view controller and pass suitable data.
     DataViewController *dataViewController = [storyboard instantiateViewControllerWithIdentifier:@"DataViewController"];
     dataViewController.dataObject = self.pageData[index];
+    NSLog(@"%ld", index);
     return dataViewController;
 }
 

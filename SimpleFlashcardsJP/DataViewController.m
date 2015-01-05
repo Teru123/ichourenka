@@ -35,6 +35,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    //self.textView.text = self.dataObject;
     //self.dataLabel.text = [self.dataObject description];
 }
 

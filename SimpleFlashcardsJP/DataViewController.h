@@ -10,7 +10,7 @@
 
 @interface DataViewController : UIViewController <UITextViewDelegate>
 
-@property (strong, nonatomic) id dataObject;
+@property (nonatomic, strong) id dataObject;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *gearButton;

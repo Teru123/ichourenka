@@ -39,13 +39,15 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [self.delegate editingFileInfoWasFinished];
-    NSLog(@"called");
+    //NSLog(@"called");
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"CardListTableViewController"]) {
         CardListTableViewController *listView = [segue destinationViewController];
         listView.filenameData = self.filenameData;
+        //NSLog(@"filename %@", listView.filenameData);
+        
     }else if([[segue identifier] isEqualToString:@"ChangeFilenameTableViewController"]){
         ChangeFilenameTableViewController *changeFilenameViewController = [segue destinationViewController];
         
@@ -94,6 +96,7 @@
     NSLog(@"%@", self.fixedFilename);
     
     self.filenameLabel.text = [NSString stringWithFormat:@"%@", self.fixedFilename];
+    self.filenameData = self.filenameLabel.text;
 }
 
 - (void)didReceiveMemoryWarning {

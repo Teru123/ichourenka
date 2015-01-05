@@ -18,6 +18,7 @@
 @interface SearchResultsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, EditCardTableViewControllerDelegate>
 
 @property (nonatomic, strong) id<SearchResultsTableViewControllerDelegate> searchCardDelegate;
+
 @property (nonatomic, strong) NSMutableArray *searchResults;// Filtered search results
 @property (nonatomic, strong) NSMutableArray *searchResultsString;
 @property (nonatomic, strong) NSMutableArray *searchResultsString_1;

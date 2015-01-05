@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ChangeFilenameTableViewController.h"
+#import "CardListTableViewController.h"
 
 @protocol CardTableViewControllerDelegate
 

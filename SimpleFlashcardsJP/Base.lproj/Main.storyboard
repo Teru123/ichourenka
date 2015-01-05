@@ -64,8 +64,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <textView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Folders can help organize large number of files. Folders only affect the listing of files." textAlignment="center" id="qcF-TO-KGn">
-                            <rect key="frame" x="0.0" y="197" width="320" height="50"/>
+                        <textView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="フォルダーはファイルをまとめて管理します。フォルダー作成後にファイルとそのカードを作成＆編集できます。" textAlignment="center" id="qcF-TO-KGn">
+                            <rect key="frame" x="0.0" y="197" width="320" height="67"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>

@@ -8,10 +8,15 @@
 
 #import "ChangeFilenameTableViewController.h"
 #import "FilenameDB.h"
+#import "CardText.h"
+#import "CardNumber.h"
 
 @interface ChangeFilenameTableViewController ()
 
 @property (nonatomic, strong) FilenameDB *dbFileManager;
+@property (nonatomic, strong) CardText *dbCTManager;
+@property (nonatomic, strong) CardNumber *dbCNManager;
+@property (nonatomic, strong) NSString *tempFilenameData;
 
 @end
 
@@ -22,11 +27,14 @@
     
     //FileDB初期化。
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+    self.dbCTManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    self.dbCNManager = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     
     //filename取得。
     if (self.filenameData != nil) {
         self.textField.text = self.filenameData;
     }
+    self.tempFilenameData = self.filenameData;
     
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.textField.delegate = self;
@@ -47,9 +55,19 @@
 }
 
 - (IBAction)saveAction:(id)sender {
-    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.foldernameData];
+    //クエリー作成。
+    NSString *queryUpdateCT = [NSString stringWithFormat:@"update cardTextInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
     // Execute the query.
+    [self.dbCTManager executeQuery:queryUpdateCT];
+    
+    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
+    // Execute the query.
+    [self.dbCNManager executeQuery:queryUpdateCN];
+    
+    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.foldernameData];
     [self.dbFileManager executeQuery:queryUpdate];
+
+    NSLog(@"tempfilename %@", self.tempFilenameData);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFileInfoWasFinished];
@@ -60,9 +78,19 @@
 
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.foldernameData];
+    //クエリー作成。
+    NSString *queryUpdateCT = [NSString stringWithFormat:@"update cardTextInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
     // Execute the query.
+    [self.dbCTManager executeQuery:queryUpdateCT];
+    
+    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
+    // Execute the query.
+    [self.dbCNManager executeQuery:queryUpdateCN];
+    
+    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.foldernameData];
     [self.dbFileManager executeQuery:queryUpdate];
+    
+    NSLog(@"tempfilename %@", self.tempFilenameData);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFileInfoWasFinished];

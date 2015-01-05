@@ -56,12 +56,16 @@
     //Load the Data.
     //Create the query.
     NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
-    // Get the results.
+    
+    //Get the results.
     if (self.cardNumberInfo != nil) {
         self.cardNumberInfo = nil;
     }
+    
     // Load the relevant data.
     self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
+    
+    NSLog(@"count %ld", self.cardNumberInfo.count);
     if (self.cardNumberInfo.count) {
         [self justLoadInfo];
     }
