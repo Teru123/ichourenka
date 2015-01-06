@@ -260,8 +260,8 @@
                                 <rect key="frame" x="16" y="20" width="288" height="463"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="L6Z-2i-m86">
-                                <rect key="frame" x="48" y="28" width="224" height="446"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="L6Z-2i-m86">
+                                <rect key="frame" x="48" y="28" width="224" height="420"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -286,61 +286,102 @@
                                 </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J7P-Bn-Kji">
-                                <rect key="frame" x="16" y="450" width="22" height="22"/>
+                                <rect key="frame" x="48" y="450" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="play" image="ios7-play.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="playAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="ggk-BK-TWr"/>
+                                </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BqF-mo-60O">
-                                <rect key="frame" x="16" y="450" width="22" height="22"/>
+                                <rect key="frame" x="48" y="450" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="pause" image="ios7-pause.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="pauseAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="5rP-7f-65g"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s7r-CC-x8v">
-                                <rect key="frame" x="280" y="450" width="22" height="22"/>
+                                <rect key="frame" x="185" y="450" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="move" image="arrow-big-11.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="movePageAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="PaO-Wa-s0O"/>
+                                </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h5g-wN-o1k">
-                                <rect key="frame" x="18" y="382" width="20" height="20"/>
+                                <rect key="frame" x="113" y="451" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="stop" image="stop.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="stopAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="xQh-F2-wfX"/>
+                                </connections>
                             </button>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="Olv-bf-Zxh">
                                 <rect key="frame" x="141" y="477" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </pageControl>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 of -" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KCS-OU-1Uj">
-                                <rect key="frame" x="18" y="485" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 of -" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="KCS-OU-1Uj">
+                                <rect key="frame" x="18" y="485" width="82" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MSH-cs-qIz">
-                                <rect key="frame" x="280" y="381" width="22" height="22"/>
+                                <rect key="frame" x="250" y="450" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" image="arrow-big-12.png">
+                                <state key="normal" title="CText" image="arrow-big-12.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="changeTextAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="88h-kw-fzh"/>
+                                </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" id="Wqb-gw-vDr">
+                                <rect key="frame" x="16" y="366" width="288" height="76"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <slider hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="k8A-71-meA">
+                                        <rect key="frame" x="26" y="23" width="190" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </slider>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ORc-o5-ged">
+                                        <rect key="frame" x="237" y="25" width="25" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="cross" image="cross.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="crossAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="Mtq-8Z-j8H"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.91372555494308472" green="0.96078437566757202" blue="0.97254908084869385" alpha="1" colorSpace="deviceRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
                         <outlet property="backButton" destination="CV3-nA-0aA" id="Diq-rC-WBl"/>
                         <outlet property="backView" destination="GKl-V3-2Qv" id="nPH-Ts-uzh"/>
+                        <outlet property="crossButton" destination="ORc-o5-ged" id="7B8-kj-zXS"/>
                         <outlet property="gearButton" destination="OJl-Mv-3KW" id="4Tf-np-bLb"/>
+                        <outlet property="horizontalView" destination="Wqb-gw-vDr" id="azA-8O-arJ"/>
                         <outlet property="moveButton" destination="s7r-CC-x8v" id="Bg6-kY-uRs"/>
+                        <outlet property="movePageSlider" destination="k8A-71-meA" id="Meq-fk-BdS"/>
+                        <outlet property="pageControl" destination="Olv-bf-Zxh" id="DQo-NG-szd"/>
+                        <outlet property="pageCountLabel" destination="KCS-OU-1Uj" id="8Jf-ZS-Psk"/>
                         <outlet property="pauseButton" destination="BqF-mo-60O" id="oN7-ZF-f43"/>
-                        <outlet property="playButton" destination="J7P-Bn-Kji" id="zyA-l3-wfy"/>
+                        <outlet property="playButton" destination="J7P-Bn-Kji" id="1Lk-ok-Zj3"/>
                         <outlet property="stopButton" destination="h5g-wN-o1k" id="VQB-U7-B8X"/>
                         <outlet property="textView" destination="L6Z-2i-m86" id="hVw-8p-Ssw"/>
                     </connections>
@@ -867,6 +908,7 @@
     <resources>
         <image name="arrow-big-11.png" width="30" height="30"/>
         <image name="arrow-big-12.png" width="30" height="30"/>
+        <image name="cross.png" width="30" height="30"/>
         <image name="gear.png" width="30" height="30"/>
         <image name="ios7-arrow-back.png" width="512" height="512"/>
         <image name="ios7-pause.png" width="512" height="512"/>

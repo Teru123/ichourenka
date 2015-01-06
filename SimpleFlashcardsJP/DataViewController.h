@@ -11,6 +11,9 @@
 @interface DataViewController : UIViewController <UITextViewDelegate>
 
 @property (nonatomic, strong) id dataObject;
+@property (nonatomic, assign) NSInteger pageIndex;
+@property (nonatomic, assign) int showMoveSlider;
+
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *gearButton;
@@ -19,6 +22,18 @@
 @property (weak, nonatomic) IBOutlet UIButton *moveButton;
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 @property (strong, nonatomic) IBOutlet UIView *backView;
+@property (weak, nonatomic) IBOutlet UILabel *pageCountLabel;
+@property (weak, nonatomic) IBOutlet UISlider *movePageSlider;
+@property (weak, nonatomic) IBOutlet UIView *horizontalView;
+@property (weak, nonatomic) IBOutlet UIButton *crossButton;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
 - (IBAction)backAction:(id)sender;
+- (IBAction)changeTextAction:(id)sender;
+- (IBAction)movePageAction:(id)sender;
+- (IBAction)crossAction:(id)sender;
+- (IBAction)playAction:(id)sender;
+- (IBAction)pauseAction:(id)sender;
+- (IBAction)stopAction:(id)sender;
 
 @end

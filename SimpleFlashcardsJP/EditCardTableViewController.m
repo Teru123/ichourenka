@@ -65,7 +65,7 @@
     // Load the relevant data.
     self.cardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryForCN]];
     
-    NSLog(@"count %ld", self.cardNumberInfo.count);
+    //NSLog(@"count %ld", self.cardNumberInfo.count);
     if (self.cardNumberInfo.count) {
         [self justLoadInfo];
     }
