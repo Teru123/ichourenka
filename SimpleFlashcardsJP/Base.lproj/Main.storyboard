@@ -174,7 +174,7 @@
         <!--ファイル作成-->
         <scene sceneID="fme-Ar-7v3">
             <objects>
-                <tableViewController id="vwV-xw-f14" customClass="CreateFileTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CreateFileTableViewController" id="vwV-xw-f14" customClass="CreateFileTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="BYA-4e-uyp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -233,21 +233,6 @@
             </objects>
             <point key="canvasLocation" x="1273" y="1097"/>
         </scene>
-        <!--Card Root View Controller-->
-        <scene sceneID="TiG-tB-D0d">
-            <objects>
-                <viewController storyboardIdentifier="CardRootViewController" id="ie6-p9-hj4" customClass="CardRootViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bCv-yE-gAk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="BS5-JU-taJ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="k5k-jl-kBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="840" y="2512"/>
-        </scene>
         <!--Data View Controller-->
         <scene sceneID="yRH-dK-bcb">
             <objects>
@@ -260,14 +245,11 @@
                                 <rect key="frame" x="16" y="20" width="288" height="463"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="L6Z-2i-m86">
+                            <view contentMode="scaleToFill" id="hBA-rO-S6F">
                                 <rect key="frame" x="48" y="28" width="224" height="420"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CV3-nA-0aA">
                                 <rect key="frame" x="16" y="28" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -370,6 +352,7 @@
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="e3v-FI-8ai"/>
                     <connections>
                         <outlet property="backButton" destination="CV3-nA-0aA" id="Diq-rC-WBl"/>
                         <outlet property="backView" destination="GKl-V3-2Qv" id="nPH-Ts-uzh"/>
@@ -383,12 +366,12 @@
                         <outlet property="pauseButton" destination="BqF-mo-60O" id="oN7-ZF-f43"/>
                         <outlet property="playButton" destination="J7P-Bn-Kji" id="1Lk-ok-Zj3"/>
                         <outlet property="stopButton" destination="h5g-wN-o1k" id="VQB-U7-B8X"/>
-                        <outlet property="textView" destination="L6Z-2i-m86" id="hVw-8p-Ssw"/>
+                        <outlet property="textView" destination="hBA-rO-S6F" id="Hoc-PI-Czb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGI-OO-7hY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1273" y="2512"/>
+            <point key="canvasLocation" x="840" y="2512"/>
         </scene>
         <!--Change Filename Table View Controller-->
         <scene sceneID="xqC-IC-Z0B">
@@ -498,7 +481,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ie6-p9-hj4" kind="push" identifier="CardRootViewController" id="2XH-AQ-fn5"/>
+                                            <segue destination="qh5-ZA-l0g" kind="push" identifier="DataViewController" id="IUu-wu-Chb"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -923,7 +906,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qNq-oO-Ynq"/>
+        <segue reference="rQi-ll-mjg"/>
         <segue reference="N3z-Et-Hnr"/>
     </inferredMetricsTieBreakers>
 </document>

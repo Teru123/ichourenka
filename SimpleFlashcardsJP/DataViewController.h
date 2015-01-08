@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DataViewController : UIViewController <UITextViewDelegate>
+@interface DataViewController : UIViewController <UITextViewDelegate, UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
 @property (nonatomic, strong) id dataObject;
 @property (nonatomic, assign) NSInteger pageIndex;
 @property (nonatomic, assign) int showMoveSlider;
 
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *gearButton;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;

@@ -9,7 +9,6 @@
 #import "CardTableViewController.h"
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
-#import "CardRootViewController.h"
 #import "FilenameDB.h"
 
 
