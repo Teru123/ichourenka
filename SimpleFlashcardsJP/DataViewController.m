@@ -9,6 +9,7 @@
 #import "DataViewController.h"
 #import "CardTableViewController.h"
 #import "ScrollViewController.h"
+#import "ScrollTwoViewController.h"
 #import "CardText.h"
 #import "CardNumber.h"
 
@@ -24,7 +25,6 @@
 @property(nonatomic,strong) NSArray *sourceArry;     //数据源
 @property(nonatomic,strong) NSMutableArray *passDataArr;
 @property(nonatomic,strong) UIPageViewController *pageViewController;   //翻页控制器
-@property(nonatomic) NSInteger currentSelectIndex;
 
 @end
 
@@ -126,13 +126,19 @@
     [self.horizontalView addSubview:_crossButton];
     
     self.textNumber = 0;
+    //ScrollViewController *VC = [[ScrollViewController alloc] init];
+    //VC.textNumber = self.textNumber;
     [self initPageController];
+    
+    //NSLog(@"%@", self.sourceArry [1][1]);
 }
 
 - (void)initPageController
 {
-    NSLog(@"%ld", self.sourceArry.count);
+    //NSLog(@"%ld", self.sourceArry.count);
+    
     ScrollViewController *VC1 = [[ScrollViewController alloc] init];
+    //sourceArryの0番目の配列を渡す。
     VC1.sourceArrry = self.sourceArry[0];
     
     UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
@@ -142,6 +148,28 @@
     pageVC.dataSource = self;
     //setViewControllersに中の配列の個数を渡す。
     [pageVC setViewControllers:@[VC1] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
+        NSLog(@" 设置完成 ");
+    }];
+    [self addChildViewController:pageVC];
+    [self.textView addSubview:[pageVC view]];
+    pageVC.view.layer.borderWidth = 1;
+}
+
+- (void)initPageTwoController
+{
+    //NSLog(@"%ld", self.sourceArry.count);
+    
+    ScrollTwoViewController *VC2 = [[ScrollTwoViewController alloc] init];
+    //sourceArryの0番目の配列を渡す。
+    VC2.sourceArrry = self.sourceArry[0];
+    
+    UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.pageViewController = pageVC;
+    [pageVC.view setFrame:self.textView.bounds];
+    pageVC.delegate = self;
+    pageVC.dataSource = self;
+    //setViewControllersに中の配列の個数を渡す。
+    [pageVC setViewControllers:@[VC2] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
         NSLog(@" 设置完成 ");
     }];
     [self addChildViewController:pageVC];
@@ -181,16 +209,6 @@
     
     self.pageIndex = index;
     
-    //現在表示しているカード番号と合計数を表示する。
-    self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
-    //クエリー作成。カード番号のテキストを取得。
-    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
-    
-    //データを読み込んで配列に追加。カードのテキスト数を渡す。
-    self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
-    
-    self.pageControl.numberOfPages = self.cardTextCount.count;
-    
     return [self controllerWithSourceIndex:index];
 }
 
@@ -208,16 +226,6 @@
     
     self.pageIndex = index;
     
-    //現在表示しているカード番号と合計数を表示する。
-    self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
-    //クエリー作成。カード番号のテキストを取得。
-    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
-    
-    //データを読み込んで配列に追加。カードのテキスト数を渡す。
-    self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
-    
-    self.pageControl.numberOfPages = self.cardTextCount.count;
-    
     return [self controllerWithSourceIndex:index];
 }
 
@@ -234,7 +242,7 @@
 }
 
 - (void)textData{
-    ScrollViewController *VC1 = [[ScrollViewController alloc] init];
+    //ScrollViewController *VC1 = [[ScrollViewController alloc] init];
     
     //クエリー作成。
     NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@", self.textNumber, [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
@@ -242,9 +250,11 @@
     self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
     
     //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
-    NSInteger indexOfText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
+    //NSInteger indexOfText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
     //cardTextのpageIndex番目を表示。
-    VC1.textView.text = [NSString stringWithFormat:@"%@", [[self.dbCardTextInfo objectAtIndex:0] objectAtIndex:indexOfText]];
+    //VC1.textView.text = [NSString stringWithFormat:@"%@", [[self.dbCardTextInfo objectAtIndex:0] objectAtIndex:indexOfText]];
+    //VC1.textView.text = self.sourceArry[self.pageIndex][self.textNumber];
+    
     
     self.pageControl.currentPage = self.textNumber;
 }
@@ -257,8 +267,12 @@
     self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
     //NSLog(@"count %ld cardNumber %@", self.cardTextCount.count, [self.dbCardNumberInfo objectAtIndex:self.pageIndex]);
     
+    //VC.scrollDelegate = self;
+    
     if (self.textNumber == 0) {
         self.textNumber = 1;
+        [self initPageTwoController];
+        
         [self textData];
         
     }else if (self.textNumber == 1) {
@@ -302,7 +316,6 @@
     self.movePageSlider.hidden = NO;
     self.crossButton.hidden = NO;
     
-    self.currentSelectIndex = 3;
     ScrollViewController *VC = [self controllerWithSourceIndex:3];
     [self.pageViewController setViewControllers:@[VC] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
         NSLog(@" 设置完成 ");
@@ -340,6 +353,45 @@
     self.playButton.hidden = NO;
     self.pauseButton.hidden = YES;
     self.stopButton.hidden = YES;
+}
+
+#pragma mark - UIPageViewControllerDelegate
+/*即将转换开始的方法
+- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers
+{
+       NSLog(@" 开始动画  %@ ",[pendingViewControllers valueForKey:@"sourceArrry"]);
+    
+    //現在表示しているカード番号と合計数を表示する。
+    self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
+    //クエリー作成。カード番号のテキストを取得。
+    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+    
+    //データを読み込んで配列に追加。カードのテキスト数を渡す。
+    self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
+    
+    self.pageControl.numberOfPages = self.cardTextCount.count;
+    self.textNumber = 0;
+    self.pageControl.currentPage = self.textNumber;
+}*/
+
+//动画结束后回调的方法
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)complete
+{
+    ScrollViewController *VC = [pageViewController.viewControllers lastObject];
+    self.pageIndex = [self indexofController:VC];
+        NSLog(@" 动画结束 %@ ",pageViewController.viewControllers);
+    
+    //現在表示しているカード番号と合計数を表示する。
+    self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
+    //クエリー作成。カード番号のテキストを取得。
+    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+    
+    //データを読み込んで配列に追加。カードのテキスト数を渡す。
+    self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
+    
+    self.pageControl.numberOfPages = self.cardTextCount.count;
+    self.textNumber = 0;
+    self.pageControl.currentPage = self.textNumber;
 }
 
 @end

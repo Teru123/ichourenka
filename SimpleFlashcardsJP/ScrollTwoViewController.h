@@ -1,14 +1,14 @@
 //
-//  ScrollViewController.h
+//  ScrollTwoViewController.h
 //  SimpleFlashcardsJP
 //
-//  Created by Teru on 2015/01/08.
+//  Created by Teru on 2015/01/09.
 //  Copyright (c) 2015年 Self. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface ScrollViewController : UIViewController <UITextViewDelegate>
+@interface ScrollTwoViewController : UIViewController<UITextViewDelegate>
 
 //数据源
 @property(nonatomic,strong) NSArray *sourceArrry;
