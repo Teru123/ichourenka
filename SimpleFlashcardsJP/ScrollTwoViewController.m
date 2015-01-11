@@ -22,7 +22,7 @@
     self.textView.delegate = self;
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 224, 420)];
     [self.view addSubview:self.textView];
-    self.textView.backgroundColor = [UIColor lightGrayColor];
+    self.textView.backgroundColor = [UIColor whiteColor];
     self.textView.text = @"";
     //sourceArry *番目の配列の*番目を渡す。
     self.textView.text = self.sourceArrry[1];
@@ -31,7 +31,7 @@
     
     self.textView.editable = NO;
     
-    NSLog(@"call");
+    //NSLog(@"call");
 }
 
 - (void)didReceiveMemoryWarning {

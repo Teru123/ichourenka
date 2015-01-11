@@ -8,18 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol DataViewControllerDelegate
-
--(void)dataInfoWasFinished;
-
-@end
-
 @interface DataViewController : UIViewController <UIPageViewControllerDataSource,UIPageViewControllerDelegate>
 
-@property (nonatomic, strong) id<DataViewControllerDelegate> dataDelegate;
 @property (nonatomic, strong) id dataObject;
 @property (nonatomic, assign) NSInteger pageIndex;
-@property (nonatomic, assign) int showMoveSlider;
 
 @property (weak, nonatomic) IBOutlet UIView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
@@ -34,7 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIView *horizontalView;
 @property (weak, nonatomic) IBOutlet UIButton *crossButton;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
-@property (weak, nonatomic) IBOutlet UITextView *changeText;
+@property (weak, nonatomic) IBOutlet UILabel *pageLabel;
 
 - (IBAction)backAction:(id)sender;
 - (IBAction)changeTextAction:(id)sender;

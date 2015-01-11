@@ -9,6 +9,7 @@
 #import "CardTableViewController.h"
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
+#import "DataViewController.h"
 #import "FilenameDB.h"
 
 
@@ -55,9 +56,13 @@
         }else{
             changeFilenameViewController.filenameData = self.filenameData;
         }
-        
         changeFilenameViewController.foldernameData = self.foldernameData;
         changeFilenameViewController.delegate = self;
+        
+    }else if([[segue identifier] isEqualToString:@"DataViewController"]){
+        //DataViewController *dataViewController = [segue destinationViewController];
+        
+        
     }
 }
 

@@ -1,31 +1,31 @@
 //
-//  ScrollViewController.m
+//  ScrollThreeViewController.m
 //  SimpleFlashcardsJP
 //
-//  Created by Teru on 2015/01/08.
+//  Created by Teru on 2015/01/10.
 //  Copyright (c) 2015年 Self. All rights reserved.
 //
 
-#import "ScrollViewController.h"
+#import "ScrollThreeViewController.h"
 
-@interface ScrollViewController ()
+@interface ScrollThreeViewController ()
 
 @end
 
-@implementation ScrollViewController
+@implementation ScrollThreeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     self.textView.editable = YES;
-
+    
     self.textView.delegate = self;
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(0, 0, 224, 420)];
     [self.view addSubview:self.textView];
     self.textView.backgroundColor = [UIColor whiteColor];
     self.textView.text = @"";
     //sourceArry *番目の配列の*番目を渡す。
-    self.textView.text = self.sourceArrry[0];
+    self.textView.text = self.sourceArrry[2];
     
     self.textView.font = [UIFont systemFontOfSize:20];
     
@@ -33,30 +33,6 @@
     
     //NSLog(@"call");
 }
-
-/*
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return _sourceArrry.count;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    // Configure the cell...
-    static NSString *cellider = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellider];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellider];
-    }
-    cell.textLabel.text = _sourceArrry[indexPath.row];
-    return cell;
-}*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

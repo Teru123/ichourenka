@@ -267,46 +267,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J7P-Bn-Kji">
-                                <rect key="frame" x="48" y="450" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="play" image="ios7-play.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="playAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="ggk-BK-TWr"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="BqF-mo-60O">
-                                <rect key="frame" x="48" y="450" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="pause" image="ios7-pause.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="pauseAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="5rP-7f-65g"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s7r-CC-x8v">
-                                <rect key="frame" x="185" y="450" width="22" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="move" image="arrow-big-11.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="movePageAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="PaO-Wa-s0O"/>
-                                </connections>
-                            </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="h5g-wN-o1k">
-                                <rect key="frame" x="113" y="451" width="20" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="stop" image="stop.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="stopAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="xQh-F2-wfX"/>
-                                </connections>
-                            </button>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="Olv-bf-Zxh">
                                 <rect key="frame" x="141" y="477" width="39" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -319,7 +279,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MSH-cs-qIz">
-                                <rect key="frame" x="250" y="450" width="22" height="22"/>
+                                <rect key="frame" x="280" y="450" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="CText" image="arrow-big-12.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -346,9 +306,26 @@
                                             <action selector="crossAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="Mtq-8Z-j8H"/>
                                         </connections>
                                     </button>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="6" id="f6d-NF-YMX">
+                                        <rect key="frame" x="28" y="0.0" width="90" height="15"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.91372555494308472" green="0.96078437566757202" blue="0.97254908084869385" alpha="1" colorSpace="deviceRGB"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="s7r-CC-x8v">
+                                <rect key="frame" x="18" y="450" width="22" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="move" image="arrow-big-11.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="movePageAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="PaO-Wa-s0O"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -363,9 +340,7 @@
                         <outlet property="movePageSlider" destination="k8A-71-meA" id="Meq-fk-BdS"/>
                         <outlet property="pageControl" destination="Olv-bf-Zxh" id="DQo-NG-szd"/>
                         <outlet property="pageCountLabel" destination="KCS-OU-1Uj" id="8Jf-ZS-Psk"/>
-                        <outlet property="pauseButton" destination="BqF-mo-60O" id="oN7-ZF-f43"/>
-                        <outlet property="playButton" destination="J7P-Bn-Kji" id="1Lk-ok-Zj3"/>
-                        <outlet property="stopButton" destination="h5g-wN-o1k" id="VQB-U7-B8X"/>
+                        <outlet property="pageLabel" destination="f6d-NF-YMX" id="nhb-CE-zG6"/>
                         <outlet property="textView" destination="hBA-rO-S6F" id="Hoc-PI-Czb"/>
                     </connections>
                 </viewController>
@@ -894,10 +869,7 @@
         <image name="cross.png" width="30" height="30"/>
         <image name="gear.png" width="30" height="30"/>
         <image name="ios7-arrow-back.png" width="512" height="512"/>
-        <image name="ios7-pause.png" width="512" height="512"/>
-        <image name="ios7-play.png" width="512" height="512"/>
         <image name="question.png" width="30" height="30"/>
-        <image name="stop.png" width="512" height="512"/>
         <image name="textView_White.png" width="640" height="640"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
