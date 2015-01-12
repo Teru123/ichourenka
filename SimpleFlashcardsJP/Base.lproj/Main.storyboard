@@ -245,11 +245,14 @@
                                 <rect key="frame" x="16" y="20" width="288" height="463"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <view contentMode="scaleToFill" id="hBA-rO-S6F">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="Yld-jN-7Lh">
                                 <rect key="frame" x="48" y="28" width="224" height="420"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CV3-nA-0aA">
                                 <rect key="frame" x="16" y="28" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -326,6 +329,10 @@
                                     <action selector="movePageAction:" destination="qh5-ZA-l0g" eventType="touchUpInside" id="PaO-Wa-s0O"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SwipeArrow.png" id="K8S-Of-pT1">
+                                <rect key="frame" x="285" y="148" width="12" height="179"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -341,7 +348,7 @@
                         <outlet property="pageControl" destination="Olv-bf-Zxh" id="DQo-NG-szd"/>
                         <outlet property="pageCountLabel" destination="KCS-OU-1Uj" id="8Jf-ZS-Psk"/>
                         <outlet property="pageLabel" destination="f6d-NF-YMX" id="nhb-CE-zG6"/>
-                        <outlet property="textView" destination="hBA-rO-S6F" id="Hoc-PI-Czb"/>
+                        <outlet property="textView" destination="Yld-jN-7Lh" id="dbf-5t-zDB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGI-OO-7hY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -864,6 +871,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="SwipeArrow.png" width="22" height="300"/>
         <image name="arrow-big-11.png" width="30" height="30"/>
         <image name="arrow-big-12.png" width="30" height="30"/>
         <image name="cross.png" width="30" height="30"/>

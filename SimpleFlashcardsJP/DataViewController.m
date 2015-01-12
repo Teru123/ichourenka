@@ -8,11 +8,6 @@
 
 #import "DataViewController.h"
 #import "CardTableViewController.h"
-#import "ScrollViewController.h"
-#import "ScrollTwoViewController.h"
-#import "ScrollThreeViewController.h"
-#import "ScrollFourViewController.h"
-#import "ScrollFiveViewController.h"
 #import "CardText.h"
 #import "CardNumber.h"
 
@@ -29,7 +24,6 @@
 
 @property(nonatomic,strong) NSArray *sourceArry;     //数据源
 @property(nonatomic,strong) NSMutableArray *passDataArr;
-@property(nonatomic,strong) UIPageViewController *pageViewController;   //翻页控制器
 
 @end
 
@@ -139,171 +133,59 @@
         [self.horizontalView addSubview:_movePageSlider];
         [self.horizontalView addSubview:_crossButton];
         
+        /* 左スワイプ */
+        UISwipeGestureRecognizer* swipeLeftGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeLeft:)];
+        swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+        
+        [self.view addGestureRecognizer:swipeLeftGesture];
+        
+        /* 右スワイプ */
+        UISwipeGestureRecognizer* swipeRightGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeRight:)];
+        swipeRightGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        
+        [self.view addGestureRecognizer:swipeRightGesture];
+        
+        /* 上スワイプ */
+        UISwipeGestureRecognizer* swipeUpGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeUp:)];
+        swipeUpGesture.direction = UISwipeGestureRecognizerDirectionUp;
+        
+        [self.view addGestureRecognizer:swipeUpGesture];
+        
+        /* 下スワイプ */
+        UISwipeGestureRecognizer* swipeDownGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeDown:)];
+        swipeDownGesture.direction = UISwipeGestureRecognizerDirectionDown;
+        
+        [self.view addGestureRecognizer:swipeDownGesture];
+        
         self.textNumber = 0;
-        [self initPageController];
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[0][0]];
     }
 }
 
-- (void)initPageController
-{
-    //NSLog(@"%ld", self.sourceArry.count);
-    
-    ScrollViewController *VC1 = [[ScrollViewController alloc] init];
-    //sourceArryのself.pageIndex番目の配列を渡す。
-    VC1.sourceArrry = self.sourceArry[self.pageIndex];
-    
-    UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController = pageVC;
-    [pageVC.view setFrame:self.textView.bounds];
-    pageVC.delegate = self;
-    pageVC.dataSource = self;
-    //setViewControllersに中の配列の個数を渡す。
-    [pageVC setViewControllers:@[VC1] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        NSLog(@" 设置完成 ");
-    }];
-    [self addChildViewController:pageVC];
-    [self.textView addSubview:[pageVC view]];
-    //pageVC.view.layer.borderWidth = 1;
+- (void)view_SwipeLeft:(UISwipeGestureRecognizer *)sender{
+    self.pageIndex += 1;
+    [self resetPageAndText];
+    self.movePageSlider.value = self.pageIndex;
+    self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
 }
 
-- (void)initPageTwoController
-{
-    //NSLog(@"%ld", self.sourceArry.count);
-    
-    ScrollTwoViewController *VC2 = [[ScrollTwoViewController alloc] init];
-    //sourceArryのself.pageIndex番目の配列を渡す。
-    VC2.sourceArrry = self.sourceArry[self.pageIndex];
-    
-    UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController = pageVC;
-    [pageVC.view setFrame:self.textView.bounds];
-    pageVC.delegate = self;
-    pageVC.dataSource = self;
-    //setViewControllersに中の配列の個数を渡す。
-    [pageVC setViewControllers:@[VC2] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        NSLog(@" 设置完成 ");
-    }];
-    [self addChildViewController:pageVC];
-    [self.textView addSubview:[pageVC view]];
-    //pageVC.view.layer.borderWidth = 1;
+- (void)view_SwipeRight:(UISwipeGestureRecognizer *)sender{
+    self.pageIndex -= 1;
+    [self resetPageAndText];
+    self.movePageSlider.value = self.pageIndex;
+    self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
 }
 
-- (void)initPageThreeController
-{
-    //NSLog(@"%ld", self.sourceArry.count);
-    
-    ScrollThreeViewController *VC3 = [[ScrollThreeViewController alloc] init];
-    //sourceArryのself.pageIndex番目の配列を渡す。
-    VC3.sourceArrry = self.sourceArry[self.pageIndex];
-    
-    UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController = pageVC;
-    [pageVC.view setFrame:self.textView.bounds];
-    pageVC.delegate = self;
-    pageVC.dataSource = self;
-    //setViewControllersに中の配列の個数を渡す。
-    [pageVC setViewControllers:@[VC3] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        NSLog(@" 设置完成 ");
-    }];
-    [self addChildViewController:pageVC];
-    [self.textView addSubview:[pageVC view]];
-    //pageVC.view.layer.borderWidth = 1;
+- (void)view_SwipeUp:(UISwipeGestureRecognizer *)sender{
+    [self changeBackText];
 }
 
-- (void)initPageFourController
-{
-    //NSLog(@"%ld", self.sourceArry.count);
-    
-    ScrollFourViewController *VC4 = [[ScrollFourViewController alloc] init];
-    //sourceArryのself.pageIndex番目の配列を渡す。
-    VC4.sourceArrry = self.sourceArry[self.pageIndex];
-    
-    UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController = pageVC;
-    [pageVC.view setFrame:self.textView.bounds];
-    pageVC.delegate = self;
-    pageVC.dataSource = self;
-    //setViewControllersに中の配列の個数を渡す。
-    [pageVC setViewControllers:@[VC4] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        NSLog(@" 设置完成 ");
-    }];
-    [self addChildViewController:pageVC];
-    [self.textView addSubview:[pageVC view]];
-    //pageVC.view.layer.borderWidth = 1;
-}
-
-- (void)initPageFiveController
-{
-    //NSLog(@"%ld", self.sourceArry.count);
-    
-    ScrollFiveViewController *VC5 = [[ScrollFiveViewController alloc] init];
-    //sourceArryのself.pageIndex番目の配列を渡す。
-    VC5.sourceArrry = self.sourceArry[self.pageIndex];
-    
-    UIPageViewController *pageVC = [[UIPageViewController alloc]initWithTransitionStyle:UIPageViewControllerTransitionStylePageCurl navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageViewController = pageVC;
-    [pageVC.view setFrame:self.textView.bounds];
-    pageVC.delegate = self;
-    pageVC.dataSource = self;
-    //setViewControllersに中の配列の個数を渡す。
-    [pageVC setViewControllers:@[VC5] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-        NSLog(@" 设置完成 ");
-    }];
-    [self addChildViewController:pageVC];
-    [self.textView addSubview:[pageVC view]];
-    //pageVC.view.layer.borderWidth = 1;
-}
-
-#pragma mark - PrivateAPI
-//sourceArryの*番目の配列を渡す。
-- (ScrollViewController *)controllerWithSourceIndex:(NSInteger)index
-{
-    if (self.sourceArry.count < index) {
-        return nil;
-    }
-    
-    ScrollViewController *VC = [[ScrollViewController alloc] init];
-    VC.sourceArrry = _sourceArry[index];
-    return VC;
-}
-
-//返回当前的索引值
-- (NSInteger)indexofController:(ScrollViewController *)viewController
-{
-    NSInteger index = [self.sourceArry indexOfObject:viewController.sourceArrry];
-    return index;
-}
-
-#pragma mark - UIPageViewControllerDataSource
-//
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
-    NSInteger index = [self indexofController:(ScrollViewController *)viewController];
-    if (index == 0 || index == NSNotFound) {
-        return nil;
-    }
-    index--;
-    
-    self.pageIndex = index;
-    
-    return [self controllerWithSourceIndex:index];
-}
-
-//
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController
-{
-    NSInteger index = [self indexofController:(ScrollViewController *)viewController];
-    if (index == NSNotFound) {
-        return nil;
-    }
-    index++;
-    if (index == [self.sourceArry count]) {
-        return nil;
-    }
-    
-    self.pageIndex = index;
-    
-    return [self controllerWithSourceIndex:index];
+- (void)view_SwipeDown:(UISwipeGestureRecognizer *)sender{
+    [self changeNextText];
 }
 
 - (void)checkTheSecondText{
@@ -340,6 +222,7 @@
         self.pageControl.numberOfPages = 1;
         self.textNumber = 0;
         self.pageControl.currentPage = self.textNumber;
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
     }else{
         //現在表示しているカード番号と合計数を表示する。
         self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
@@ -352,10 +235,15 @@
         self.pageControl.numberOfPages = self.cardTextCount.count;
         self.textNumber = 0;
         self.pageControl.currentPage = self.textNumber;
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
     }
 }
 
 - (IBAction)changeTextAction:(id)sender {
+    [self changeNextText];
+}
+
+- (void)changeNextText{
     //クエリー作成。pageIndexに1を足してcardNumberに合わせる。
     NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
     
@@ -367,53 +255,114 @@
     
     if (self.textNumber == 0 && ![self.secondText isEqualToString:@""]) {
         self.textNumber = 1;
-        [self initPageTwoController];
-        
         [self textData];
         
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][1]];
     }else if (self.textNumber == 1) {
         if (self.cardTextCount.count == 2) {
             self.textNumber = 0;
-            [self initPageController];
             [self textData];
             
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
         }else{
             self.textNumber = 2;
-            [self initPageThreeController];
-            
             [self textData];
+            
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][2]];
         }
         
     }else if (self.textNumber == 2) {
         if (self.cardTextCount.count == 3) {
             self.textNumber = 0;
-            [self initPageController];
             [self textData];
             
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
         }else{
             self.textNumber = 3;
-            [self initPageFourController];
-            
             [self textData];
+            
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][3]];
         }
         
     }else if (self.textNumber == 3) {
         if (self.cardTextCount.count == 4) {
             self.textNumber = 0;
-            [self initPageController];
             [self textData];
             
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
         }else{
             self.textNumber = 4;
-            [self initPageFiveController];
-            
             [self textData];
+            
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][4]];
         }
         
     }else if (self.textNumber == 4) {
         self.textNumber = 0;
-        [self initPageController];
         [self textData];
+        
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
+    }
+}
+
+- (void)changeBackText{
+    //クエリー作成。pageIndexに1を足してcardNumberに合わせる。
+    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+    
+    //データを読み込んで配列に追加。
+    self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
+    //NSLog(@"count %ld cardNumber %@", self.cardTextCount.count, [self.dbCardNumberInfo objectAtIndex:self.pageIndex]);
+    
+    [self checkTheSecondText];
+    
+    if (self.textNumber == 0 && ![self.secondText isEqualToString:@""]) {
+        if ([self.sourceArry[self.pageIndex] count] == 0) {
+            self.textNumber = 0;
+            [self textData];
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
+        }else if ([self.sourceArry[self.pageIndex] count] == 1){
+            self.textNumber = 0;
+            [self textData];
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
+        }else if ([self.sourceArry[self.pageIndex] count] == 2){
+            self.textNumber = 1;
+            [self textData];
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][1]];
+        }else if ([self.sourceArry[self.pageIndex] count] == 3){
+            self.textNumber = 2;
+            [self textData];
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][2]];
+        }else if ([self.sourceArry[self.pageIndex] count] == 4){
+            self.textNumber = 3;
+            [self textData];
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][3]];
+        }else if ([self.sourceArry[self.pageIndex] count] == 5){
+            self.textNumber = 4;
+            [self textData];
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][4]];
+        }
+    }else if (self.textNumber == 1) {
+        self.textNumber = 0;
+        [self textData];
+            
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][0]];
+        
+    }else if (self.textNumber == 2) {
+            self.textNumber = 1;
+            [self textData];
+            
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][1]];
+    }else if (self.textNumber == 3) {
+            self.textNumber = 2;
+            [self textData];
+            
+            self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][2]];
+        
+    }else if (self.textNumber == 4) {
+        self.textNumber = 3;
+        [self textData];
+        
+        self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[self.pageIndex][3]];
     }
 }
 
@@ -425,7 +374,7 @@
     
     self.movePageSlider.value = self.pageIndex;
     self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
-    NSLog(@"%ld", self.pageIndex);
+
 }
 
 //引数の slider には呼び出し元のUISliderオブジェクトが引き渡される。
@@ -433,13 +382,6 @@
     self.pageIndex = (int)(self.movePageSlider.value);
     
     if (![self.pageLabel.text isEqualToString:[NSString stringWithFormat:@"%ld", self.pageIndex + 1]]) {
-        
-        ScrollViewController *VC = [self controllerWithSourceIndex:self.pageIndex];
-        [self.pageViewController setViewControllers:@[VC] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {
-            NSLog(@" 设置完成 ");
-        }];
-        
-        NSLog(@"%ld", self.pageIndex);
         
         [self resetPageAndText];
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
@@ -453,59 +395,12 @@
     self.pageLabel.hidden = YES;
 }
 
-- (IBAction)playAction:(id)sender {
-    self.playButton.hidden = YES;
-    self.pauseButton.hidden = NO;
-    self.stopButton.hidden = NO;
-}
-
-- (IBAction)pauseAction:(id)sender {
-    self.pauseButton.hidden = YES;
-    self.playButton.hidden = NO;
-}
-
-- (IBAction)stopAction:(id)sender {
-    self.playButton.hidden = NO;
-    self.pauseButton.hidden = YES;
-    self.stopButton.hidden = YES;
-}
-
 - (IBAction)backAction:(id)sender {
     // 隠していたNavBarを表示。
     [self.navigationController setNavigationBarHidden:NO];
     // コードからNavのBackボタンタップで前画面に戻る。
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-#pragma mark - UIPageViewControllerDelegate
-
-//动画结束后回调的方法
-- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray *)previousViewControllers transitionCompleted:(BOOL)complete
-{
-    ScrollViewController *VC = [pageViewController.viewControllers lastObject];
-    self.pageIndex = [self indexofController:VC];
-    NSLog(@" 动画结束 %@ ",pageViewController.viewControllers);
-    
-    [self resetPageAndText];
-}
-
-/*即将转换开始的方法
-- (void)pageViewController:(UIPageViewController *)pageViewController willTransitionToViewControllers:(NSArray *)pendingViewControllers
-{
-       NSLog(@" 开始动画  %@ ",[pendingViewControllers valueForKey:@"sourceArrry"]);
-    
-    //現在表示しているカード番号と合計数を表示する。
-    self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
-    //クエリー作成。カード番号のテキストを取得。
-    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
-    
-    //データを読み込んで配列に追加。カードのテキスト数を渡す。
-    self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
-    
-    self.pageControl.numberOfPages = self.cardTextCount.count;
-    self.textNumber = 0;
-    self.pageControl.currentPage = self.textNumber;
-}*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

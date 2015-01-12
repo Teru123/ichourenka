@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DataViewController : UIViewController <UIPageViewControllerDataSource,UIPageViewControllerDelegate>
+@interface DataViewController : UIViewController <UITextViewDelegate>
 
 @property (nonatomic, strong) id dataObject;
 @property (nonatomic, assign) NSInteger pageIndex;
 
-@property (weak, nonatomic) IBOutlet UIView *textView;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *gearButton;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
@@ -32,8 +32,5 @@
 - (IBAction)changeTextAction:(id)sender;
 - (IBAction)movePageAction:(id)sender;
 - (IBAction)crossAction:(id)sender;
-- (IBAction)playAction:(id)sender;
-- (IBAction)pauseAction:(id)sender;
-- (IBAction)stopAction:(id)sender;
 
 @end

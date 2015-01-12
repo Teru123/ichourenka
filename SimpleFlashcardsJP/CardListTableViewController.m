@@ -331,7 +331,7 @@
     [self.searchResults removeAllObjects]; // First clear the filtered array.
     
     // NSCharacterSet, stringByTrimmingCharactersInSetでスペースだけでないかチェック。
-    //NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
+    NSCharacterSet *set = [NSCharacterSet whitespaceCharacterSet];
     
     //Search the main list for products whose type matches the scope (if selected) and whose name matches searchText; add items that match to the filtered array.
     //配列を初期化。
@@ -343,7 +343,7 @@
         NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.cardNumber objectAtIndex:i]];
         //NSLog(@"checkNumber %@", checkNumber);
         if ((typeName == nil) || [checkString isEqualToString:typeName]) {
-            //if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
+            if (![[[self.searchController.searchBar text] stringByTrimmingCharactersInSet: set] length] == 0) {
                 NSUInteger searchOptions = NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch;
                 NSRange productNameRange = NSMakeRange(0, checkString.length);
                 NSRange foundRange = [checkString rangeOfString:name options:searchOptions range:productNameRange];
@@ -363,7 +363,7 @@
                         //NSLog(@"checkNumber %@ count %ld", checkNumber, self.confirmNumber.count);
                     }
                 }
-            
+            }
         }
     }
 }
