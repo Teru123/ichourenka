@@ -180,28 +180,22 @@
                 //Stringに変わった改行を改行と認識させる。
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
                 checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                checkTheString = [checkTheString stringByReplacingOccurrencesOfString:@" " withString:@""];
                 
-                //言語判定。
-                //[self languageForString:checkTheString];
                 
-                // searchResultsのカード番号を取得。
+                /*searchResultsのカード番号を取得。
                 NSString *queryBlank = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where cardText = '%@' ", checkTheString];
                 self.CNInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryBlank]];
-                //NSLog(@"count %ld queryBlank %@", self.CNInfo.count, queryBlank);
+                NSLog(@"count %ld queryBlank %@", self.CNInfo.count, queryBlank);*/
                 
-                for (int k = 0; k < self.CNInfo.count; k++) {
-                    //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
-                    NSInteger indexOfCN = [self.dbCardText.arrColumnNames indexOfObject:@"cardNumber"];
-                    NSString *checkNumber = [NSString stringWithFormat:@"%@", [[self.CNInfo objectAtIndex:k] objectAtIndex:indexOfCN]];
+                for (int k = 0; k < self.confirmNumber.count; k++) {
+                    NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.confirmNumber objectAtIndex:k]];
                     
-                    /*
                     // searchResultsのカード番号を渡す為に不要なStringを削除する。
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
                     checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                    */
-                    
                     //checkNumberをqueryとして認識させる為にintegerにする。
                     self.indexOfcardText = [checkNumber integerValue];
                     //checkNumberをstringにする。
@@ -214,24 +208,18 @@
                     // searchResultsのカード番号とtextNumber0の値を取得。
                     NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 0];
                     self.CTInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
-                    
-                    //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
-                    NSInteger indexOfText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
-                    
                     // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
-                    NSString *checkTheStr = [NSString stringWithFormat:@"%@", [[self.CTInfo objectAtIndex:0] objectAtIndex:indexOfText]];
+                    NSString *checkTheStr = [NSString stringWithFormat:@"%@", [self.CTInfo objectAtIndex:0]];
                     
-                    /*
                     // searchResultsのStringを渡す為に不要なStringを削除する。
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@")" withString:@""];
                     if ([checkTheStr rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
                         checkTheStr = [checkTheStr stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
                     }
-                    //checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
-                    */
                     
                     // Checking if a string is equal to "
                     if ([checkTheStr isEqualToString:@""]) {
@@ -244,29 +232,25 @@
                     // searchResultsのカード番号とtextNumber1の値を取得。
                     NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 1];
                     self.CTInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
-                    
-                    //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
                     // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
-                    NSString *checkTheStrOne = [NSString stringWithFormat:@"%@", [[self.CTInfo_1 objectAtIndex:0] objectAtIndex:indexOfText]];
+                    NSString *checkTheStrOne = [NSString stringWithFormat:@"%@", [self.CTInfo_1 objectAtIndex:0]];
                     
-                    /*
                     // searchResultsのStringを渡す為に不要なStringを削除する。
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"(" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@")" withString:@""];
                     if ([checkTheStrOne rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
                         checkTheStrOne = [checkTheStrOne stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
                     }
-                    //checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                     checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
-                     */
                     
                     // Checking if a string is equal to "
                     if ([checkTheStrOne isEqualToString:@""]) {
                         checkTheStrOne = @"(blank)";
                     }
                     
-                    NSLog(@"count %ld checkTheStrOne%@", self.CNInfo.count, checkTheStrOne);
+                    //NSLog(@"count %ld checkTheStrOne%@", self.CNInfo.count, checkTheStrOne);
                     
                     //cell.textに表示する文字列をarrayに渡す。
                     [self.searchResultsString_1 addObject:checkTheStrOne];
