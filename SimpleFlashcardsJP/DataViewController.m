@@ -40,8 +40,8 @@
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     
     //クエリー作成。
-    NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d", 0];
-    NSString *queryLoadCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo"];
+    NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, self.filenameData];
+    NSString *queryLoadCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
     
     //データを読み込んで配列に追加。
     self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
@@ -51,19 +51,20 @@
     
     if (self.dbCardTextInfo.count == 0) {
         NSLog(@"STOP");
-        
+
     }else{
         //現在表示しているカード番号と合計数を表示する。
         self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
         
         //クエリー作成。カード番号のテキストを取得。
-        NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+        NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.filenameData];
         
         //データを読み込んで配列に追加。カードのテキスト数を渡す。
         self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
         
         //カード2番目のテキストをチェック。
         [self checkTheSecondText];
+        
         //カード2番目のテキストが空欄の場合はドット表示は1Pageのみ。
         if ([self.secondText isEqualToString:@""]) {
             self.pageControl.numberOfPages = 1;
@@ -72,6 +73,7 @@
         }
         
         self.movePageSlider.minimumValue = 0;
+        //countは1から数えるので-1をする。
         self.movePageSlider.maximumValue = self.dbCardNumberInfo.count - 1;
         // 値が変更された時にsliderValueメソッドを呼び出す
         [self.movePageSlider addTarget:self action:@selector(sliderValue:) forControlEvents:UIControlEventValueChanged];
@@ -85,7 +87,7 @@
             self.passDataArr = [[NSMutableArray alloc] init];
             
             //クエリー作成。カード番号のテキストを取得。
-            NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:i]];
+            NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:i], self.filenameData];
             
             //データを読み込んで配列に追加。カードのテキスト数を渡す。
             self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
@@ -95,7 +97,7 @@
                 //NSLog(@"k %d, i %d %@", k, i, [self.dbCardNumberInfo objectAtIndex:i]);
                 
                 //クエリー作成。
-                NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@", k, [self.dbCardNumberInfo objectAtIndex:i]];
+                NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@ AND filename = '%@' ", k, [self.dbCardNumberInfo objectAtIndex:i], self.filenameData];
                 
                 //データを読み込んで配列に追加。
                 self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
@@ -163,21 +165,29 @@
         
         self.textNumber = 0;
         self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[0][0]];
+        
+        NSLog(@"%ld", self.sourceArry.count);
     }
 }
 
 - (void)view_SwipeLeft:(UISwipeGestureRecognizer *)sender{
-    self.pageIndex += 1;
-    [self resetPageAndText];
-    self.movePageSlider.value = self.pageIndex;
-    self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+    if (self.pageIndex + 1 < self.sourceArry.count) {
+        self.pageIndex += 1;
+        [self resetPageAndText];
+        self.movePageSlider.value = self.pageIndex;
+        self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+    }
+    
 }
 
 - (void)view_SwipeRight:(UISwipeGestureRecognizer *)sender{
-    self.pageIndex -= 1;
-    [self resetPageAndText];
-    self.movePageSlider.value = self.pageIndex;
-    self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+    if (0 < self.pageIndex) {
+        self.pageIndex -= 1;
+        [self resetPageAndText];
+        self.movePageSlider.value = self.pageIndex;
+        self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+    }
+    
 }
 
 - (void)view_SwipeUp:(UISwipeGestureRecognizer *)sender{
@@ -189,11 +199,13 @@
 }
 
 - (void)checkTheSecondText{
-    //クエリー作成。
-    NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@", 1, [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+    //クエリー作成。cardNumberはdbCardNumberInfo Arrayから値を取得しているので'%@'の''は不要。
+    NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@ AND filename = '%@' ", 1, [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.filenameData];
     
     //データを読み込んで配列に追加。
     self.checkTheSecondTxt = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
+    //NSLog(@"txt %ld %@ %ld", self.checkTheSecondTxt.count, queryLoadCT, self.pageIndex);
+    
     //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
     NSInteger indexOfText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
     //cardTextのpageIndex番目を表示。
@@ -227,7 +239,7 @@
         //現在表示しているカード番号と合計数を表示する。
         self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
         //クエリー作成。カード番号のテキストを取得。
-        NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+        NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.filenameData];
         
         //データを読み込んで配列に追加。カードのテキスト数を渡す。
         self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
@@ -245,7 +257,7 @@
 
 - (void)changeNextText{
     //クエリー作成。pageIndexに1を足してcardNumberに合わせる。
-    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename =  '%@' ", [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.filenameData];
     
     //データを読み込んで配列に追加。
     self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
@@ -307,7 +319,7 @@
 
 - (void)changeBackText{
     //クエリー作成。pageIndexに1を足してcardNumberに合わせる。
-    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@", [self.dbCardNumberInfo objectAtIndex:self.pageIndex]];
+    NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.filenameData];
     
     //データを読み込んで配列に追加。
     self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];

@@ -51,10 +51,7 @@
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([[segue identifier] isEqualToString:@"CardTableViewController"]) {
-        CardTableViewController *cardView = [segue destinationViewController];
-        cardView.filenameData = self.fileName.text;
-    }else if([[segue identifier] isEqualToString:@"EnterFileNameTableViewController"]){
+    if([[segue identifier] isEqualToString:@"EnterFileNameTableViewController"]){
         EnterFileNameTableViewController *editInfoViewController = [segue destinationViewController];
         editInfoViewController.delegate = self;
     }
@@ -120,8 +117,8 @@
         // Inform the delegate that the editing was finished.
         [self.fileDelegate editingFileInfoWasFinished];
         self.fileName.text = [NSString stringWithFormat:@""];
-        
-        //[self.navigationController popViewControllerAnimated:YES];
+        //前画面に戻る。
+        [self.navigationController popViewControllerAnimated:YES];
     }else if (indexPath.row == 1 && [[self.fileName.text stringByTrimmingCharactersInSet: set] length] == 0) {
         //ハイライト解除
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

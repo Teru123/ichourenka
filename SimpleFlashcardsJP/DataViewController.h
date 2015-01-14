@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) id dataObject;
 @property (nonatomic, assign) NSInteger pageIndex;
+@property (nonatomic, strong) NSString *filenameData;
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;

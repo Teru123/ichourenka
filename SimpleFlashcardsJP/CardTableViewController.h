@@ -22,7 +22,6 @@
 
 @property (nonatomic, strong) NSString *foldernameData;
 @property (nonatomic, strong) NSString *filenameData;
-@property (nonatomic, strong) NSString *editCardsOrNot;
 @property (nonatomic, strong) NSString *fixedFilename;
 
 @property (weak, nonatomic) IBOutlet UILabel *filenameLabel;

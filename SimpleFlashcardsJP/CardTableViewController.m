@@ -28,12 +28,6 @@
     //filename取得。
     self.filenameLabel.text = self.filenameData;
     
-    //AddFileTableViewからCardListTableViewControllerに直接遷移阻止。editCardsOrNotのStringで判断。
-    if (![self.editCardsOrNot isEqualToString:@"CardListTableViewController"]) {
-        [self performSegueWithIdentifier:@"CardListTableViewController" sender:self];
-        
-    }
-    
     //NSLog(@"filenameData %@", self.filenameData);
 }
 
@@ -60,8 +54,8 @@
         changeFilenameViewController.delegate = self;
         
     }else if([[segue identifier] isEqualToString:@"DataViewController"]){
-        //DataViewController *dataViewController = [segue destinationViewController];
-        
+        DataViewController *dataViewController = [segue destinationViewController];
+        dataViewController.filenameData = self.filenameData;
         
     }
 }

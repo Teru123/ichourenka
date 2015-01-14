@@ -56,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="840" y="386"/>
         </scene>
-        <!--フォルダー作成-->
+        <!--CreateFolderTableViewController-->
         <scene sceneID="AL1-e6-TKf">
             <objects>
-                <tableViewController id="IX1-G7-66k" customClass="CreateFolderTableViewController" sceneMemberID="viewController">
+                <tableViewController id="IX1-G7-66k" userLabel="CreateFolderTableViewController" customClass="CreateFolderTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="QGD-b9-j71">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -98,7 +98,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Create" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yEV-mC-9nH">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="フォルダー作成" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yEV-mC-9nH">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -115,7 +115,7 @@
                             <outlet property="delegate" destination="IX1-G7-66k" id="mkn-3A-Kh8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="フォルダー作成" id="GUt-il-GRj"/>
+                    <navigationItem key="navigationItem" id="GUt-il-GRj"/>
                     <connections>
                         <outlet property="folderName" destination="X07-vb-UKC" id="6o3-TF-jqM"/>
                     </connections>
@@ -171,10 +171,10 @@
             </objects>
             <point key="canvasLocation" x="840" y="1097"/>
         </scene>
-        <!--ファイル作成-->
+        <!--CreateFileTableViewController-->
         <scene sceneID="fme-Ar-7v3">
             <objects>
-                <tableViewController storyboardIdentifier="CreateFileTableViewController" id="vwV-xw-f14" customClass="CreateFileTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CreateFileTableViewController" id="vwV-xw-f14" userLabel="CreateFileTableViewController" customClass="CreateFileTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="BYA-4e-uyp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -204,7 +204,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="u0U-qa-BhB" id="nDV-jZ-0Dc">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Create File" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gAx-iI-HSs">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="ファイル作成" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gAx-iI-HSs">
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -212,9 +212,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="xEm-yH-Rni" kind="push" identifier="CardTableViewController" id="rQi-ll-mjg"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -224,7 +221,7 @@
                             <outlet property="delegate" destination="vwV-xw-f14" id="6jm-jL-Xcl"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="ファイル作成" id="TpV-n4-h60"/>
+                    <navigationItem key="navigationItem" id="TpV-n4-h60"/>
                     <connections>
                         <outlet property="fileName" destination="CS2-hk-WzV" id="S9g-3U-Va2"/>
                     </connections>
@@ -353,7 +350,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kGI-OO-7hY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="840" y="2512"/>
+            <point key="canvasLocation" x="1273" y="2512"/>
         </scene>
         <!--Change Filename Table View Controller-->
         <scene sceneID="xqC-IC-Z0B">
@@ -406,7 +403,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="khN-hr-YAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="840" y="1831"/>
+            <point key="canvasLocation" x="308" y="2512"/>
         </scene>
         <!--Card Table View Controller-->
         <scene sceneID="5hO-Gv-sjS">
@@ -481,7 +478,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y73-rs-Hru" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1273" y="1831"/>
+            <point key="canvasLocation" x="840" y="1831"/>
         </scene>
         <!--カード一覧-->
         <scene sceneID="dV3-aN-5li">
@@ -530,7 +527,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1719" y="1831"/>
+            <point key="canvasLocation" x="1273" y="1831"/>
         </scene>
         <!--カード-->
         <scene sceneID="U5t-jW-Y49">
@@ -647,7 +644,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6NH-lZ-L2q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2174" y="1831"/>
+            <point key="canvasLocation" x="1719" y="1831"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="jpM-JN-lHh">
@@ -743,7 +740,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5jK-Ds-TSX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2668" y="1831"/>
+            <point key="canvasLocation" x="2174" y="1831"/>
         </scene>
         <!--Enter File Name Table View Controller-->
         <scene sceneID="KXK-Pe-6yZ">
@@ -886,7 +883,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="rQi-ll-mjg"/>
         <segue reference="N3z-Et-Hnr"/>
     </inferredMetricsTieBreakers>
 </document>
