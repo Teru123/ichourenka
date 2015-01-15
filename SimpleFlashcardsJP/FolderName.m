@@ -6,10 +6,10 @@
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
-#import "FolderNameDB.h"
+#import "FolderName.h"
 #import <sqlite3.h>
 
-@interface FolderNameDB()
+@interface FolderName()
 
 @property (nonatomic, strong) NSMutableArray *arrResults;
 @property (nonatomic, strong) NSString *documentsDirectory;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation FolderNameDB
+@implementation FolderName
 
 -(instancetype)initWithDatabaseFilename:(NSString *)dbFilename{
     self = [super init];

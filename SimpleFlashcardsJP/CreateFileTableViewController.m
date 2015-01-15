@@ -14,7 +14,7 @@
 
 @interface CreateFileTableViewController ()
 
-@property (nonatomic, strong) FolderNameDB *dbFolderManager;
+@property (nonatomic, strong) FoldernameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
 @property (nonatomic, strong) FilenameDB *dbFileManager;
 @property (nonatomic, assign) NSInteger indexOfFolder;
@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     // Initialize the dbManager property.
     //FolderNameDB初期化
-    self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
     //FileDB初期化
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     
@@ -65,10 +65,7 @@
 -(void)loadData{
     // Form the query.
     NSString *query = @"select * from FolderNameInfo";
-    
-    //Load specific data
-    NSString *queryLoad = @"select * from FolderNameInfo";
-    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
     
     // Get the results.
     if (self.folderInfo.count != 0) {

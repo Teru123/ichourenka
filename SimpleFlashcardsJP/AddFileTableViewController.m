@@ -10,13 +10,18 @@
 #import "CreateFileTableViewController.h"
 #import "CardTableViewController.h"
 #import "FilenameDB.h"
+#import "FoldernameDB.h"
 #import "CardNumber.h"
 #import "CardText.h"
 
 @interface AddFileTableViewController ()
 
 @property (nonatomic, strong) FilenameDB *dbFileManager;
+@property (nonatomic, strong) FoldernameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *dbFileInfo;
+@property (nonatomic, strong) NSArray *dbFolderInfo;
+@property (nonatomic, strong) NSArray *updatedFoldername;
+@property (nonatomic, strong) NSArray *updatedFilename;
 @property (nonatomic, strong) NSArray *actionButtonItems;
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, assign) BOOL editIsTapped;
@@ -48,6 +53,8 @@
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
     self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    
+    //NSLog(@"%@", self.folderID);
     
     [self loadData];
 }
@@ -89,7 +96,19 @@
         CardTableViewController *editCards = [segue destinationViewController];
         editCards.filenameData = self.cellText;
         editCards.foldernameData = self.foldernameData;
-        editCards.delegate = self;
+        editCards.folderID = self.folderID;
+        editCards.fileID = self.fileID;
+        editCards.cardTableViewDelegate = self;
+        
+        //FilenameDB初期化。
+        self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+        //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
+        NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where filename = '%@' ", self.cellText];
+        //データを読み込んで配列に追加。
+        self.updatedFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
+        //updatedFoldername0番目のindexOfTextを表示。
+        self.fileID = [NSString stringWithFormat:@"%@", [[self.updatedFilename objectAtIndex:0] objectAtIndex:[self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"]]];
+        NSLog(@"%@", self.fileID);
     }
 }
 
@@ -199,6 +218,21 @@
 
 -(void)editingFileInfoWasFinished{
     [self loadData];
+}
+
+-(void)editingFolderInfoWasFinished{
+    //FileDB初期化。
+    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
+    //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
+    NSString *queryLoad = [NSString stringWithFormat:@"select * from folderInfo where folderInfoID = '%@' ", self.folderID];
+    //データを読み込んで配列に追加。
+    self.updatedFoldername = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    //updatedFoldername0番目のindexOfTextを表示。
+    self.foldernameData = [NSString stringWithFormat:@"%@", [[self.updatedFoldername objectAtIndex:0] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"]]];
+    NSLog(@"%@", self.foldernameData);
+    
+    [self loadData];
+    [self.AddFileTableViewDelegate editingFolderInfoWasFinished];
 }
 
 /*

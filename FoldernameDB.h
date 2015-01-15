@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FolderDB : NSObject
+@interface FoldernameDB : NSObject
 
 @property (nonatomic, strong) NSMutableArray *arrColumnNames;
 @property (nonatomic) int affectedRows;

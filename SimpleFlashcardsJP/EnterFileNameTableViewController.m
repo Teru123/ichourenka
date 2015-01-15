@@ -12,7 +12,7 @@
 
 @interface EnterFileNameTableViewController ()
 
-@property (nonatomic, strong) FolderNameDB *dbFolderManager;
+@property (nonatomic, strong) FoldernameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
 //@property (nonatomic, strong) NSString *checkData;
 - (void)loadInfoToEdit;
@@ -37,7 +37,7 @@
     self.filenameText.bounds = [self editingRectForBounds:self.filenameText.bounds];
     
     // Initialize the dbManager object.
-    self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
     
     //Load specific data
     NSString *queryLoad = @"select * from FolderNameInfo";
@@ -99,7 +99,7 @@
     NSString *query;
     
     if (self.folderInfo.count == 0){
-        query = [NSString stringWithFormat:@"insert into FolderNameInfo values(null, '%@')", self.filenameText.text];
+        query = [NSString stringWithFormat:@"insert into FolderNameInfo values(%d, '%@')", 1, self.filenameText.text];
     }
     else{
         query = [NSString stringWithFormat:@"update FolderNameInfo set foldername='%@' ", self.filenameText.text];
@@ -130,8 +130,8 @@
     
     // Load the relevant data.
     self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
-    NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    _filenameText.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:indexOfFoldername]];
+    //NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    _filenameText.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"]]];
     
 }
 

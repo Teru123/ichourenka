@@ -7,11 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "FolderNameDB.h"
+#import "FolderName.h"
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) FolderNameDB *dbFolderManager;
+@property (nonatomic, strong) FolderName *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
 
 @end
@@ -47,12 +47,13 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     // Initialize the dbManager property.
-    self.dbFolderManager = [[FolderNameDB alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    self.dbFolderManager = [[FolderName alloc] initWithDatabaseFilename:@"FolderName.sql"];
     
     //Load specific data to delete
     NSString *queryLoad = @"select * from FolderNameInfo";
     self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
-    
+    //NSLog(@"%ld", self.folderInfo.count);
+
     if (self.folderInfo.count != 0) {
         // Prepare the query.
         NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo where foldernameinfoID=%d", 1];

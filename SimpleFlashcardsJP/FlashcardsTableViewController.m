@@ -8,18 +8,20 @@
 
 #import "FlashcardsTableViewController.h"
 #import "AddFileTableViewController.h"
-#import "FolderDB.h"
+#import "FoldernameDB.h"
 #import "FilenameDB.h"
 
 @interface FlashcardsTableViewController ()
 
-@property (nonatomic, strong) FolderDB *FolderManagerDB;
+@property (nonatomic, strong) FoldernameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfoDB;
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, strong) NSArray *actionButtonItems;
 @property (nonatomic, strong) FilenameDB *dbFileManager;
 @property (nonatomic, strong) NSArray *dbFileInfo;
 @property (nonatomic, assign) BOOL editIsTapped;
+@property (nonatomic, strong) NSArray *updatedFoldername;
+@property (nonatomic, strong) NSString *folderID;
 
 -(void)loadData;
 
@@ -41,7 +43,7 @@
     self.editIsTapped = NO;
     
     // Initialize the dbManager property.
-    self.FolderManagerDB = [[FolderDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
+    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     [self loadData];
 }
@@ -88,7 +90,19 @@
     }else if ([[segue identifier] isEqualToString:@"AddFileTableViewController"]){
         AddFileTableViewController *fileView = [segue destinationViewController];
         fileView.foldernameData = self.cellText;
-        NSLog(@"%@", self.cellText);
+        fileView.AddFileTableViewDelegate = self;
+        
+        //FolderDB初期化。
+        self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
+        //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
+        NSString *queryLoad = [NSString stringWithFormat:@"select * from folderInfo where foldername = '%@' ", self.cellText];
+        //データを読み込んで配列に追加。
+        self.updatedFoldername = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+        //updatedFoldername0番目のindexOfTextを表示。
+        self.folderID = [NSString stringWithFormat:@"%@", [[self.updatedFoldername objectAtIndex:0] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"]]];
+        
+        fileView.folderID = self.folderID;
+        NSLog(@"%@", self.folderID);
     }
 }
 
@@ -107,7 +121,7 @@
             NSString *queryFile = [NSString stringWithFormat:@"delete from filenameInfo where foldername = '%@' ", self.cellText];
             [self.dbFileManager executeQuery:queryFile];
         }
-        [self.FolderManagerDB executeQuery:queryFolder];
+        [self.dbFolderManager executeQuery:queryFolder];
         
         // Reload the table view.
         [self loadData];
@@ -145,7 +159,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FolderViewCell" forIndexPath:indexPath];
     
-    NSInteger indexOfFoldername = [self.FolderManagerDB.arrColumnNames indexOfObject:@"foldername"];
+    NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", 0];
 
@@ -185,13 +199,19 @@
         self.folderInfoDB = nil;
     }
     
-    self.folderInfoDB = [[NSArray alloc] initWithArray:[self.FolderManagerDB loadDataFromDB:query]];
+    self.folderInfoDB = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
     //NSLog(@"%ld", self.folderInfoDB.count);
     
     [self.tableView reloadData];
 }
 
 -(void)folderEditingInfoWasFinished{
+    // Reload the data.
+    NSLog(@"called editing");
+    [self loadData];
+}
+
+-(void)editingFolderInfoWasFinished{
     // Reload the data.
     NSLog(@"called editing");
     [self loadData];

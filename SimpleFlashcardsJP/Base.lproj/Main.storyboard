@@ -64,7 +64,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <textView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="フォルダーはファイルをまとめて管理します。フォルダー作成後にファイルとそのカードを作成＆編集できます。" textAlignment="center" id="qcF-TO-KGn">
+                        <textView key="tableFooterView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="フォルダーはファイルをまとめて管理します。フォルダー作成後にファイルとそのカードを作成、編集できます。" textAlignment="center" id="qcF-TO-KGn">
                             <rect key="frame" x="0.0" y="197" width="320" height="67"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -230,6 +230,59 @@
             </objects>
             <point key="canvasLocation" x="1273" y="1097"/>
         </scene>
+        <!--Change Foldername Table View Controller-->
+        <scene sceneID="fWb-E6-i0T">
+            <objects>
+                <tableViewController storyboardIdentifier="ChangeFoldernameTableViewController" id="riN-6w-ifb" customClass="ChangeFoldernameTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="zmf-uZ-evw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="Pel-Go-ywy">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="Ypx-BK-h7Q">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ypx-BK-h7Q" id="b50-Zq-b5o">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" minimumFontSize="17" id="SbV-CI-wRx">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="riN-6w-ifb" id="m6u-HN-Wsc"/>
+                            <outlet property="delegate" destination="riN-6w-ifb" id="3fI-fb-rbi"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="IYL-rw-YI7">
+                        <barButtonItem key="leftBarButtonItem" title="キャンセル" id="cT2-wt-KW8">
+                            <connections>
+                                <action selector="cancelAction:" destination="riN-6w-ifb" id="lZf-VC-XpT"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="f2D-yV-Y73">
+                            <connections>
+                                <action selector="saveAction:" destination="riN-6w-ifb" id="tbl-09-alX"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textField" destination="SbV-CI-wRx" id="quz-pW-ZKq"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5f4-IG-aHK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="840" y="2627"/>
+        </scene>
         <!--Data View Controller-->
         <scene sceneID="yRH-dK-bcb">
             <objects>
@@ -386,12 +439,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="yDC-9D-8rm">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="akg-6y-8py">
+                        <barButtonItem key="leftBarButtonItem" title="キャンセル" id="akg-6y-8py">
                             <connections>
                                 <action selector="cancelAction:" destination="Zrz-uh-KE2" id="nQP-3e-pKW"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="R7m-pu-kBH">
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="R7m-pu-kBH">
                             <connections>
                                 <action selector="saveAction:" destination="Zrz-uh-KE2" id="D6a-r3-6Ae"/>
                             </connections>
@@ -414,6 +467,29 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
+                            <tableViewSection headerTitle="フォルダー名を変更" id="ZWV-XN-DoO">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CardTableViewCell" id="OM5-8Z-pgG">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OM5-8Z-pgG" id="NVZ-Ak-S1U">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mH7-Go-Fyq">
+                                                    <rect key="frame" x="16" y="8" width="254" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="riN-6w-ifb" kind="push" identifier="ChangeFoldernameTableViewController" id="FBI-vh-ZrM"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="ファイル名を変更" id="R1i-qj-Ddt">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CardTableViewCell" id="OAw-05-04y">
@@ -437,13 +513,22 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="カードを編集" id="ezL-D2-AgY">
+                            <tableViewSection id="ezL-D2-AgY">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CardTableViewCell" id="MOS-UY-4aJ">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MOS-UY-4aJ" id="w0L-2b-UL8">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カードを編集" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YBK-Bp-vjC">
+                                                    <rect key="frame" x="16" y="8" width="254" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="xi7-na-ssX" kind="push" identifier="CardListTableViewController" id="4HI-lh-muF"/>
@@ -451,13 +536,22 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="カードを見る" id="Lx3-tc-hcb">
+                            <tableViewSection id="Lx3-tc-hcb">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CardTableViewCell" id="1he-MN-X1d">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1he-MN-X1d" id="Ukx-gG-aWx">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カードを見る" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tk9-io-DOP">
+                                                    <rect key="frame" x="16" y="8" width="254" height="27"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="qh5-ZA-l0g" kind="push" identifier="DataViewController" id="IUu-wu-Chb"/>
@@ -474,6 +568,7 @@
                     <navigationItem key="navigationItem" id="NTX-BD-NZf"/>
                     <connections>
                         <outlet property="filenameLabel" destination="Si4-BG-cOI" id="idI-53-DUQ"/>
+                        <outlet property="foldernameLabel" destination="mH7-Go-Fyq" id="vD5-Xz-JCq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y73-rs-Hru" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -728,7 +823,7 @@
                                 <action selector="cancelButton:" destination="fQt-c7-I5D" id="Ia6-FL-TK2"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Be0-xx-oou">
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="Be0-xx-oou">
                             <connections>
                                 <action selector="doneAction:" destination="fQt-c7-I5D" id="T9N-Qx-JPZ"/>
                             </connections>
@@ -776,12 +871,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="BG0-1L-jkd">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="nDY-uO-vBa">
+                        <barButtonItem key="leftBarButtonItem" title="キャンセル" id="nDY-uO-vBa">
                             <connections>
                                 <action selector="cancelButton:" destination="ONt-iq-g3w" id="Ull-Ve-hUZ"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="phq-E0-ZLy">
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="phq-E0-ZLy">
                             <connections>
                                 <action selector="saveButton:" destination="ONt-iq-g3w" id="JvF-l6-8Tw"/>
                             </connections>
@@ -829,12 +924,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="GLE-Pu-PSk">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="QN6-Nm-geg">
+                        <barButtonItem key="leftBarButtonItem" title="キャンセル" id="QN6-Nm-geg">
                             <connections>
                                 <action selector="backToCreateFolder:" destination="U91-es-e9p" id="XKF-L3-jIq"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="2jT-yt-NqK">
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="2jT-yt-NqK">
                             <connections>
                                 <action selector="saveFolderName:" destination="U91-es-e9p" id="rfw-Px-0dL"/>
                             </connections>
