@@ -14,10 +14,12 @@
 @interface CreateFolderTableViewController ()
 
 @property (nonatomic, strong) FolderName *tempFolderManager;
-@property (nonatomic, strong) NSArray *folderInfo;
+@property (nonatomic, strong) NSArray *tempFolderInfo;
 @property (nonatomic, strong) FoldernameDB *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfoDB;
+@property (nonatomic, strong) NSArray *folderIDInfo;
 @property (nonatomic, assign) NSInteger indexOfFolder;
+@property (nonatomic, assign) NSInteger indexOfID;
 
 -(void)loadData;
 
@@ -43,6 +45,8 @@
     // Load the data.
     [self loadData];
     [super viewDidLoad];
+    
+    //NSLog(@"%ld", self.countNum);
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -59,11 +63,11 @@
     // Form the query.
     NSString *query = @"select * from FolderNameInfo";
     //Load specific data
-    self.folderInfo = [[NSArray alloc] initWithArray:[self.tempFolderManager loadDataFromDB:query]];
+    self.tempFolderInfo = [[NSArray alloc] initWithArray:[self.tempFolderManager loadDataFromDB:query]];
     
     // Get the results.
-    if (self.folderInfo.count != 0) {
-        self.folderName.text = [NSString stringWithFormat:@"%@", [[self.folderInfo objectAtIndex:0] objectAtIndex:[self.tempFolderManager.arrColumnNames indexOfObject:@"foldername"]]];
+    if (self.tempFolderInfo.count != 0) {
+        self.folderName.text = [NSString stringWithFormat:@"%@", [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:[self.tempFolderManager.arrColumnNames indexOfObject:@"foldername"]]];
         //_folderName.text = [NSString stringWithFormat:@"Folder Name   %@", [[self.folderInfo objectAtIndex:0] objectAtIndex:0]];
     }
    
@@ -81,22 +85,52 @@
         NSString *queryInsert;
         //FolderName.sqlから
         self.indexOfFolder = [self.tempFolderManager.arrColumnNames indexOfObject:@"foldername"];
+        self.indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
         
         if (self.folderInfoDB.count == 0) {
-            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], 1];
+            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], 0];
             // Execute the query.
             [self.dbFolderManager executeQuery:queryInsert];
         }else{
-            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], 0];
+            /*
+            for (int i = 0; i < self.folderInfoDB.count; i++) {
+                NSString *checkFoldername = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:i] objectAtIndex:self.indexOfFolder]];
+                NSString *tempFoldername = [NSString stringWithFormat:@"%@", [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder]];
+                
+                if ([checkFoldername isEqualToString:tempFoldername]) {
+                    //NSLog(@"check %@, temp %@", checkFoldername, tempFoldername);
+                    
+                    NSInteger checkFolderID = [[NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:i] objectAtIndex:self.indexOfID]] integerValue];
+                    
+                    NSString *query = [NSString stringWithFormat:@"update folderInfo set selectedNumber = %ld where folderInfoID = %ld ", self.countNum, checkFolderID];
+                    //NSLog(@"%@", query);
+                    
+                    // Execute the query.
+                    [self.dbFolderManager executeQuery:query];
+                    
+                    self.countNum += 1;
+                    
+             
+                    if (self.dbFolderManager.affectedRows != 0) {
+                        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
+                    }
+                    else{
+                        NSLog(@"Could not execute the query.");
+                    }
+                }
+            }*/
+            
+            //同一名の合計に１を足して保存。
+            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], 0];
             // Execute the query.
             [self.dbFolderManager executeQuery:queryInsert];
         }
         
         //Load specific data to delete
         NSString *queryLoad = @"select * from FolderNameInfo";
-        self.folderInfo = [[NSArray alloc] initWithArray:[self.tempFolderManager loadDataFromDB:queryLoad]];
+        self.tempFolderInfo = [[NSArray alloc] initWithArray:[self.tempFolderManager loadDataFromDB:queryLoad]];
         
-        if (self.folderInfo.count != 0) {
+        if (self.tempFolderInfo.count != 0) {
             // Prepare the query.
             NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo where foldernameinfoID=%d", 1];
             NSLog(@"%@", query);

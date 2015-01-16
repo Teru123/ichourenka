@@ -53,7 +53,7 @@
 
 - (IBAction)saveAction:(id)sender {
     //クエリー作成。
-    NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where folderInfoID = '%@' ", self.textField.text, self.folderID];
+    NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where folderInfoID = %ld ", self.textField.text, self.folderID];
     [self.dbFolderManager executeQuery:queryUpdate];
     
     NSString *queryUpdateFN = [NSString stringWithFormat:@"update filenameInfo set foldername ='%@' where foldername = '%@' ", self.textField.text, self.tempFoldernameData];

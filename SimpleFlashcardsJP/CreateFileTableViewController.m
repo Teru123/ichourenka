@@ -93,7 +93,8 @@
         //FolderName.sqlから
         self.indexOfFolder = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
         //FileDB.sqlへ
-        queryInsert = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], self.foldernameData];
+        NSString *folderIDStr = [NSString stringWithFormat:@"%ld", self.folderID];
+        queryInsert = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], folderIDStr];
         // Execute the query.
         [self.dbFileManager executeQuery:queryInsert];
         

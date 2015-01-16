@@ -74,11 +74,11 @@
 
 -(void)editingFolderInfoWasFinished{
     
-    NSLog(@"%@", self.folderID);
+    NSLog(@"%ld", self.folderID);
     //FileDB初期化。
     self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
     //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
-    NSString *queryLoad = [NSString stringWithFormat:@"select * from folderInfo where folderInfoID = '%@' ", self.folderID];
+    NSString *queryLoad = [NSString stringWithFormat:@"select * from folderInfo where folderInfoID = %ld ", self.folderID];
     //データを読み込んで配列に追加。
     self.updatedFoldername = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
     //updatedFoldername0番目のindexOfTextを表示。

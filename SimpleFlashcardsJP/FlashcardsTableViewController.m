@@ -21,7 +21,8 @@
 @property (nonatomic, strong) NSArray *dbFileInfo;
 @property (nonatomic, assign) BOOL editIsTapped;
 @property (nonatomic, strong) NSArray *updatedFoldername;
-@property (nonatomic, strong) NSString *folderID;
+@property (nonatomic, assign) NSInteger selectedRow;
+@property (nonatomic, assign) NSInteger countNum;
 
 -(void)loadData;
 
@@ -76,12 +77,26 @@
     self.navigationItem.rightBarButtonItems = self.actionButtonItems;
 }
 
-//didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。
+//didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。indexPathRowの数だけ処理が繰り返される。
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     self.cellText = cell.textLabel.text;
+    
+    //NSLog(@"indexPath %ld", indexPath.row);
+    self.selectedRow = indexPath.row;
+    
     return indexPath;
 }
+
+/*
+- (void)detectSelectedNumber{
+    for (int i = 0 ; i < self.selectedRow; i++) {
+        NSString *selectedStr = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:i] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"]]];
+        if ([selectedStr isEqualToString:self.cellText]) {
+            self.countNum += 1;
+        }
+    }
+}*/
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue identifier] isEqualToString:@"CreateFolderTableViewController"]) {
@@ -92,17 +107,12 @@
         fileView.foldernameData = self.cellText;
         fileView.AddFileTableViewDelegate = self;
         
-        //FolderDB初期化。
-        self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
-        //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
-        NSString *queryLoad = [NSString stringWithFormat:@"select * from folderInfo where foldername = '%@' ", self.cellText];
-        //データを読み込んで配列に追加。
-        self.updatedFoldername = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
-        //updatedFoldername0番目のindexOfTextを表示。
-        self.folderID = [NSString stringWithFormat:@"%@", [[self.updatedFoldername objectAtIndex:0] objectAtIndex:[self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"]]];
+        // Prepare the query.
+        NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
+        NSInteger folderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
         
-        fileView.folderID = self.folderID;
-        NSLog(@"%@", self.folderID);
+        fileView.folderID = folderID;
+        NSLog(@"%ld", folderID);
     }
 }
 
@@ -113,15 +123,19 @@
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         self.cellText = cell.textLabel.text;
         
+        self.selectedRow = indexPath.row;
+        //NSLog(@"%ld", self.selectedRow);
+        
         // Prepare the query.
-        NSString *queryFolder = [NSString stringWithFormat:@"delete from folderInfo where foldername = '%@' ", self.cellText];
-        NSString *queryFile = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", self.cellText];
-        // Execute the query.
-        if (queryFile) {
-            NSString *queryFile = [NSString stringWithFormat:@"delete from filenameInfo where foldername = '%@' ", self.cellText];
-            [self.dbFileManager executeQuery:queryFile];
-        }
-        [self.dbFolderManager executeQuery:queryFolder];
+        NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
+        NSInteger checkFolderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
+        NSLog(@"checkFolderID %ld", checkFolderID);
+        NSString *queryFolderID = [NSString stringWithFormat:@"delete from folderInfo where folderInfoID = %ld", checkFolderID];
+        [self.dbFolderManager executeQuery:queryFolderID];
+        
+        // Prepare the query.
+        NSString *queryIDForFile = [NSString stringWithFormat:@"delete from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", checkFolderID]];
+        [self.dbFileManager executeQuery:queryIDForFile];
         
         // Reload the table view.
         [self loadData];
@@ -193,13 +207,18 @@
 - (void)loadData{
     // Form the query.
     NSString *query = @"select * from folderInfo";
+    NSString *queryForFile = @"select * from filenameInfo";
     
     // Get the results.
     if (self.folderInfoDB != nil) {
         self.folderInfoDB = nil;
     }
+    if (self.dbFileInfo != nil) {
+        self.dbFileInfo = nil;
+    }
     
     self.folderInfoDB = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:query]];
+    self.dbFileInfo = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryForFile]];
     //NSLog(@"%ld", self.folderInfoDB.count);
     
     [self.tableView reloadData];

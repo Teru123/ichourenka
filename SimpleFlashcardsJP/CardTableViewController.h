@@ -22,7 +22,7 @@
 
 @property (nonatomic, strong) id<CardTableViewControllerDelegate> cardTableViewDelegate;
 
-@property (nonatomic, strong) NSString *folderID;
+@property (nonatomic, assign) NSInteger folderID;
 @property (nonatomic, strong) NSString *fileID;
 @property (nonatomic, strong) NSString *foldernameData;
 @property (nonatomic, strong) NSString *filenameData;

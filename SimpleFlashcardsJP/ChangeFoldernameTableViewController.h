@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) id<ChangeFoldernameTableViewControllerDelegate> delegate;
 
-@property (nonatomic, strong) NSString *folderID;
+@property (nonatomic, assign) NSInteger folderID;
 @property (nonatomic, strong) NSString *foldernameData;
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 

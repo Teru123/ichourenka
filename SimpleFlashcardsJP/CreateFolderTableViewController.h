@@ -16,11 +16,10 @@
 @end
 
 @interface CreateFolderTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, EnterFolderNameTableViewControllerDelegate>
-{
-     
-}
 
 @property (nonatomic, strong) id<CreateFolderTableViewControllerDelegate> folderDelegate;
+@property (nonatomic, assign) NSInteger countNum;
+
 @property (weak, nonatomic) IBOutlet UILabel *folderName;
 
 @end
