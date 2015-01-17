@@ -10,6 +10,8 @@
 #import "AddFileTableViewController.h"
 #import "FoldernameDB.h"
 #import "FilenameDB.h"
+#import "CardNumber.h"
+#import "CardText.h"
 
 @interface FlashcardsTableViewController ()
 
@@ -23,6 +25,9 @@
 @property (nonatomic, strong) NSArray *updatedFoldername;
 @property (nonatomic, assign) NSInteger selectedRow;
 @property (nonatomic, assign) NSInteger countNum;
+@property (nonatomic, strong) NSArray *detectFileID;
+@property (nonatomic, strong) CardNumber *dbCardNumber;
+@property (nonatomic, strong) CardText *cardTextManager;
 
 -(void)loadData;
 
@@ -46,6 +51,9 @@
     // Initialize the dbManager property.
     self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
+    self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    
     [self loadData];
 }
 
@@ -112,7 +120,7 @@
         NSInteger folderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
         
         fileView.folderID = folderID;
-        NSLog(@"%ld", folderID);
+        NSLog(@"folderID %ld", folderID);
     }
 }
 
@@ -122,20 +130,36 @@
         // Find the filename.
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         self.cellText = cell.textLabel.text;
-        
         self.selectedRow = indexPath.row;
         //NSLog(@"%ld", self.selectedRow);
         
-        // Prepare the query.
+        // Prepare the query.フォルダーを削除。
         NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
         NSInteger checkFolderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
         NSLog(@"checkFolderID %ld", checkFolderID);
         NSString *queryFolderID = [NSString stringWithFormat:@"delete from folderInfo where folderInfoID = %ld", checkFolderID];
         [self.dbFolderManager executeQuery:queryFolderID];
         
-        // Prepare the query.
-        NSString *queryIDForFile = [NSString stringWithFormat:@"delete from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", checkFolderID]];
-        [self.dbFileManager executeQuery:queryIDForFile];
+        //選択したセルのfileIDを特定する。
+        NSString *queryForFileID = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", checkFolderID]];
+        self.detectFileID = [self.dbFileManager loadDataFromDB:queryForFileID];
+        if (self.detectFileID.count != 0) {
+            for (int i = 0; i < self.detectFileID.count; i++) {
+                NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
+                NSInteger fileID = [[[self.detectFileID objectAtIndex:i] objectAtIndex:indexOfFileID] integerValue];
+                NSLog(@"fileID %ld", fileID);
+                
+                //カード番号を削除。
+                NSString *queryCardNum = [NSString stringWithFormat:@"delete from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
+                [self.dbCardNumber executeQuery:queryCardNum];
+                //カードテキストを削除。
+                NSString *queryCardTxt = [NSString stringWithFormat:@"delete from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
+                [self.cardTextManager executeQuery:queryCardTxt];
+            }
+        }
+        //ファイルを削除。
+        NSString *queryForFile = [NSString stringWithFormat:@"delete from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", checkFolderID]];
+        [self.dbFileManager executeQuery:queryForFile];
         
         // Reload the table view.
         [self loadData];

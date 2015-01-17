@@ -25,6 +25,8 @@
 @property (nonatomic, strong) NSMutableArray *searchResultsNumber;
 @property (nonatomic, strong) NSMutableArray *cardText;
 @property (nonatomic, strong) NSString *filenameData;
+@property (nonatomic, assign) NSInteger folderID;
+@property (nonatomic, assign) NSInteger fileID;
 @property (nonatomic, assign) int recordIDToEdit;
 @property (nonatomic, assign) int newCard;
 @property (nonatomic) int newSearch;

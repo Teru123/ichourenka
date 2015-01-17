@@ -45,6 +45,8 @@
     if ([[segue identifier] isEqualToString:@"CardListTableViewController"]) {
         CardListTableViewController *listView = [segue destinationViewController];
         listView.filenameData = self.filenameData;
+        listView.folderID = self.folderID;
+        listView.fileID = self.fileID;
         //NSLog(@"filename %@", listView.filenameData);
         
     }else if([[segue identifier] isEqualToString:@"ChangeFilenameTableViewController"]){
@@ -55,10 +57,14 @@
             filenameViewController.filenameData = self.filenameData;
         }
         filenameViewController.foldernameData = self.foldernameData;
+        filenameViewController.folderID = self.folderID;
+        filenameViewController.fileID = self.fileID;
         filenameViewController.delegate = self;
     }else if([[segue identifier] isEqualToString:@"DataViewController"]){
         DataViewController *dataViewController = [segue destinationViewController];
         dataViewController.filenameData = self.filenameData;
+        dataViewController.folderID = self.folderID;
+        dataViewController.fileID = self.fileID;
     }else if([[segue identifier] isEqualToString:@"ChangeFoldernameTableViewController"]){
         ChangeFoldernameTableViewController *foldernameViewController = [segue destinationViewController];
         foldernameViewController.foldernameData = self.foldernameData;
@@ -74,9 +80,9 @@
 
 -(void)editingFolderInfoWasFinished{
     
-    NSLog(@"%ld", self.folderID);
+    NSLog(@"self.folderID %ld", self.folderID);
     //FileDB初期化。
-    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
+    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
     //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
     NSString *queryLoad = [NSString stringWithFormat:@"select * from folderInfo where folderInfoID = %ld ", self.folderID];
     //データを読み込んで配列に追加。
@@ -92,36 +98,20 @@
 }
 
 -(void)loadData{
-    //フォルダー内のファイル名が全て書き換えられるバグあり 1/14。
-    
     //FileDB初期化。
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     //クエリー作成。
-    NSString *queryLoad = [NSString stringWithFormat:@"select filename from filenameInfo where foldername = '%@' ", self.foldernameData];
+    NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", self.folderID]];
     
     //arrColumnNamesでfoldernameのindexを取得。
     //NSInteger indexOfFoldername = [self.dbFileManager.arrColumnNames indexOfObject:@"foldername"];
     
     //データを読み込んで配列に追加。
     self.updatedFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
-    self.fixedFilename = [NSString stringWithFormat:@"%@", [self.updatedFilename objectAtIndex:0]];
+    self.fixedFilename = [NSString stringWithFormat:@"%@", [[self.updatedFilename objectAtIndex:0] objectAtIndex:[self.dbFileManager.arrColumnNames indexOfObject:@"filename"]]];
+    NSLog(@"fixedFilename %@", self.fixedFilename);
     
-    //不要なStringを削除する。
-    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@"(" withString:@""];
-    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@")" withString:@""];
-    //最初の文字までの不要なStringを削除する。
-    if ([self.fixedFilename rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
-        self.fixedFilename = [self.fixedFilename stringByReplacingCharactersInRange:NSMakeRange(0, 5) withString:@""];
-    }
-    //最後列の改行だけを削除する。
-    self.fixedFilename = [self.fixedFilename stringByReplacingCharactersInRange:NSMakeRange(self.fixedFilename.length - 1, 1) withString:@""];
-    //Stringに変わった改行を改行と認識させる。
-    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
-    self.fixedFilename = [self.fixedFilename stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-    
-    NSLog(@"%@", self.fixedFilename);
-    
-    self.filenameLabel.text = [NSString stringWithFormat:@"%@", self.fixedFilename];
+    self.filenameLabel.text = self.fixedFilename;
     self.filenameData = self.filenameLabel.text;
 }
 

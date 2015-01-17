@@ -14,9 +14,9 @@
 @interface ChangeFilenameTableViewController ()
 
 @property (nonatomic, strong) FilenameDB *dbFileManager;
-@property (nonatomic, strong) CardText *dbCTManager;
 @property (nonatomic, strong) CardNumber *dbCNManager;
-@property (nonatomic, strong) NSString *tempFilenameData;
+@property (nonatomic, strong) NSString *folderIDStr;
+@property (nonatomic, strong) NSString *fileIDStr;
 
 @end
 
@@ -27,14 +27,16 @@
     
     //FileDB初期化。
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
-    self.dbCTManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
-    self.dbCNManager = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCNManager = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     
     //filename取得。
     if (self.filenameData != nil) {
         self.textField.text = self.filenameData;
     }
-    self.tempFilenameData = self.filenameData;
+    self.folderIDStr = [NSString stringWithFormat:@"%ld", self.folderID];
+    NSLog(@"folderIDStr %@", self.folderIDStr);
+    self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
+    NSLog(@"fileIDStr %@", self.fileIDStr);
     
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.textField.delegate = self;
@@ -56,18 +58,14 @@
 
 - (IBAction)saveAction:(id)sender {
     //クエリー作成。
-    NSString *queryUpdateCT = [NSString stringWithFormat:@"update cardTextInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
-    // Execute the query.
-    [self.dbCTManager executeQuery:queryUpdateCT];
-    
-    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
+    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
     // Execute the query.
     [self.dbCNManager executeQuery:queryUpdateCN];
     
-    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.foldernameData];
+    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
     [self.dbFileManager executeQuery:queryUpdate];
 
-    NSLog(@"tempfilename %@", self.tempFilenameData);
+    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFileInfoWasFinished];
@@ -79,18 +77,14 @@
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     //クエリー作成。
-    NSString *queryUpdateCT = [NSString stringWithFormat:@"update cardTextInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
-    // Execute the query.
-    [self.dbCTManager executeQuery:queryUpdateCT];
-    
-    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where filename = '%@' ", self.textField.text, self.tempFilenameData];
+    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
     // Execute the query.
     [self.dbCNManager executeQuery:queryUpdateCN];
     
-    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.foldernameData];
+    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
     [self.dbFileManager executeQuery:queryUpdate];
     
-    NSLog(@"tempfilename %@", self.tempFilenameData);
+    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFileInfoWasFinished];

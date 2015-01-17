@@ -51,7 +51,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     // Load the first Data
-    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, self.filenameData];
+    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
     NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
     //stringArrを初期化。
@@ -68,7 +68,7 @@
     //NSLog(@"%ld", self.stringArr.count);
     
     // Load the second Data
-    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 1, self.filenameData];
+    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 1, [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardTextInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
     NSInteger indexOfcardText_1 = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
     //stringArrを初期化。
@@ -100,13 +100,13 @@
     self.editIsTapped = NO;
     
     // Initialize the dbManager property.
-    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
     // Load the first Data
-    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo where filename = '%@' ", self.filenameData];
+    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardTextSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryText]];
-    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where filename = '%@' ", self.filenameData];
+    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryNumber]];
     
     //cardText, cardNumberを初期化、配列にinsert。resultsに使用。
@@ -270,6 +270,8 @@
         
         vc.filenameData = self.filenameData;
         vc.recordIDToEdit = self.recordIDToEdit;
+        vc.folderID = self.folderID;
+        vc.fileID = self.fileID;
         self.newCard = 1;
         vc.newCard = self.newCard;
         vc.searchCardDelegate = self;
@@ -378,6 +380,8 @@
         editView.filenameData = self.filenameData;
         editView.recordIDToEdit = self.recordIDToEdit;
         editView.newCard = self.newCard;
+        editView.folderID = self.folderID;
+        editView.fileID = self.fileID;
         editView.editCardDelegate = self;
     }
 }
@@ -445,7 +449,7 @@
 
 -(void)loadData{
     // Form the query.
-    NSString *query = [NSString stringWithFormat:@"select * from cardNumberInfo where filename = '%@' ", self.filenameData];
+    NSString *query = [NSString stringWithFormat:@"select * from cardNumberInfo where filename = '%@' AND foldername = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID], [NSString stringWithFormat:@"%ld", self.folderID]];
     
     // Get the results.
     if (self.arrCNInfo != nil) {
@@ -461,13 +465,13 @@
     // Edit後に各種データを検索等に使用する為、更新する。
     
     // Initialize the dbManager property.
-    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
     // Load the first Data
-    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo where filename = '%@' ", self.filenameData];
+    NSString *queryText = [NSString stringWithFormat:@"select cardText from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardTextSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryText]];
-    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where filename = '%@' ", self.filenameData];
+    NSString *queryNumber = [NSString stringWithFormat:@"select cardNumber from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardNumberSearch = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryNumber]];
     
     //cardText, cardNumberを配列にinsert。resultsに使用。
@@ -484,7 +488,7 @@
     self.searchResults = [NSMutableArray arrayWithCapacity:[self.cardText count]];
     
     // Load the first Data
-    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, self.filenameData];
+    NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardTextInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
     NSInteger indexOfcardText = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
     //stringArrを初期化。
@@ -501,7 +505,7 @@
     //NSLog(@"%ld", self.stringArr.count);
     
     // Load the second Data
-    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 1, self.filenameData];
+    NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 1, [NSString stringWithFormat:@"%ld", self.fileID]];
     self.cardTextInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
     NSInteger indexOfcardText_1 = [self.dbCardText.arrColumnNames indexOfObject:@"cardText"];
     //stringArrを初期化。
@@ -555,11 +559,11 @@
         // Delete the selected record.
         // Prepare the query.
         self.recordIDToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
-        NSString *query = [NSString stringWithFormat:@"delete from cardNumberInfo where cardNumberInfoID = %d AND filename = '%@' ", self.recordIDToEdit, self.filenameData];
+        NSString *query = [NSString stringWithFormat:@"delete from cardNumberInfo where cardNumberInfoID = %d AND filename = '%@' ", self.recordIDToEdit, [NSString stringWithFormat:@"%ld", self.fileID]];
         // Execute the query.
         [self.dbCardNumber executeQuery:query];
         
-        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where cardNumber = %d AND filename = '%@' ", self.recordIDToEdit, self.filenameData];
+        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where cardNumber = %d AND filename = '%@' ", self.recordIDToEdit, [NSString stringWithFormat:@"%ld", self.fileID]];
         NSLog(@"%@", queryText);
         // Execute the query.
         [self.dbCardText executeQuery:queryText];

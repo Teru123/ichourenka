@@ -17,5 +17,7 @@
 @property (nonatomic, strong) NSMutableArray *cardNumber;
 @property (nonatomic, strong) NSMutableArray *cardInfo;
 @property (nonatomic, copy) NSString *cardnumber;
+@property (nonatomic, assign) NSInteger folderID;
+@property (nonatomic, assign) NSInteger fileID;
 
 @end

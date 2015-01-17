@@ -70,11 +70,11 @@
 
     // Initialize the dbManager object.
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
-    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     
     //Load the Data.
     //Create the query.
-    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
+    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' AND foldername = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID], [NSString stringWithFormat:@"%ld", self.folderID]];
     // Get the results.
     if (self.cardNumberInfo != nil) {
         self.cardNumberInfo = nil;
@@ -124,41 +124,41 @@
     NSString *queryFour;
         
     if (self.cardTextInfo.count == 0 && self.currentIndex == 0){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
-        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
         // Execute the query.
         [self.cardTextManager executeQuery:query];
         [self.cardTextManager executeQuery:queryOne];
     }else if (self.cardTextInfo.count == 0 && self.currentIndex == 1){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
-        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
         // Execute the query.
         [self.cardTextManager executeQuery:query];
         [self.cardTextManager executeQuery:queryOne];
     }else if (self.cardTextInfo.count == 0 && self.currentIndex == 2){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
-        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
-        queryTwo = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryTwo = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
         // Execute the query.
         [self.cardTextManager executeQuery:query];
         [self.cardTextManager executeQuery:queryOne];
         [self.cardTextManager executeQuery:queryTwo];
     }else if (self.cardTextInfo.count == 0 && self.currentIndex == 3){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
-        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
-        queryTwo = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, self.filenameData, self.recordIDToEdit];
-        queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryTwo = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
         // Execute the query.
         [self.cardTextManager executeQuery:query];
         [self.cardTextManager executeQuery:queryOne];
         [self.cardTextManager executeQuery:queryTwo];
         [self.cardTextManager executeQuery:queryThree];
     }else if (self.cardTextInfo.count == 0 && self.currentIndex == 4){
-        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, self.filenameData, self.recordIDToEdit];
-        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, self.filenameData, self.recordIDToEdit];
-        queryTwo = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, self.filenameData, self.recordIDToEdit];
-        queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, self.filenameData, self.recordIDToEdit];
-        queryFour = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+        query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 0, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryOne = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 1, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryTwo = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+        queryFour = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
         // Execute the query.
         [self.cardTextManager executeQuery:query];
         [self.cardTextManager executeQuery:queryOne];
@@ -196,39 +196,39 @@
             [self.cardTextManager executeQuery:query];
             //該当データがない場合は新規保存。
         }else if (!self.cardTextInfo.count && self.currentIndex == 0){
-            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
             // Execute the query.
             [self.cardTextManager executeQuery:query];
         }else if (!self.cardTextInfo.count && self.currentIndex == 1){
-            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
             // Execute the query.
             [self.cardTextManager executeQuery:query];
         }else if (!self.cardTextInfo.count && self.currentIndex == 2){
-            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
             // Execute the query.
             [self.cardTextManager executeQuery:query];
         }else if (!self.cardTextInfo.count && self.currentIndex == 3){
             if (self.allCardTextInfo.count == 2) {
-                queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, self.filenameData, self.recordIDToEdit];
+                queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
                 // Execute the query.
                 [self.cardTextManager executeQuery:queryThree];
             }
-            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
             // Execute the query.
             [self.cardTextManager executeQuery:query];
         }else if (!self.cardTextInfo.count && self.currentIndex == 4){
             if (self.allCardTextInfo.count == 2) {
-                queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, self.filenameData, self.recordIDToEdit];
-                queryFour = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, self.filenameData, self.recordIDToEdit];
+                queryThree = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 2, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
+                queryFour = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
                 // Execute the query.
                 [self.cardTextManager executeQuery:queryThree];
                 [self.cardTextManager executeQuery:queryFour];
             }else if(self.allCardTextInfo.count == 3){
-                queryFour = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, self.filenameData, self.recordIDToEdit];
+                queryFour = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"", 3, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
                 // Execute the query.
                 [self.cardTextManager executeQuery:queryFour];
             }
-            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, self.filenameData, self.recordIDToEdit];
+            query = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", self.cardText.text, self.currentIndex, [NSString stringWithFormat:@"%ld", self.fileID], self.recordIDToEdit];
             // Execute the query.
             [self.cardTextManager executeQuery:query];
         }

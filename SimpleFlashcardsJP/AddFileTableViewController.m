@@ -55,10 +55,10 @@
     
     // Initialize the dbManager property.
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
-    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     self.dbCardText = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
-    //NSLog(@"%@", self.folderID);
+    //NSLog(@"%ld", self.folderID);
     
     [self loadData];
 }
@@ -102,50 +102,45 @@
         editCards.filenameData = self.cellText;
         editCards.foldernameData = self.foldernameData;
         editCards.folderID = self.folderID;
-        editCards.fileID = self.fileID;
         editCards.cardTableViewDelegate = self;
         
-        //FilenameDB初期化。
-        self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
-        //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
-        NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where filename = '%@' ", self.cellText];
-        //データを読み込んで配列に追加。
-        self.updatedFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
-        //updatedFoldername0番目のindexOfTextを表示。
-        self.fileID = [NSString stringWithFormat:@"%@", [[self.updatedFilename objectAtIndex:0] objectAtIndex:[self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"]]];
-        NSLog(@"%@", self.fileID);
+        //選択したセルのfileIDを取得。
+        NSInteger indexOfID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
+        NSInteger fileID = [[[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
+        NSLog(@"fileID %ld", fileID);
+        editCards.fileID = fileID;
     }
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    //cellの情報を取得。
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    self.cellText = cell.textLabel.text;
-    self.selectedRow = indexPath.row;
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        //選択したセルのfoldernameを取得。
+        //cellの情報を取得。
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        self.cellText = cell.textLabel.text;
+        self.selectedRow = indexPath.row;
+
+        //選択したセルのfoldernameを取得。*選択したセルのファイルがdeleteできない。1/17
         NSInteger indexOfFolder = [self.dbFileManager.arrColumnNames indexOfObject:@"foldername"];
         NSString *checkFileID = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfFolder]];
+        NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
+        NSInteger fileID = [[[self.checkFilename objectAtIndex:self.selectedRow] objectAtIndex:indexOfFileID] integerValue];
+        NSLog(@"fileID %ld", fileID);
         //クエリー作成。foldernameとfilenameでフォルダーとファイルを特定。
-        NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where filename = '%@' AND foldername = '%@' ", self.cellText, checkFileID];
+        NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where filename = '%@' AND foldername = '%@' ", self.cellText, [NSString stringWithFormat:@"%ld", self.folderID]];
         //データを読み込んで配列に追加。
         self.checkFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
         //NSLog(@"checkFilename %ld %@", self.checkFilename.count, queryLoad);
         
         //特定したデータからindexPath.row番目のデータを消す。
-        NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
-        NSInteger fileID = [[[self.checkFilename objectAtIndex:self.selectedRow] objectAtIndex:indexOfFileID] integerValue];
-        NSLog(@"fileID %ld", fileID);
         NSString *queryFileID = [NSString stringWithFormat:@"delete from filenameInfo where fileInfoID = %ld", fileID];
         [self.dbFileManager executeQuery:queryFileID];
         
         // Prepare the query.
-        NSString *queryCN = [NSString stringWithFormat:@"delete from cardNumberInfo where filename = '%@' ", self.cellText];
+        NSString *queryCN = [NSString stringWithFormat:@"delete from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
         // Execute the query.
         [self.dbCardNumber executeQuery:queryCN];
         
-        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where filename = '%@' ", self.cellText];
+        NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
         NSLog(@"%@", queryText);
         // Execute the query.
         [self.dbCardText executeQuery:queryText];

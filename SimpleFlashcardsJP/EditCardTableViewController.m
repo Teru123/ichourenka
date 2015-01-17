@@ -51,11 +51,11 @@
     
     // Initialize the dbManager object.
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
-    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumber.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     
     //Load the Data.
     //Create the query.
-    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.filenameData];
+    NSString *queryForCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", self.fileID]];
     
     //Get the results.
     if (self.cardNumberInfo != nil) {
@@ -72,7 +72,7 @@
    
     [self.tableView reloadData];
     
-    NSLog(@"%@", self.filenameData);
+    NSLog(@"fileID %@", [NSString stringWithFormat:@"%ld", self.fileID]);
     NSLog(@"recordID %d", self.recordIDToEdit);
     NSLog(@"card %d", self.newCard);
 }
@@ -86,6 +86,8 @@
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
         cardnameView.newCard = self.newCard;
+        cardnameView.folderID = self.folderID;
+        cardnameView.fileID = self.fileID;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController2"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -94,6 +96,8 @@
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
         cardnameView.newCard = self.newCard;
+        cardnameView.folderID = self.folderID;
+        cardnameView.fileID = self.fileID;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController3"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -102,6 +106,8 @@
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
         cardnameView.newCard = self.newCard;
+        cardnameView.folderID = self.folderID;
+        cardnameView.fileID = self.fileID;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController4"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -110,6 +116,8 @@
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
         cardnameView.newCard = self.newCard;
+        cardnameView.folderID = self.folderID;
+        cardnameView.fileID = self.fileID;
         cardnameView.cardTextDelegate = self;
     }else if ([[segue identifier] isEqualToString:@"EnterCardnameTableViewController5"]) {
         EnterCardnameTableViewController *cardnameView = [segue destinationViewController];
@@ -118,6 +126,8 @@
         cardnameView.cellText = self.cellText;
         cardnameView.recordIDToEdit = self.recordIDToEdit;
         cardnameView.newCard = self.newCard;
+        cardnameView.folderID = self.folderID;
+        cardnameView.fileID = self.fileID;
         cardnameView.cardTextDelegate = self;
     }
 }
@@ -134,10 +144,9 @@
 }
 
 -(void)loadInfoToEdit{
-    
     if (self.newCard == -1) {
         //追加、編集するカード番号を保存。
-        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@')", self.filenameData];
+        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@', '%@')", [NSString stringWithFormat:@"%ld", self.fileID], [NSString stringWithFormat:@"%ld", self.folderID]];
         // Execute the query.
         [self.dbCardNumber executeQuery:queryForCardNumber];
         

@@ -75,6 +75,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     EditCardTableViewController *vc = [[self storyboard] instantiateViewControllerWithIdentifier:@"EditCardTableViewController"];
     vc.filenameData = self.filenameData;
+    vc.fileID = self.fileID;
+    vc.folderID = self.folderID;
     vc.recordIDToEdit = self.recordIDToEdit;
     vc.newCard = self.newCard;
     vc.editCardDelegate = self;

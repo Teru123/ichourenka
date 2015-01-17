@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) id<ChangeFilenameTableViewControllerDelegate> delegate;
 
+@property (nonatomic, assign) NSInteger folderID;
+@property (nonatomic, assign) NSInteger fileID;
 @property (nonatomic, strong) NSString *foldernameData;
 @property (nonatomic, strong) NSString *filenameData;
 

@@ -8,13 +8,11 @@
 
 #import "ChangeFoldernameTableViewController.h"
 #import "FoldernameDB.h"
-#import "FilenameDB.h"
 
 @interface ChangeFoldernameTableViewController ()
 
 @property (nonatomic, strong) FoldernameDB *dbFolderManager;
-@property (nonatomic, strong) FilenameDB *dbFileManager;
-@property (nonatomic, strong) NSString *tempFoldernameData;
+@property (nonatomic, strong) NSString *folderIDStr;
 
 @end
 
@@ -24,14 +22,14 @@
     [super viewDidLoad];
     
     //FileDB初期化。
-    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FolderDB.sql"];
-    self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+    self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
     
     //filename取得。
     if (self.foldernameData != nil) {
         self.textField.text = self.foldernameData;
     }
-    self.tempFoldernameData = self.foldernameData;
+    self.folderIDStr = [NSString stringWithFormat:@"%ld", self.folderID];
+    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.textField.delegate = self;
@@ -56,10 +54,7 @@
     NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where folderInfoID = %ld ", self.textField.text, self.folderID];
     [self.dbFolderManager executeQuery:queryUpdate];
     
-    NSString *queryUpdateFN = [NSString stringWithFormat:@"update filenameInfo set foldername ='%@' where foldername = '%@' ", self.textField.text, self.tempFoldernameData];
-    [self.dbFileManager executeQuery:queryUpdateFN];
-    
-    NSLog(@"tempFoldernameData %@", self.tempFoldernameData);
+    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFolderInfoWasFinished];
@@ -71,13 +66,10 @@
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     //クエリー作成。
-    NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where foldername = '%@' ", self.textField.text, self.tempFoldernameData];
+    NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where folderInfoID = %ld ", self.textField.text, self.folderID];
     [self.dbFolderManager executeQuery:queryUpdate];
     
-    NSString *queryUpdateFN = [NSString stringWithFormat:@"update filenameInfo set foldername ='%@' where foldername = '%@' ", self.textField.text, self.tempFoldernameData];
-    [self.dbFileManager executeQuery:queryUpdateFN];
-    
-    NSLog(@"tempFoldernameData %@", self.tempFoldernameData);
+    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFolderInfoWasFinished];

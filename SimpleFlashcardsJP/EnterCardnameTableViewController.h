@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, strong) NSString *titleNumber;
+@property (nonatomic, assign) NSInteger folderID;
+@property (nonatomic, assign) NSInteger fileID;
 @property (nonatomic) int recordIDToEdit;
 @property (nonatomic) int newCard;
 @property (weak, nonatomic) IBOutlet UITextView *cardText;

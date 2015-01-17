@@ -22,6 +22,5 @@
 
 @property (nonatomic, strong) NSString *foldernameData;
 @property (nonatomic, assign) NSInteger folderID;
-@property (nonatomic, strong) NSString *fileID;
 
 @end
