@@ -15,6 +15,10 @@
 		DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */; };
 		DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */; };
 		DD8135431A63E96B000E53D3 /* SwipeArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = DD8135421A63E96B000E53D3 /* SwipeArrow.png */; };
+		DD8AEA4A1A6B87D50006148F /* OptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8AEA491A6B87D50006148F /* OptionsTableViewController.m */; };
+		DD8AEA4D1A6BA1FC0006148F /* CardOrderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8AEA4C1A6BA1FC0006148F /* CardOrderTableViewController.m */; };
+		DD8AEA501A6BB3180006148F /* FontSizeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8AEA4F1A6BB3180006148F /* FontSizeTableViewController.m */; };
+		DD8AEA531A6BB57C0006148F /* BackgroundColorTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8AEA521A6BB57C0006148F /* BackgroundColorTableViewController.m */; };
 		DD8FED521A25CAFD003F2AC2 /* FolderName.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8FED511A25CAFD003F2AC2 /* FolderName.m */; };
 		DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD8FED531A25D0AC003F2AC2 /* FolderName.sql */; };
 		DD8FED591A25D1BA003F2AC2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD8FED581A25D1BA003F2AC2 /* UIKit.framework */; };
@@ -84,6 +88,14 @@
 		DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardListTableViewCell.m; sourceTree = "<group>"; };
 		DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardListTableViewCell.xib; sourceTree = "<group>"; };
 		DD8135421A63E96B000E53D3 /* SwipeArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwipeArrow.png; sourceTree = "<group>"; };
+		DD8AEA481A6B87D50006148F /* OptionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsTableViewController.h; sourceTree = "<group>"; };
+		DD8AEA491A6B87D50006148F /* OptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsTableViewController.m; sourceTree = "<group>"; };
+		DD8AEA4B1A6BA1FC0006148F /* CardOrderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardOrderTableViewController.h; sourceTree = "<group>"; };
+		DD8AEA4C1A6BA1FC0006148F /* CardOrderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardOrderTableViewController.m; sourceTree = "<group>"; };
+		DD8AEA4E1A6BB3180006148F /* FontSizeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontSizeTableViewController.h; sourceTree = "<group>"; };
+		DD8AEA4F1A6BB3180006148F /* FontSizeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontSizeTableViewController.m; sourceTree = "<group>"; };
+		DD8AEA511A6BB57C0006148F /* BackgroundColorTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundColorTableViewController.h; sourceTree = "<group>"; };
+		DD8AEA521A6BB57C0006148F /* BackgroundColorTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundColorTableViewController.m; sourceTree = "<group>"; };
 		DD8FED501A25CAFD003F2AC2 /* FolderName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FolderName.h; path = SimpleFlashcardsJP/FolderName.h; sourceTree = "<group>"; };
 		DD8FED511A25CAFD003F2AC2 /* FolderName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FolderName.m; path = SimpleFlashcardsJP/FolderName.m; sourceTree = "<group>"; };
 		DD8FED531A25D0AC003F2AC2 /* FolderName.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FolderName.sql; sourceTree = "<group>"; };
@@ -265,6 +277,14 @@
 				DDC50F421A39659C009F4BFC /* EnterCardnameTableViewController.m */,
 				DD96B6E21A580978000CEFC8 /* DataViewController.h */,
 				DD96B6E31A580978000CEFC8 /* DataViewController.m */,
+				DD8AEA481A6B87D50006148F /* OptionsTableViewController.h */,
+				DD8AEA491A6B87D50006148F /* OptionsTableViewController.m */,
+				DD8AEA4B1A6BA1FC0006148F /* CardOrderTableViewController.h */,
+				DD8AEA4C1A6BA1FC0006148F /* CardOrderTableViewController.m */,
+				DD8AEA4E1A6BB3180006148F /* FontSizeTableViewController.h */,
+				DD8AEA4F1A6BB3180006148F /* FontSizeTableViewController.m */,
+				DD8AEA511A6BB57C0006148F /* BackgroundColorTableViewController.h */,
+				DD8AEA521A6BB57C0006148F /* BackgroundColorTableViewController.m */,
 				DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */,
 				DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */,
 				DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */,
@@ -440,17 +460,20 @@
 				DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */,
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderName.m in Sources */,
+				DD8AEA4D1A6BA1FC0006148F /* CardOrderTableViewController.m in Sources */,
 				DDA0C8FA1A3AE8F800B5F4E9 /* CardText.m in Sources */,
 				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
 				DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */,
+				DD8AEA501A6BB3180006148F /* FontSizeTableViewController.m in Sources */,
 				DD96B6E41A580978000CEFC8 /* DataViewController.m in Sources */,
 				DDAE37FF1A665EC80066850E /* ChangeFoldernameTableViewController.m in Sources */,
 				DDB941BF1A3C6425004189B3 /* CardListTableViewController.m in Sources */,
 				DDC1A66D1A21D332003C7EC9 /* AppDelegate.m in Sources */,
 				DDC50F431A39659C009F4BFC /* EnterCardnameTableViewController.m in Sources */,
 				DDB7D0E91A243CB600DFC12F /* CreateFolderTableViewController.m in Sources */,
+				DD8AEA531A6BB57C0006148F /* BackgroundColorTableViewController.m in Sources */,
 				DDC1A66A1A21D332003C7EC9 /* main.m in Sources */,
 				DDCCF75B1A3489BC00C6BA63 /* FilenameDB.m in Sources */,
 				DD72C4E21A5652FD00B6FE4A /* MultibyteDescription.m in Sources */,
@@ -460,6 +483,7 @@
 				DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */,
 				DDCBA1DE1A3D4A3C000F8AE8 /* CardNumber.m in Sources */,
 				DDC50F401A39538C009F4BFC /* EditCardTableViewController.m in Sources */,
+				DD8AEA4A1A6B87D50006148F /* OptionsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
