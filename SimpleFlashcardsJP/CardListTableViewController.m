@@ -190,6 +190,7 @@
                 
             for (int k = 0; k < self.confirmNumber.count; k++) {
                 NSString *checkNumber = [NSString stringWithFormat:@"%@", [self.confirmNumber objectAtIndex:k]];
+                //NSLog(@"checkNumber %@", checkNumber);
                 
                 // searchResultsのカード番号を渡す為に不要なStringを削除する。
                 checkNumber = [checkNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
@@ -200,18 +201,19 @@
                 self.indexOfcardText = [checkNumber integerValue];
                 //checkNumberをstringにする。
                 NSString *indexOfcardString = [NSString stringWithFormat:@"%ld", self.indexOfcardText];
+                //NSLog(@"checkNumber %@", checkNumber);
                 
                 //cardNumberをarrayに渡す。
                 [self.searchResultsNumber addObject:indexOfcardString];
                 
                 
                 // searchResultsのカード番号とtextNumber0の値を取得。
-                NSString *queryZero = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 0];
+                NSString *queryZero = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 0];
                 self.CTInfo = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryZero]];
                 // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
-                NSString *checkTheStr = [NSString stringWithFormat:@"%@", [self.CTInfo objectAtIndex:0]];
+                NSString *checkTheStr = [NSString stringWithFormat:@"%@", [[self.CTInfo objectAtIndex:0] objectAtIndex:[self.dbCardText.arrColumnNames indexOfObject:@"cardText"]]];
                 
-                // searchResultsのStringを渡す為に不要なStringを削除する。
+                /*searchResultsのStringを渡す為に不要なStringを削除する。
                 checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
                 checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@")" withString:@""];
                 if ([checkTheStr rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
@@ -219,7 +221,8 @@
                 }
                 checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                 checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-                checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+                checkTheStr = [checkTheStr stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];*/
+                //NSLog(@"check Str %@", checkTheStr);
                 
                 // Checking if a string is equal to "
                 if ([checkTheStr isEqualToString:@""]) {
@@ -230,12 +233,12 @@
                 [self.searchResultsString addObject:checkTheStr];
                 
                 // searchResultsのカード番号とtextNumber1の値を取得。
-                NSString *queryOne = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 1];
+                NSString *queryOne = [NSString stringWithFormat:@"select * from cardTextInfo where cardNumber = %ld AND textNumber = %d", self.indexOfcardText, 1];
                 self.CTInfo_1 = [[NSArray alloc] initWithArray:[self.dbCardText loadDataFromDB:queryOne]];
                 // 直接arrayにaddObjectするとstringByReplacingOccurrencesOfStringが実行されないので、一旦NSStringに値を渡す。
-                NSString *checkTheStrOne = [NSString stringWithFormat:@"%@", [self.CTInfo_1 objectAtIndex:0]];
+                NSString *checkTheStrOne = [NSString stringWithFormat:@"%@", [[self.CTInfo_1 objectAtIndex:0] objectAtIndex:[self.dbCardText.arrColumnNames indexOfObject:@"cardText"]]];
                 
-                // searchResultsのStringを渡す為に不要なStringを削除する。
+                /* searchResultsのStringを渡す為に不要なStringを削除する。
                 checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"(" withString:@""];
                 checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@")" withString:@""];
                 if ([checkTheStrOne rangeOfString:@" " options:0 range:NSMakeRange(0, 5)].location != NSNotFound) {
@@ -243,7 +246,8 @@
                 }
                 checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\n" withString:@""];
                 checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-                checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+                checkTheStrOne = [checkTheStrOne stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];*/
+                //NSLog(@"check Str one %@", checkTheStrOne);
                 
                 // Checking if a string is equal to "
                 if ([checkTheStrOne isEqualToString:@""]) {

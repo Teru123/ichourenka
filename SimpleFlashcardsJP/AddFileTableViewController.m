@@ -119,27 +119,22 @@
         self.cellText = cell.textLabel.text;
         self.selectedRow = indexPath.row;
 
-        //選択したセルのfoldernameを取得。*選択したセルのファイルがdeleteできない。1/17
-        NSInteger indexOfFolder = [self.dbFileManager.arrColumnNames indexOfObject:@"foldername"];
-        NSString *checkFileID = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfFolder]];
+        //選択したセルのfileIDを取得。
         NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
-        NSInteger fileID = [[[self.checkFilename objectAtIndex:self.selectedRow] objectAtIndex:indexOfFileID] integerValue];
+        NSString *checkFileID = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfFileID]];
+        NSInteger fileID = [checkFileID integerValue];
         NSLog(@"fileID %ld", fileID);
-        //クエリー作成。foldernameとfilenameでフォルダーとファイルを特定。
-        NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where filename = '%@' AND foldername = '%@' ", self.cellText, [NSString stringWithFormat:@"%ld", self.folderID]];
-        //データを読み込んで配列に追加。
-        self.checkFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
-        //NSLog(@"checkFilename %ld %@", self.checkFilename.count, queryLoad);
         
-        //特定したデータからindexPath.row番目のデータを消す。
+        //ファイルを削除。
         NSString *queryFileID = [NSString stringWithFormat:@"delete from filenameInfo where fileInfoID = %ld", fileID];
         [self.dbFileManager executeQuery:queryFileID];
         
-        // Prepare the query.
+        // カード番号を削除。
         NSString *queryCN = [NSString stringWithFormat:@"delete from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
         // Execute the query.
         [self.dbCardNumber executeQuery:queryCN];
         
+        //カードテキストを削除。
         NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
         NSLog(@"%@", queryText);
         // Execute the query.

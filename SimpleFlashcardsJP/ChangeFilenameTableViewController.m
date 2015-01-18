@@ -58,14 +58,8 @@
 
 - (IBAction)saveAction:(id)sender {
     //クエリー作成。
-    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
-    // Execute the query.
-    [self.dbCNManager executeQuery:queryUpdateCN];
-    
-    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
+    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where fileInfoID = %ld ", self.textField.text, self.fileID];
     [self.dbFileManager executeQuery:queryUpdate];
-
-    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFileInfoWasFinished];
@@ -77,14 +71,8 @@
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     //クエリー作成。
-    NSString *queryUpdateCN = [NSString stringWithFormat:@"update cardNumberInfo set filename = '%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
-    // Execute the query.
-    [self.dbCNManager executeQuery:queryUpdateCN];
-    
-    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where foldername = '%@' ", self.textField.text, self.folderIDStr];
+    NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where fileInfoID = %ld ", self.textField.text, self.fileID];
     [self.dbFileManager executeQuery:queryUpdate];
-    
-    NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFileInfoWasFinished];

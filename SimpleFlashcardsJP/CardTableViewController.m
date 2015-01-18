@@ -101,7 +101,8 @@
     //FileDB初期化。
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     //クエリー作成。
-    NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", self.folderID]];
+    NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where fileInfoID = %ld ", self.fileID];
+    NSLog(@"%ld", self.fileID);
     
     //arrColumnNamesでfoldernameのindexを取得。
     //NSInteger indexOfFoldername = [self.dbFileManager.arrColumnNames indexOfObject:@"foldername"];
