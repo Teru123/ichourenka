@@ -8,10 +8,14 @@
 
 #import "FontSizeTableViewController.h"
 #import "CardListTableViewCell.h"
+#import "Options.h"
 
 @interface FontSizeTableViewController ()
 
 @property (nonatomic, strong) NSIndexPath* lastIndexPath;
+@property (nonatomic, strong) Options *dbOptions;
+@property (nonatomic, strong) NSArray *dbOptionInfo;
+@property (nonatomic, assign) BOOL loadedCell;
 
 @end
 
@@ -20,15 +24,63 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    // Initialize the dbManager object.
+    self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
+    //クエリー作成。
+    NSString *queryOrder = [NSString stringWithFormat:@"select * from optionInfo where optionInfoID = %d", 1];
+    //データを読み込んで配列に追加。
+    self.dbOptionInfo = [[NSArray alloc] initWithArray:[self.dbOptions loadDataFromDB:queryOrder]];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.loadedCell = NO;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController setNavigationBarHidden:NO];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.loadedCell == NO) {
+        //arrColumnNamesでselectedopstrのindexを取得。
+        NSInteger opIndex = [self.dbOptions.arrColumnNames indexOfObject:@"selectedop"];
+        //dbOptionsの0番目の値を取得。
+        NSInteger selectedOP = [[[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex] integerValue];
+        //NSLog(@"selectedOP %ld", selectedOP);
+        
+        if (selectedOP == 0) {
+            //NSLog(@"check");
+            if (indexPath.row == 0) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                //self.lastIndexPath = indexPath;
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }else if (selectedOP == 1){
+            //NSLog(@"check");
+            if (indexPath.row == 1) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                //self.lastIndexPath = indexPath;
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }else if (selectedOP == 2){
+            //NSLog(@"check");
+            if (indexPath.row == 2) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                //self.lastIndexPath = indexPath;
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }else if (selectedOP == 3){
+            //NSLog(@"check");
+            if (indexPath.row == 3) {
+                cell.accessoryType = UITableViewCellAccessoryCheckmark;
+                //self.lastIndexPath = indexPath;
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryNone;
+            }
+        }
+    }
 }
 
 #pragma mark - Table view data source
@@ -58,6 +110,36 @@
     if ([indexPath compare:self.lastIndexPath] == NSOrderedSame)
     {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        if (indexPath.row == 0) {
+            //クエリー作成。
+            NSString *queryUpdate = [NSString stringWithFormat:@"update optionInfo set selectedop = %ld where optionInfoID = %d ", indexPath.row, 1];
+            NSString *queryUpdateStr = [NSString stringWithFormat:@"update optionInfo set selectedopstr = '%@' where optionInfoID = %d ", @"小", 1];
+            //NSLog(@"queryUpdate %@", queryUpdate);
+            [self.dbOptions executeQuery:queryUpdate];
+            [self.dbOptions executeQuery:queryUpdateStr];
+        }else if (indexPath.row == 1) {
+            //クエリー作成。
+            NSString *queryUpdate = [NSString stringWithFormat:@"update optionInfo set selectedop = %ld where optionInfoID = %d ", indexPath.row, 1];
+            NSString *queryUpdateStr = [NSString stringWithFormat:@"update optionInfo set selectedopstr = '%@' where optionInfoID = %d ", @"中", 1];
+            //NSLog(@"queryUpdate %@", queryUpdate);
+            [self.dbOptions executeQuery:queryUpdate];
+            [self.dbOptions executeQuery:queryUpdateStr];
+        }else if (indexPath.row == 2) {
+            //クエリー作成。
+            NSString *queryUpdate = [NSString stringWithFormat:@"update optionInfo set selectedop = %ld where optionInfoID = %d ", indexPath.row, 1];
+            NSString *queryUpdateStr = [NSString stringWithFormat:@"update optionInfo set selectedopstr = '%@' where optionInfoID = %d ", @"大", 1];
+            //NSLog(@"queryUpdate %@", queryUpdate);
+            [self.dbOptions executeQuery:queryUpdate];
+            [self.dbOptions executeQuery:queryUpdateStr];
+        }else if (indexPath.row == 3) {
+            //クエリー作成。
+            NSString *queryUpdate = [NSString stringWithFormat:@"update optionInfo set selectedop = %ld where optionInfoID = %d ", indexPath.row, 1];
+            NSString *queryUpdateStr = [NSString stringWithFormat:@"update optionInfo set selectedopstr = '%@' where optionInfoID = %d ", @"特大", 1];
+            //NSLog(@"queryUpdate %@", queryUpdate);
+            [self.dbOptions executeQuery:queryUpdate];
+            [self.dbOptions executeQuery:queryUpdateStr];
+        }
     }
     else
     {
@@ -75,7 +157,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.lastIndexPath = indexPath;
-    
+    self.loadedCell = YES;
     [tableView reloadData];
 }
 

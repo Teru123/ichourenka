@@ -517,6 +517,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="設定" id="zSu-VK-oZQ"/>
+                    <connections>
+                        <outlet property="backcolorDetail" destination="heV-X9-09l" id="yUL-T6-8jy"/>
+                        <outlet property="fontsizeDetail" destination="De2-FM-GWr" id="0lt-bb-Lm5"/>
+                        <outlet property="languageDetail" destination="kbr-xq-I1q" id="wXi-Qy-VLw"/>
+                        <outlet property="orderDetail" destination="7uQ-kN-951" id="h2w-bh-glL"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vxq-rO-7dp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface OptionsTableViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UILabel *orderDetail;
+@property (weak, nonatomic) IBOutlet UILabel *fontsizeDetail;
+@property (weak, nonatomic) IBOutlet UILabel *backcolorDetail;
+@property (weak, nonatomic) IBOutlet UILabel *languageDetail;
+
 
 @end

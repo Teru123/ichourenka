@@ -8,11 +8,14 @@
 
 #import "AppDelegate.h"
 #import "FolderName.h"
+#import "Options.h"
 
 @interface AppDelegate ()
 
 @property (nonatomic, strong) FolderName *dbFolderManager;
 @property (nonatomic, strong) NSArray *folderInfo;
+@property (nonatomic, strong) Options *dbOptions;
+@property (nonatomic, strong) NSArray *dbOptionInfo;
 
 @end
 
@@ -21,6 +24,37 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Initialize the dbManager object.
+    self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
+    //クエリー作成。
+    NSString *queryLoadOp = [NSString stringWithFormat:@"select * from optionInfo"];
+    //データを読み込んで配列に追加。
+    self.dbOptionInfo = [[NSArray alloc] initWithArray:[self.dbOptions loadDataFromDB:queryLoadOp]];
+    
+    if (self.dbOptionInfo.count == 0) {
+        //NSLog(@"self.dbOptionInfo.count %ld", self.dbOptionInfo.count);
+        
+        //カードの順序を保存。
+        NSString *queryForOrder = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 0, 0, @"順序通り"];
+        // Execute the query.
+        [self.dbOptions executeQuery:queryForOrder];
+    
+        //文字サイズを保存。
+        NSString *queryForFontsize = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 1, 1, @"中"];
+        // Execute the query.
+        [self.dbOptions executeQuery:queryForFontsize];
+        
+        //背景色を保存。
+        NSString *queryForBackcolor = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 2, 0, @"青色"];
+        // Execute the query.
+        [self.dbOptions executeQuery:queryForBackcolor];
+        
+        //背景色を保存。
+        NSString *queryForLanguage = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 3, 0, @"en"];
+        // Execute the query.
+        [self.dbOptions executeQuery:queryForLanguage];
+    }
     
     return YES;
 }

@@ -7,8 +7,12 @@
 //
 
 #import "OptionsTableViewController.h"
+#import "Options.h"
 
 @interface OptionsTableViewController ()
+
+@property (nonatomic, strong) Options *dbOptions;
+@property (nonatomic, strong) NSArray *dbOptionInfo;
 
 @end
 
@@ -17,11 +21,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationController setNavigationBarHidden:NO];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+   
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    // Initialize the dbManager object.
+    self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
+    //クエリー作成。
+    NSString *queryOrder = [NSString stringWithFormat:@"select * from optionInfo"];
+    //データを読み込んで配列に追加。
+    self.dbOptionInfo = [[NSArray alloc] initWithArray:[self.dbOptions loadDataFromDB:queryOrder]];
+    //arrColumnNamesでselectedopstrのindexを取得。
+    NSInteger opIndex = [self.dbOptions.arrColumnNames indexOfObject:@"selectedopstr"];
+    //dbOptionsの*番目の値を取得。
+    self.orderDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex]];
+    self.fontsizeDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex]];
+    self.backcolorDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex]];
+    self.languageDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex]];;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
