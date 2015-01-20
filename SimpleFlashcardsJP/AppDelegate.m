@@ -21,6 +21,8 @@
 
 @implementation AppDelegate
 
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.9]
+#define UIColorAlphaFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.0]
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -49,11 +51,56 @@
         NSString *queryForBackcolor = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 2, 0, @"青色"];
         // Execute the query.
         [self.dbOptions executeQuery:queryForBackcolor];
+    }
+    
+    //以下、デザイン。
+    // Uncomment to change the background color of navigation bar
+    [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x065db5)];
+    
+    // Uncomment to change the color of back button
+    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
+    
+    // Uncomment to change the font style of the title
+    NSShadow *shadow = [[NSShadow alloc] init];
+    shadow.shadowColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.8];
+    shadow.shadowOffset = CGSizeMake(0, 1);
+    [[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0], NSForegroundColorAttributeName,
+                                                           shadow, NSShadowAttributeName, nil]];
+    
+    [UITableViewCell appearance].separatorInset = UIEdgeInsetsZero;
+    
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (iOSDeviceScreenSize.height == 480)
+    {
+        // Instantiate a new storyboard object using the storyboard file named Storyboard_iPhone35
+        UIStoryboard *iPhone4Storyboard = [UIStoryboard storyboardWithName:@"iPhone4" bundle:nil];
         
-        //背景色を保存。
-        NSString *queryForLanguage = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 3, 0, @"en"];
-        // Execute the query.
-        [self.dbOptions executeQuery:queryForLanguage];
+        // Instantiate the initial view controller object from the storyboard
+        UIViewController *initialViewController = [iPhone4Storyboard instantiateInitialViewController];
+        
+        // Instantiate a UIWindow object and initialize it with the screen size of the iOS device
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        
+        // Set the initial view controller to be the root view controller of the window object
+        self.window.rootViewController  = initialViewController;
+        
+        // Set the window object to be the key window and show it
+        [self.window makeKeyAndVisible];
+    }
+    
+    if (iOSDeviceScreenSize.height == 568)
+    {   // iPhone 5 and iPod Touch 5th generation: 4 inch screen
+        // Instantiate a new storyboard object using the storyboard file named Storyboard_iPhone4
+        UIStoryboard *iPhone5_6Storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        UIViewController *initialViewController = [iPhone5_6Storyboard instantiateInitialViewController];
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.window.rootViewController  = initialViewController;
+        [self.window makeKeyAndVisible];
     }
     
     return YES;

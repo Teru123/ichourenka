@@ -38,7 +38,6 @@
     self.orderDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex]];
     self.fontsizeDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex]];
     self.backcolorDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex]];
-    self.languageDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex]];;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -47,9 +46,6 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 3) {
-        NSLog(@"Tapped");
-    }
     
     [tableView reloadData];
 }

@@ -12,6 +12,7 @@
 		DD15EDD61A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */; };
 		DD3383E61A67931A0018F2EC /* FoldernameDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD3383E51A67931A0018F2EC /* FoldernameDB.sql */; };
 		DD414C3F1A5BB38A00FFAABB /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = DD414C3E1A5BB38A00FFAABB /* cross.png */; };
+		DD71DEE71A6E50CD004B8EAF /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD71DEE61A6E50CD004B8EAF /* HelpViewController.m */; };
 		DD72C4E21A5652FD00B6FE4A /* MultibyteDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DD72C4E11A5652FD00B6FE4A /* MultibyteDescription.m */; };
 		DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */; };
 		DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */; };
@@ -85,6 +86,8 @@
 		DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeFilenameTableViewController.m; sourceTree = "<group>"; };
 		DD3383E51A67931A0018F2EC /* FoldernameDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FoldernameDB.sql; sourceTree = "<group>"; };
 		DD414C3E1A5BB38A00FFAABB /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
+		DD71DEE51A6E50CD004B8EAF /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
+		DD71DEE61A6E50CD004B8EAF /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
 		DD72C4E01A5652FD00B6FE4A /* MultibyteDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultibyteDescription.h; sourceTree = "<group>"; };
 		DD72C4E11A5652FD00B6FE4A /* MultibyteDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultibyteDescription.m; sourceTree = "<group>"; };
 		DD77F0CB1A37E89F00AC40EF /* CardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTableViewController.h; sourceTree = "<group>"; };
@@ -259,6 +262,8 @@
 				DDC1A6911A21D6B8003C7EC9 /* FlashcardsNavigationController.m */,
 				DDC1A6931A21D6E7003C7EC9 /* FlashcardsTableViewController.h */,
 				DDC1A6941A21D6E7003C7EC9 /* FlashcardsTableViewController.m */,
+				DD71DEE51A6E50CD004B8EAF /* HelpViewController.h */,
+				DD71DEE61A6E50CD004B8EAF /* HelpViewController.m */,
 				DDB7D0E71A243CB600DFC12F /* CreateFolderTableViewController.h */,
 				DDB7D0E81A243CB600DFC12F /* CreateFolderTableViewController.m */,
 				DDDB67551A24587000921E82 /* EnterFolderNameTableViewController.h */,
@@ -490,6 +495,7 @@
 				DD15EDD61A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m in Sources */,
 				DD0EE5661A6CC7AE00B9AD6B /* Options.m in Sources */,
 				DD9BF61F1A49191900BCDDB8 /* SearchResultsTableViewController.m in Sources */,
+				DD71DEE71A6E50CD004B8EAF /* HelpViewController.m in Sources */,
 				DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */,
 				DDCBA1DE1A3D4A3C000F8AE8 /* CardNumber.m in Sources */,
 				DDC50F401A39538C009F4BFC /* EditCardTableViewController.m in Sources */,
