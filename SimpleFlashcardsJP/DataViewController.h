@@ -7,8 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Reachability.h"
+#import "GADBannerView.h"
 
-@interface DataViewController : UIViewController <UITextViewDelegate>
+@interface DataViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate, GADBannerViewDelegate>
+{
+    Reachability* internetReachable;
+    Reachability* hostReachable;
+    GADBannerView *bannerView_;
+}
 
 @property (nonatomic, strong) id dataObject;
 @property (nonatomic, assign) NSInteger pageIndex;
@@ -35,5 +42,7 @@
 - (IBAction)changeTextAction:(id)sender;
 - (IBAction)movePageAction:(id)sender;
 - (IBAction)crossAction:(id)sender;
+
+-(void) checkNetworkStatus:(NSNotification *)notice;
 
 @end

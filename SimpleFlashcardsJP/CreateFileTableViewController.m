@@ -114,6 +114,7 @@
         
         // Inform the delegate that the editing was finished.
         [self.fileDelegate editingFileInfoWasFinished];
+        
         self.fileName.text = [NSString stringWithFormat:@""];
         //前画面に戻る。
         [self.navigationController popViewControllerAnimated:YES];

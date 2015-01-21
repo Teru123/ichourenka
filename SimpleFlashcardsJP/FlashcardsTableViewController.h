@@ -11,9 +11,6 @@
 #import "AddFileTableViewController.h"
 
 @interface FlashcardsTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, CreateFolderTableViewControllerDelegate, AddFileTableViewControllerDelegate>
-{
-
-}
 
 
 @end

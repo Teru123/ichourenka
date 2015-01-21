@@ -396,6 +396,8 @@
 
 -(void)editingCardTextInfoWasFinished{
     [self loadInfoToEdit];
+    //カード編集後に呼ぶ。
+    [self.editCardDelegate madeTheCard];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -12,6 +12,7 @@
 @protocol EditCardTableViewControllerDelegate
 
 -(void)cardEditingInfoWasFinished;
+-(void)madeTheCard;
 
 @end
 

@@ -92,4 +92,8 @@
     //NSLog(@"cardEditingInfoWasFinished_2 called");
 }
 
+-(void)madeTheCard{
+    //他のdelegate先で使用しているメソッド。
+}
+
 @end

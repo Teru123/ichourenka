@@ -26,6 +26,7 @@
 @property (nonatomic, assign) NSInteger selectedRow;
 @property (nonatomic, assign) NSInteger countNum;
 @property (nonatomic, strong) NSArray *detectFileID;
+@property (nonatomic, strong) NSArray *countFile;
 @property (nonatomic, strong) CardNumber *dbCardNumber;
 @property (nonatomic, strong) CardText *cardTextManager;
 
@@ -136,7 +137,7 @@
         // Prepare the query.フォルダーを削除。
         NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
         NSInteger checkFolderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
-        NSLog(@"checkFolderID %ld", checkFolderID);
+        NSLog(@"selectedRow checkFolderID %ld", checkFolderID);
         NSString *queryFolderID = [NSString stringWithFormat:@"delete from folderInfo where folderInfoID = %ld", checkFolderID];
         [self.dbFolderManager executeQuery:queryFolderID];
         
@@ -194,18 +195,9 @@
     
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FolderViewCell" forIndexPath:indexPath];
-    
-    NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", 0];
-
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell
+forRowAtIndexPath:(NSIndexPath *)indexPath{
+    //セルのinsetをゼロにする。
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
         [cell setSeparatorInset:UIEdgeInsetsZero];
     }
@@ -213,6 +205,30 @@
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FolderViewCell" forIndexPath:indexPath];
+    
+    NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
+    
+    //各フォルダーのファイル数を表示。選択したセルのfolderIDを特定する。
+    NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
+    NSInteger checkFolderID = [[[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfID] integerValue];
+    NSLog(@"indexPath checkFolderID %ld", checkFolderID);
+    
+    NSString *queryForFileID = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", checkFolderID]];
+    self.countFile = [self.dbFileManager loadDataFromDB:queryForFileID];
+    
+    if (self.countFile.count == 0) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", 0];
+    }else{
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+    }
+    
+    return cell;
 }
 
 -(void)viewDidLayoutSubviews
@@ -245,6 +261,7 @@
     self.dbFileInfo = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryForFile]];
     //NSLog(@"%ld", self.folderInfoDB.count);
     
+    //reloadDataでcellForRowAtIndexPath...等が再度呼ばれてデータが更新される。
     [self.tableView reloadData];
 }
 

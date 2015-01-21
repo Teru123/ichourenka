@@ -574,6 +574,9 @@
         
         // Reload the table view.
         [self loadData];
+        
+        //ファイルメニューのカード数を更新する。
+        [self.cardListTableViewDelegate deletingCardInfoWasFinished];
     }
 }
 
@@ -599,7 +602,7 @@
 -(void)cardEditingInfoWasFinished{
     // Reload the data.
     [self loadData];
-    
+    //カード編集後にデータを更新する。
     [self updateSearchResultsForSearchController:self.searchController];
     NSLog(@"cardEditingInfoWasFinished_1 called");
 }
@@ -607,10 +610,15 @@
 -(void)searchEditingInfoWasFinished{
     // Reload the data.
     [self loadData];
-    
+    //検索後に編集したカードのデータを更新する。
     [self updateSearchResultsForSearchController:self.searchController];
     [self.searchController.searchBar becomeFirstResponder];
     NSLog(@"searchEditingInfoWasFinished called");
+}
+
+-(void)madeTheCard{
+    //addFileのデータを更新する為に呼ぶ。
+    [self.cardListTableViewDelegate addingCardInfoWasFinished];
 }
 
 - (void)didReceiveMemoryWarning {

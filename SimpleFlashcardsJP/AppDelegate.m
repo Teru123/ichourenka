@@ -48,7 +48,7 @@
         [self.dbOptions executeQuery:queryForFontsize];
         
         //背景色を保存。
-        NSString *queryForBackcolor = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 2, 0, @"青色"];
+        NSString *queryForBackcolor = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 2, 1, @"茶色"];
         // Execute the query.
         [self.dbOptions executeQuery:queryForBackcolor];
     }
@@ -95,9 +95,9 @@
     if (iOSDeviceScreenSize.height == 568)
     {   // iPhone 5 and iPod Touch 5th generation: 4 inch screen
         // Instantiate a new storyboard object using the storyboard file named Storyboard_iPhone4
-        UIStoryboard *iPhone5_6Storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *iPhone5Storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         
-        UIViewController *initialViewController = [iPhone5_6Storyboard instantiateInitialViewController];
+        UIViewController *initialViewController = [iPhone5Storyboard instantiateInitialViewController];
         self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
         self.window.rootViewController  = initialViewController;
         [self.window makeKeyAndVisible];

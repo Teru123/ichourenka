@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSArray *updatedFilename;
 @property (nonatomic, strong) NSArray *checkFilename;
 @property (nonatomic, strong) NSArray *actionButtonItems;
+@property (nonatomic, strong) NSArray *countCard;
 @property (nonatomic, strong) NSString *cellText;
 @property (nonatomic, strong) NSString *fileIDTxt;
 @property (nonatomic, assign) BOOL editIsTapped;
@@ -107,7 +108,7 @@
         //選択したセルのfileIDを取得。
         NSInteger indexOfID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
         NSInteger fileID = [[[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
-        NSLog(@"fileID %ld", fileID);
+        NSLog(@"selectedRow fileID %ld", fileID);
         editCards.fileID = fileID;
     }
 }
@@ -142,6 +143,9 @@
         
         // Reload the table view.
         [self loadData];
+        
+        //フォルダーメニューのファイル数を更新する。
+        [self.AddFileTableViewDelegate editingFolderInfoWasFinished];
     }
 }
 
@@ -187,7 +191,21 @@
     
     NSInteger indexOfFoldername = [self.dbFileManager.arrColumnNames indexOfObject:@"filename"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", 0];
+    
+    //各ファイルのカード数を表示。選択したセルのfileIDを特定する。
+    NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
+    NSString *checkFileID = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:indexPath.row] objectAtIndex:indexOfFileID]];
+    NSInteger fileID = [checkFileID integerValue];
+    NSLog(@"indexPath fileID %ld", fileID);
+    
+    NSString *query = [NSString stringWithFormat:@"select * from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
+    self.countCard = [self.dbCardNumber loadDataFromDB:query];
+    
+    if (self.countCard.count == 0) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", 0];
+    }else{
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+    }
     
     return cell;
 }
@@ -223,16 +241,25 @@
     
     //NSLog(@"%ld", self.dbFileInfo.count);
     
+    //reloadDataでcellForRowAtIndexPath...等が再度呼ばれてデータが更新される。
     [self.tableView reloadData];
 }
 
 -(void)editingFileInfoWasFinished{
     [self loadData];
+    //フォルダーメニューのファイル数を更新する。
+    [self.AddFileTableViewDelegate editingFolderInfoWasFinished];
 }
 
 -(void)editingFolderInfoWasFinished{
     [self loadData];
+    //変更されたフォルダー名に更新する。
     [self.AddFileTableViewDelegate editingFolderInfoWasFinished];
+}
+
+-(void)reloadTheCard{
+    //ファイルメニューのカード数を更新する。
+    [self loadData];
 }
 
 /*

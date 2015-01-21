@@ -47,6 +47,7 @@
         listView.filenameData = self.filenameData;
         listView.folderID = self.folderID;
         listView.fileID = self.fileID;
+        listView.cardListTableViewDelegate = self;
         //NSLog(@"filename %@", listView.filenameData);
         
     }else if([[segue identifier] isEqualToString:@"ChangeFilenameTableViewController"]){
@@ -114,6 +115,14 @@
     
     self.filenameLabel.text = self.fixedFilename;
     self.filenameData = self.filenameLabel.text;
+}
+
+-(void)deletingCardInfoWasFinished{
+    [self.cardTableViewDelegate reloadTheCard];
+}
+
+-(void)addingCardInfoWasFinished{
+    [self.cardTableViewDelegate reloadTheCard];
 }
 
 - (void)didReceiveMemoryWarning {

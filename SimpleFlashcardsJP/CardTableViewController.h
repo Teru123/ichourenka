@@ -15,10 +15,11 @@
 
 -(void)editingFileInfoWasFinished;
 -(void)editingFolderInfoWasFinished;
+-(void)reloadTheCard;
 
 @end
 
-@interface CardTableViewController : UITableViewController <ChangeFilenameTableViewControllerDelegate, ChangeFoldernameTableViewControllerDelegate>
+@interface CardTableViewController : UITableViewController <ChangeFilenameTableViewControllerDelegate, ChangeFoldernameTableViewControllerDelegate, CardListTableViewControllerDelegate>
 
 @property (nonatomic, strong) id<CardTableViewControllerDelegate> cardTableViewDelegate;
 

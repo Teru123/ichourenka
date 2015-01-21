@@ -23,6 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.rowHeight = 44;
     
     // Initialize the dbManager object.
     self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
