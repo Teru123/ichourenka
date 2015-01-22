@@ -56,6 +56,9 @@
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
     
     [self loadData];
+    
+    //NSLog(@"width=%f",self.view.bounds.size.width);
+    //NSLog(@"height=%f",self.view.bounds.size.height);
 }
 
 -(void)addFolder: (UIBarButtonItem *)sender{

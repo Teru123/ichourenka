@@ -103,6 +103,28 @@
         [self.window makeKeyAndVisible];
     }
     
+    if (iOSDeviceScreenSize.height == 667)
+    {   // iPhone 5 and iPod Touch 5th generation: 4 inch screen
+        // Instantiate a new storyboard object using the storyboard file named Storyboard_iPhone4
+        UIStoryboard *iPhone6Storyboard = [UIStoryboard storyboardWithName:@"iPhone6" bundle:nil];
+        
+        UIViewController *initialViewController = [iPhone6Storyboard instantiateInitialViewController];
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.window.rootViewController  = initialViewController;
+        [self.window makeKeyAndVisible];
+    }
+    
+    if (iOSDeviceScreenSize.height == 736)
+    {   // iPhone 5 and iPod Touch 5th generation: 4 inch screen
+        // Instantiate a new storyboard object using the storyboard file named Storyboard_iPhone4
+        UIStoryboard *iPhone6PlusStoryboard = [UIStoryboard storyboardWithName:@"iPhone6Plus" bundle:nil];
+        
+        UIViewController *initialViewController = [iPhone6PlusStoryboard instantiateInitialViewController];
+        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+        self.window.rootViewController  = initialViewController;
+        [self.window makeKeyAndVisible];
+    }
+    
     return YES;
 }
 

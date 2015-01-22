@@ -65,7 +65,6 @@
     if (self.dbCardTextInfo.count == 0) {
         //NSLog(@"STOP");
         self.pageCountLabel.text = @"1 of 1";
-        self.textView.text = @"'カードを編集'でカードを追加してください。";
         self.pageControl.numberOfPages = 1;
         self.movePageSlider.minimumValue = 0;
         self.movePageSlider.maximumValue = 0;
@@ -204,7 +203,17 @@
     
     // 画面上部に標準サイズのビューを作成する
     // 利用可能な広告サイズの定数値は GADAdSize.h で説明されている
-    bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (iOSDeviceScreenSize.height == 667) {
+        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+    }else if (iOSDeviceScreenSize.height == 736) {
+        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+    }else if (iOSDeviceScreenSize.height == 480 || iOSDeviceScreenSize.height == 568){
+        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+    }else{
+        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+    }
     
     // 広告ユニット ID を指定する
     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
@@ -241,12 +250,17 @@
         
         //文字サイズ。
         if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 0) {
+            //fontsizeの設定に更新する為、一旦txtを変更する。
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:15]];
         }else if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 1) {
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:20]];
         }else if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 2) {
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:25]];
         }else if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 3) {
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:30]];
         }
         //背景色。
@@ -313,12 +327,17 @@
         
         //文字サイズ。
         if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 0) {
+            //fontsizeの設定に更新する為、一旦txtを変更する。
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:15]];
         }else if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 1) {
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:20]];
         }else if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 2) {
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:25]];
         }else if ([[[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex] integerValue] == 3) {
+            self.textView.text = @"";
             [self.textView setFont:[UIFont systemFontOfSize:30]];
         }
         //背景色。
@@ -341,6 +360,7 @@
         }else if ([[[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex] integerValue] == 8) {
             self.backView.backgroundColor = [UIColor yellowColor];
         }
+        self.textView.text = @"'カードを編集'でカードを追加してください。";
     }
 }
 
@@ -805,6 +825,9 @@
                                   bannerView.frame.size.height,
                                   bannerView.frame.size.width,
                                   bannerView.frame.size.height);
+    
+   
+    
     [UIView commitAnimations];
 }
 
