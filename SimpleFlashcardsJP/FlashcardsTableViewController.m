@@ -226,9 +226,41 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
     self.countFile = [self.dbFileManager loadDataFromDB:queryForFileID];
     
     if (self.countFile.count == 0) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", 0];
+        //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", 0];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
     }else{
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+    }
+    
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (cell.textLabel.text.length >= 18) {
+        cell.textLabel.font = [UIFont systemFontOfSize:13];
+        if (cell.textLabel.text.length >= 35){
+            cell.textLabel.font = [UIFont systemFontOfSize:11];
+        }
+        if (cell.textLabel.text.length >= 45){
+            cell.textLabel.font = [UIFont systemFontOfSize:9];
+        }
+        if (cell.textLabel.text.length >= 55){
+            cell.textLabel.font = [UIFont systemFontOfSize:7];
+        }
+    }
+    
+    if (iOSDeviceScreenSize.height == 480)
+    {
+        if (cell.textLabel.text.length >= 13) {
+            cell.textLabel.font = [UIFont systemFontOfSize:11];
+            if (cell.textLabel.text.length >= 32){
+                cell.textLabel.font = [UIFont systemFontOfSize:9];
+            }
+            if (cell.textLabel.text.length >= 42){
+                cell.textLabel.font = [UIFont systemFontOfSize:7];
+            }
+            if (cell.textLabel.text.length >= 52){
+                cell.textLabel.font = [UIFont systemFontOfSize:5];
+            }
+        }
     }
     
     return cell;

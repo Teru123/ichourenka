@@ -49,7 +49,28 @@
 
 // text position: inset for the textfield
 - (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset( bounds , 15 , 15 );
+    return CGRectInset( bounds , 5 , 10 );
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        
+        //クエリー作成。
+        NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where fileInfoID = %ld ", self.textField.text, self.fileID];
+        [self.dbFileManager executeQuery:queryUpdate];
+        
+        // Inform the delegate that the editing was finished.
+        [self.delegate editingFileInfoWasFinished];
+        
+        // Pop the view controller.
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (IBAction)cancelAction:(id)sender {
@@ -68,6 +89,12 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+/*
+// text position: inset for the textfield
+- (CGRect)editingRectForBounds:(CGRect)bounds {
+    return CGRectInset( bounds , 15 , 15 );
+}
+
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     //クエリー作成。
@@ -81,7 +108,7 @@
     [self.navigationController popViewControllerAnimated:YES];
     
     return YES;
-}
+}*/
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

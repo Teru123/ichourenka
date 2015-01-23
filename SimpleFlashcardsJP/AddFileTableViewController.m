@@ -202,9 +202,41 @@
     self.countCard = [self.dbCardNumber loadDataFromDB:query];
     
     if (self.countCard.count == 0) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", 0];
+        //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", 0];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
     }else{
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+    }
+    
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (cell.textLabel.text.length >= 18) {
+        cell.textLabel.font = [UIFont systemFontOfSize:13];
+        if (cell.textLabel.text.length >= 35){
+            cell.textLabel.font = [UIFont systemFontOfSize:11];
+        }
+        if (cell.textLabel.text.length >= 45){
+            cell.textLabel.font = [UIFont systemFontOfSize:9];
+        }
+        if (cell.textLabel.text.length >= 55){
+            cell.textLabel.font = [UIFont systemFontOfSize:7];
+        }
+    }
+    
+    if (iOSDeviceScreenSize.height == 480)
+    {
+        if (cell.textLabel.text.length >= 13) {
+            cell.textLabel.font = [UIFont systemFontOfSize:11];
+            if (cell.textLabel.text.length >= 32){
+                cell.textLabel.font = [UIFont systemFontOfSize:9];
+            }
+            if (cell.textLabel.text.length >= 42){
+                cell.textLabel.font = [UIFont systemFontOfSize:7];
+            }
+            if (cell.textLabel.text.length >= 52){
+                cell.textLabel.font = [UIFont systemFontOfSize:5];
+            }
+        }
     }
     
     return cell;

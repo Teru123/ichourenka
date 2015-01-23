@@ -14,14 +14,14 @@
 
 @end
 
-@interface EnterFolderNameTableViewController : UITableViewController <UITextFieldDelegate>
+@interface EnterFolderNameTableViewController : UITableViewController <UITextViewDelegate>
 {
 
 }
 
 @property (nonatomic, strong) id<EnterFolderNameTableViewControllerDelegate> delegate;
 @property (nonatomic) int recordIDToEdit;
-@property (weak, nonatomic) IBOutlet UITextField *folderNameText;
+@property (weak, nonatomic) IBOutlet UITextView *folderNameText;
 
 - (IBAction)backToCreateFolder:(id)sender;
 - (IBAction)saveFolderName:(id)sender;

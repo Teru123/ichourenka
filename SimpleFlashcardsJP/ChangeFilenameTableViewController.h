@@ -14,7 +14,7 @@
 
 @end
 
-@interface ChangeFilenameTableViewController : UITableViewController <UITextFieldDelegate>
+@interface ChangeFilenameTableViewController : UITableViewController <UITextViewDelegate>
 
 @property (nonatomic, strong) id<ChangeFilenameTableViewControllerDelegate> delegate;
 
@@ -23,7 +23,7 @@
 @property (nonatomic, strong) NSString *foldernameData;
 @property (nonatomic, strong) NSString *filenameData;
 
-@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UITextView *textField;
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)saveAction:(id)sender;
 

@@ -50,8 +50,54 @@
 
 // text position: inset for the textfield
 - (CGRect)editingRectForBounds:(CGRect)bounds {
-    return CGRectInset( bounds , 15 , 15 );
+    return CGRectInset( bounds , 5 , 10 );
 }
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [textView resignFirstResponder];
+        
+        // Prepare the query string.
+        // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
+        NSString *query;
+        
+        if (self.folderInfo.count == 0) {
+            query = [NSString stringWithFormat:@"insert into FolderNameInfo values(null, '%@')", self.folderNameText.text];
+        }
+        else{
+            query = [NSString stringWithFormat:@"update FolderNameInfo set foldername='%@' ", self.folderNameText.text];
+        }
+        
+        
+        // Execute the query.
+        [self.dbFolderManager executeQuery:query];
+        
+        // If the query was successfully executed then pop the view controller.
+        if (self.dbFolderManager.affectedRows != 0) {
+            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
+            
+            // Inform the delegate that the editing was finished.
+            [self.delegate editingInfoWasFinished];
+        }
+        else{
+            NSLog(@"Could not execute the query.");
+        }
+        
+        // Pop the view controller.
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+/* text position: inset for the textfield
+ - (CGRect)editingRectForBounds:(CGRect)bounds {
+ return CGRectInset( bounds , 15 , 15 );
+ }
 
 //ready to implement a simple delegate method and know when the Done button of the keyboard gets tapped
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -86,7 +132,7 @@
     // Pop the view controller.
     [self.navigationController popViewControllerAnimated:YES];
     return YES;
-}
+}*/
 
 - (IBAction)backToCreateFolder:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];

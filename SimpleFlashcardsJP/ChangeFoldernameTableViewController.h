@@ -14,13 +14,13 @@
 
 @end
 
-@interface ChangeFoldernameTableViewController : UITableViewController <UITextFieldDelegate>
+@interface ChangeFoldernameTableViewController : UITableViewController <UITextViewDelegate>
 
 @property (nonatomic, strong) id<ChangeFoldernameTableViewControllerDelegate> delegate;
 
 @property (nonatomic, assign) NSInteger folderID;
 @property (nonatomic, strong) NSString *foldernameData;
-@property (weak, nonatomic) IBOutlet UITextField *textField;
+@property (weak, nonatomic) IBOutlet UITextView *textField;
 
 - (IBAction)cancelAction:(id)sender;
 - (IBAction)saveAction:(id)sender;

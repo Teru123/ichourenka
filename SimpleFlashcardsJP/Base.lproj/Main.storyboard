@@ -269,12 +269,13 @@
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Ypx-BK-h7Q" id="b50-Zq-b5o">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" minimumFontSize="17" id="SbV-CI-wRx">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="4im-DU-AWF">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                </textField>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                </textView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -299,7 +300,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="textField" destination="SbV-CI-wRx" id="quz-pW-ZKq"/>
+                        <outlet property="textField" destination="4im-DU-AWF" id="tro-KV-Jwe"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5f4-IG-aHK" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -786,12 +787,13 @@
                                         <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xbf-Dv-FAx" id="pE4-jW-jhx">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" minimumFontSize="17" id="pMz-t0-jf2">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="IYe-2f-8fT">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                </textField>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                </textView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -816,7 +818,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="textField" destination="pMz-t0-jf2" id="GUL-Ol-6Lb"/>
+                        <outlet property="textField" destination="IYe-2f-8fT" id="GC1-nP-MhX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="khN-hr-YAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1215,15 +1217,16 @@
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="200" id="DpB-Sb-Xqr">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DpB-Sb-Xqr" id="tM9-JT-mLZ">
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DpB-Sb-Xqr" id="tM9-JT-mLZ">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" minimumFontSize="17" id="X0G-eq-w58">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="zBb-yU-aIt">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                </textField>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                </textView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1248,7 +1251,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="filenameText" destination="X0G-eq-w58" id="ujn-a6-4JR"/>
+                        <outlet property="filenameText" destination="zBb-yU-aIt" id="GTk-o4-Uqb"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y7w-Yp-7gg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1268,15 +1271,16 @@
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="200" id="P70-bK-KGS">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P70-bK-KGS" id="fiy-ia-R2m">
+                                        <tableViewCellContentView key="contentView" autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P70-bK-KGS" id="fiy-ia-R2m">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" minimumFontSize="17" id="FfQ-s6-YuV">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="qVr-g2-new">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="199"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                                </textField>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                </textView>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1301,7 +1305,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="folderNameText" destination="FfQ-s6-YuV" id="Ket-d2-Ipg"/>
+                        <outlet property="folderNameText" destination="qVr-g2-new" id="qd7-vx-7R7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X9S-R7-qu9" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -14,11 +14,11 @@
 
 @end
 
-@interface EnterFileNameTableViewController : UITableViewController <UITextFieldDelegate>
+@interface EnterFileNameTableViewController : UITableViewController <UITextViewDelegate>
 
 @property (nonatomic, strong) id<EnterFileNameTableViewControllerDelegate> delegate;
 @property (nonatomic) int recordIDToEdit;
-@property (weak, nonatomic) IBOutlet UITextField *filenameText;
+@property (weak, nonatomic) IBOutlet UITextView *filenameText;
 
 
 - (IBAction)cancelButton:(id)sender;
