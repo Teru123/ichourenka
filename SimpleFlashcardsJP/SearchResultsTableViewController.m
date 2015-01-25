@@ -9,6 +9,8 @@
 #import "SearchResultsTableViewController.h"
 #import "CardListTableViewController.h"
 #import "CardListTableViewCell.h"
+#import "CardList6TableViewCell.h"
+#import "CardList6PlusTableViewCell.h"
 #import "EditCardTableViewController.h"
 #import "CardNumber.h" 
 #import "CardText.h"
@@ -44,9 +46,10 @@
 
 // numberOfRowsで指定したRowの数だけ処理を繰り返す。
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"ListCell";
     
+    static NSString *cellIdentifier = @"ListCell";
     CardListTableViewCell *cell = (CardListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardListTableViewCell" owner:self options:nil];
@@ -57,7 +60,41 @@
         // Configure the cell...
         cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [self.searchResultsString objectAtIndex:indexPath.row]];
         cell.textLabel_2.text = [NSString stringWithFormat:@"%@", [self.searchResultsString_1 objectAtIndex:indexPath.row]];
+    }
     
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (iOSDeviceScreenSize.height == 667) {
+        static NSString *cellIdentifier = @"ListCell6";
+        CardList6TableViewCell *cell = (CardList6TableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardList6TableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        if (self.newSearch == 1) {
+            // Configure the cell...
+            cell.textLabelSiz6_1.text = [NSString stringWithFormat:@"%@", [self.searchResultsString objectAtIndex:indexPath.row]];
+            cell.textLabelSiz6_2.text = [NSString stringWithFormat:@"%@", [self.searchResultsString_1 objectAtIndex:indexPath.row]];
+        }
+        return cell;
+        
+    }else if (iOSDeviceScreenSize.height == 736) {
+        static NSString *cellIdentifier = @"ListCell6Plus";
+        CardList6PlusTableViewCell *cell = (CardList6PlusTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardList6PlusTableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        if (self.newSearch == 1) {
+            // Configure the cell...
+            cell.textLabelSize6Plus_1.text = [NSString stringWithFormat:@"%@", [self.searchResultsString objectAtIndex:indexPath.row]];
+            cell.textLabelSize6Plus_2.text = [NSString stringWithFormat:@"%@", [self.searchResultsString_1 objectAtIndex:indexPath.row]];
+        }
+        return cell;
     }
     
     return cell;

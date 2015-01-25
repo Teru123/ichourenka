@@ -9,6 +9,8 @@
 #import "CardListTableViewController.h"
 #import "EditCardTableViewController.h"
 #import "CardListTableViewCell.h"
+#import "CardList6TableViewCell.h"
+#import "CardList6PlusTableViewCell.h"
 #import "SearchResultsTableViewController.h"
 #import "MultibyteDescription.h"
 #import "CardNumber.h"
@@ -543,17 +545,52 @@
     //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     
     static NSString *cellIdentifier = @"ListCell";
-    
     CardListTableViewCell *cell = (CardListTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     if (cell == nil)
     {
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardListTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
     }
-
+    
     // Configure the cell...
     cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [self.stringArr objectAtIndex:indexPath.row]];
     cell.textLabel_2.text = [NSString stringWithFormat:@"%@", [self.stringArr_1 objectAtIndex:indexPath.row]];
+    
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (iOSDeviceScreenSize.height == 667) {
+        static NSString *cellIdentifier = @"ListCell6";
+        CardList6TableViewCell *cell = (CardList6TableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardList6TableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        // Configure the cell...
+        cell.textLabelSiz6_1.text = [NSString stringWithFormat:@"%@", [self.stringArr objectAtIndex:indexPath.row]];
+        cell.textLabelSiz6_2.text = [NSString stringWithFormat:@"%@", [self.stringArr_1 objectAtIndex:indexPath.row]];
+        
+        return cell;
+        
+    }else if (iOSDeviceScreenSize.height == 736) {
+        static NSString *cellIdentifier = @"ListCell6Plus";
+        CardList6PlusTableViewCell *cell = (CardList6PlusTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"CardList6PlusTableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
+        }
+        
+        // Configure the cell...
+        cell.textLabelSize6Plus_1.text = [NSString stringWithFormat:@"%@", [self.stringArr objectAtIndex:indexPath.row]];
+        cell.textLabelSize6Plus_2.text = [NSString stringWithFormat:@"%@", [self.stringArr_1 objectAtIndex:indexPath.row]];
+        
+        return cell;
+    }
     
     return cell;
 }

@@ -17,6 +17,10 @@
 		DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD77F0CC1A37E89F00AC40EF /* CardTableViewController.m */; };
 		DD79F21D1A44150C004E2BE8 /* CardListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */; };
 		DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */; };
+		DD7B4CCD1A74F26C0065721F /* CardList6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B4CCB1A74F26C0065721F /* CardList6TableViewCell.m */; };
+		DD7B4CCE1A74F26C0065721F /* CardList6TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD7B4CCC1A74F26C0065721F /* CardList6TableViewCell.xib */; };
+		DD7B4CD21A74F8E00065721F /* CardList6PlusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD7B4CD01A74F8E00065721F /* CardList6PlusTableViewCell.m */; };
+		DD7B4CD31A74F8E00065721F /* CardList6PlusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD7B4CD11A74F8E00065721F /* CardList6PlusTableViewCell.xib */; };
 		DD8135431A63E96B000E53D3 /* SwipeArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = DD8135421A63E96B000E53D3 /* SwipeArrow.png */; };
 		DD8AEA4A1A6B87D50006148F /* OptionsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8AEA491A6B87D50006148F /* OptionsTableViewController.m */; };
 		DD8AEA4D1A6BA1FC0006148F /* CardOrderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD8AEA4C1A6BA1FC0006148F /* CardOrderTableViewController.m */; };
@@ -101,6 +105,12 @@
 		DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardListTableViewCell.h; sourceTree = "<group>"; };
 		DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardListTableViewCell.m; sourceTree = "<group>"; };
 		DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardListTableViewCell.xib; sourceTree = "<group>"; };
+		DD7B4CCA1A74F26C0065721F /* CardList6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardList6TableViewCell.h; sourceTree = "<group>"; };
+		DD7B4CCB1A74F26C0065721F /* CardList6TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardList6TableViewCell.m; sourceTree = "<group>"; };
+		DD7B4CCC1A74F26C0065721F /* CardList6TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardList6TableViewCell.xib; sourceTree = "<group>"; };
+		DD7B4CCF1A74F8E00065721F /* CardList6PlusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardList6PlusTableViewCell.h; sourceTree = "<group>"; };
+		DD7B4CD01A74F8E00065721F /* CardList6PlusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardList6PlusTableViewCell.m; sourceTree = "<group>"; };
+		DD7B4CD11A74F8E00065721F /* CardList6PlusTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardList6PlusTableViewCell.xib; sourceTree = "<group>"; };
 		DD8135421A63E96B000E53D3 /* SwipeArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwipeArrow.png; sourceTree = "<group>"; };
 		DD8AEA481A6B87D50006148F /* OptionsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsTableViewController.h; sourceTree = "<group>"; };
 		DD8AEA491A6B87D50006148F /* OptionsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsTableViewController.m; sourceTree = "<group>"; };
@@ -413,6 +423,12 @@
 				DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */,
 				DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */,
 				DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */,
+				DD7B4CCA1A74F26C0065721F /* CardList6TableViewCell.h */,
+				DD7B4CCB1A74F26C0065721F /* CardList6TableViewCell.m */,
+				DD7B4CCC1A74F26C0065721F /* CardList6TableViewCell.xib */,
+				DD7B4CCF1A74F8E00065721F /* CardList6PlusTableViewCell.h */,
+				DD7B4CD01A74F8E00065721F /* CardList6PlusTableViewCell.m */,
+				DD7B4CD11A74F8E00065721F /* CardList6PlusTableViewCell.xib */,
 				DDC1A6711A21D332003C7EC9 /* Main.storyboard */,
 				DDA679331A6F8D1600E067C4 /* iPhone4.storyboard */,
 				DDA790051A70966800CA1544 /* iPhone6.storyboard */,
@@ -560,11 +576,13 @@
 				DDCBA1D91A3D4704000F8AE8 /* CardText.sql in Resources */,
 				DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */,
 				DD8135431A63E96B000E53D3 /* SwipeArrow.png in Resources */,
+				DD7B4CD31A74F8E00065721F /* CardList6PlusTableViewCell.xib in Resources */,
 				DDA679301A6F7B9A00E067C4 /* README.txt in Resources */,
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
 				DDA679341A6F8D1600E067C4 /* iPhone4.storyboard in Resources */,
 				DD9428A51A59457D00D95CD0 /* arrow-big-12.png in Resources */,
 				DD94289B1A58EF0300D95CD0 /* question.png in Resources */,
+				DD7B4CCE1A74F26C0065721F /* CardList6TableViewCell.xib in Resources */,
 				DDC1A6971A21D7D4003C7EC9 /* gear.png in Resources */,
 				DDCCF7581A34898B00C6BA63 /* FilenameDB.sql in Resources */,
 				DD9428991A58EE8A00D95CD0 /* arrow-small-17.png in Resources */,
@@ -593,6 +611,7 @@
 			files = (
 				DDDC2FAA1A303C1D00F342C7 /* EnterFileNameTableViewController.m in Sources */,
 				DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */,
+				DD7B4CCD1A74F26C0065721F /* CardList6TableViewCell.m in Sources */,
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderName.m in Sources */,
 				DD8AEA4D1A6BA1FC0006148F /* CardOrderTableViewController.m in Sources */,
@@ -622,6 +641,7 @@
 				DDCBA1DE1A3D4A3C000F8AE8 /* CardNumber.m in Sources */,
 				DDC50F401A39538C009F4BFC /* EditCardTableViewController.m in Sources */,
 				DD8AEA4A1A6B87D50006148F /* OptionsTableViewController.m in Sources */,
+				DD7B4CD21A74F8E00065721F /* CardList6PlusTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
