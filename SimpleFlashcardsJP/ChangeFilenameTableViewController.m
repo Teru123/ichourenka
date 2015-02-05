@@ -34,9 +34,9 @@
         self.textField.text = self.filenameData;
     }
     self.folderIDStr = [NSString stringWithFormat:@"%ld", self.folderID];
-    NSLog(@"folderIDStr %@", self.folderIDStr);
+    //NSLog(@"folderIDStr %@", self.folderIDStr);
     self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
-    NSLog(@"fileIDStr %@", self.fileIDStr);
+    //NSLog(@"fileIDStr %@", self.fileIDStr);
     
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.textField.delegate = self;

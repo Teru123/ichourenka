@@ -32,7 +32,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     // ハイライト解除
     [super viewWillAppear:animated];
-    NSLog(@"viewWillAppear called");
+    //NSLog(@"viewWillAppear called");
     
     self.tableView.rowHeight = 44;
     
@@ -124,7 +124,7 @@
     // CardListに編集したことを知らせる。
     [self.searchCardDelegate searchEditingInfoWasFinished];
 
-    NSLog(@"count %ld", self.searchResults.count);
+    //NSLog(@"count %ld", self.searchResults.count);
     [self.tableView reloadData];
     //NSLog(@"cardEditingInfoWasFinished_2 called");
 }

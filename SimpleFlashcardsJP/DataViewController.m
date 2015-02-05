@@ -46,7 +46,7 @@
     [self.navigationController setNavigationBarHidden:YES];
     
     self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
-    NSLog(@"fileIDStr %@", self.fileIDStr);
+    //NSLog(@"fileIDStr %@", self.fileIDStr);
     
     // Initialize the dbManager object.
     self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
@@ -60,7 +60,7 @@
     self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
     self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCN]];
     
-    NSLog(@"count txtinfo %ld, cninfo %ld", self.dbCardTextInfo.count, self.dbCardNumberInfo.count);
+    //NSLog(@"count txtinfo %ld, cninfo %ld", self.dbCardTextInfo.count, self.dbCardNumberInfo.count);
     
     if (self.dbCardTextInfo.count == 0) {
         //NSLog(@"STOP");
@@ -226,12 +226,12 @@
     [bannerView_ setDelegate:self];
     
     // 一般的なリクエストを行って広告を読み込む
-    //[bannerView_ loadRequest:[GADRequest request]];
+    [bannerView_ loadRequest:[GADRequest request]];
     
     //テスト
-    GADRequest *req = [GADRequest request];
-    req.testDevices = @[ GAD_SIMULATOR_ID ];
-    [bannerView_ loadRequest:req];
+    //GADRequest *req = [GADRequest request];
+    //req.testDevices = @[ GAD_SIMULATOR_ID ];
+    //[bannerView_ loadRequest:req];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -792,7 +792,7 @@
         [self resetPageAndText];
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
     }
-    [self animationStart];
+    //[self animationStart];
 }
 
 - (IBAction)crossAction:(id)sender {
@@ -834,7 +834,7 @@
 
 - (void)adView:(GADBannerView *)bannerView
 didFailToReceiveAdWithError:(GADRequestError *)error {
-    NSLog(@"adView:didFailToReceiveAdWithError:%@", [error localizedDescription]);
+    //NSLog(@"adView:didFailToReceiveAdWithError:%@", [error localizedDescription]);
     bannerView_.hidden = YES;
 }
 

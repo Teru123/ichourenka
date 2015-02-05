@@ -81,7 +81,7 @@
 
 -(void)editingFolderInfoWasFinished{
     
-    NSLog(@"self.folderID %ld", self.folderID);
+    //NSLog(@"self.folderID %ld", self.folderID);
     //FileDB初期化。
     self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
     //クエリー作成。arrColumnNamesでindexOfObjectを指定してデータを受け取るにはselect *としなければならない。
@@ -103,7 +103,7 @@
     self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
     //クエリー作成。
     NSString *queryLoad = [NSString stringWithFormat:@"select * from filenameInfo where fileInfoID = %ld ", self.fileID];
-    NSLog(@"%ld", self.fileID);
+    //NSLog(@"%ld", self.fileID);
     
     //arrColumnNamesでfoldernameのindexを取得。
     //NSInteger indexOfFoldername = [self.dbFileManager.arrColumnNames indexOfObject:@"foldername"];
@@ -111,7 +111,7 @@
     //データを読み込んで配列に追加。
     self.updatedFilename = [[NSArray alloc] initWithArray:[self.dbFileManager loadDataFromDB:queryLoad]];
     self.fixedFilename = [NSString stringWithFormat:@"%@", [[self.updatedFilename objectAtIndex:0] objectAtIndex:[self.dbFileManager.arrColumnNames indexOfObject:@"filename"]]];
-    NSLog(@"fixedFilename %@", self.fixedFilename);
+    //NSLog(@"fixedFilename %@", self.fixedFilename);
     
     self.filenameLabel.text = self.fixedFilename;
     self.filenameData = self.filenameLabel.text;

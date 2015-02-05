@@ -75,13 +75,13 @@
         
         // If the query was successfully executed then pop the view controller.
         if (self.dbFolderManager.affectedRows != 0) {
-            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
+            //NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
             
             // Inform the delegate that the editing was finished.
             [self.delegate editingInfoWasFinished];
         }
         else{
-            NSLog(@"Could not execute the query.");
+            //NSLog(@"Could not execute the query.");
         }
         
         // Pop the view controller.
@@ -156,13 +156,13 @@
     
     // If the query was successfully executed then pop the view controller.
     if (self.dbFolderManager.affectedRows != 0) {
-        NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
+        //NSLog(@"Query was executed successfully. Affected rows = %d", self.dbFolderManager.affectedRows);
         
         // Inform the delegate that the editing was finished.
         [self.delegate editingInfoWasFinished];
     }
     else{
-        NSLog(@"Could not execute the query.");
+        //NSLog(@"Could not execute the query.");
     }
     
     // Pop the view controller.

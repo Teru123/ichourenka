@@ -72,9 +72,9 @@
    
     [self.tableView reloadData];
     
-    NSLog(@"fileID %@", [NSString stringWithFormat:@"%ld", self.fileID]);
-    NSLog(@"recordID %d", self.recordIDToEdit);
-    NSLog(@"card %d", self.newCard);
+    //NSLog(@"fileID %@", [NSString stringWithFormat:@"%ld", self.fileID]);
+    //NSLog(@"recordID %d", self.recordIDToEdit);
+    //NSLog(@"card %d", self.newCard);
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -151,9 +151,9 @@
         [self.dbCardNumber executeQuery:queryForCardNumber];
         
         if (self.dbCardNumber.affectedRows != 0) {
-            NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
+            //NSLog(@"Query was executed successfully. Affected rows = %d", self.dbCardNumber.affectedRows);
         }else{
-            NSLog(@"Could not execute the query.");
+            //NSLog(@"Could not execute the query.");
         }
     }
 

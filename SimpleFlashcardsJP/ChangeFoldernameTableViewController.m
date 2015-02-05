@@ -29,7 +29,7 @@
         self.textField.text = self.foldernameData;
     }
     self.folderIDStr = [NSString stringWithFormat:@"%ld", self.folderID];
-    NSLog(@"folderIDStr %@", self.folderIDStr);
+    //NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Make self the delegate of the textfields .h <UITextFieldDelegate>
     self.textField.delegate = self;
@@ -54,7 +54,7 @@
         NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where folderInfoID = %ld ", self.textField.text, self.folderID];
         [self.dbFolderManager executeQuery:queryUpdate];
         
-        NSLog(@"folderIDStr %@", self.folderIDStr);
+        //NSLog(@"folderIDStr %@", self.folderIDStr);
         
         // Inform the delegate that the editing was finished.
         [self.delegate editingFolderInfoWasFinished];
@@ -77,7 +77,7 @@
     NSString *queryUpdate = [NSString stringWithFormat:@"update folderInfo set foldername ='%@' where folderInfoID = %ld ", self.textField.text, self.folderID];
     [self.dbFolderManager executeQuery:queryUpdate];
     
-    NSLog(@"folderIDStr %@", self.folderIDStr);
+    //NSLog(@"folderIDStr %@", self.folderIDStr);
     
     // Inform the delegate that the editing was finished.
     [self.delegate editingFolderInfoWasFinished];

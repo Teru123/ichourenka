@@ -108,7 +108,7 @@
         //選択したセルのfileIDを取得。
         NSInteger indexOfID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
         NSInteger fileID = [[[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
-        NSLog(@"selectedRow fileID %ld", fileID);
+        //NSLog(@"selectedRow fileID %ld", fileID);
         editCards.fileID = fileID;
     }
 }
@@ -124,7 +124,7 @@
         NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
         NSString *checkFileID = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:self.selectedRow] objectAtIndex:indexOfFileID]];
         NSInteger fileID = [checkFileID integerValue];
-        NSLog(@"fileID %ld", fileID);
+        //NSLog(@"fileID %ld", fileID);
         
         //ファイルを削除。
         NSString *queryFileID = [NSString stringWithFormat:@"delete from filenameInfo where fileInfoID = %ld", fileID];
@@ -137,7 +137,7 @@
         
         //カードテキストを削除。
         NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
-        NSLog(@"%@", queryText);
+        //NSLog(@"%@", queryText);
         // Execute the query.
         [self.dbCardText executeQuery:queryText];
         
@@ -196,7 +196,7 @@
     NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
     NSString *checkFileID = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:indexPath.row] objectAtIndex:indexOfFileID]];
     NSInteger fileID = [checkFileID integerValue];
-    NSLog(@"indexPath fileID %ld", fileID);
+    //NSLog(@"indexPath fileID %ld", fileID);
     
     NSString *query = [NSString stringWithFormat:@"select * from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
     self.countCard = [self.dbCardNumber loadDataFromDB:query];

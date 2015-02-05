@@ -106,7 +106,7 @@
         if (self.folderInfo.count != 0) {
             // Prepare the query.
             NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo where foldernameinfoID=%d", 1];
-            NSLog(@"%@", query);
+            //NSLog(@"%@", query);
             
             // Execute the query.
             [self.dbFolderManager executeQuery:query];

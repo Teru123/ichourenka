@@ -124,7 +124,7 @@
         NSInteger folderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
         
         fileView.folderID = folderID;
-        NSLog(@"folderID %ld", folderID);
+        //NSLog(@"folderID %ld", folderID);
     }
 }
 
@@ -140,7 +140,7 @@
         // Prepare the query.フォルダーを削除。
         NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
         NSInteger checkFolderID = [[[self.folderInfoDB objectAtIndex:self.selectedRow] objectAtIndex:indexOfID] integerValue];
-        NSLog(@"selectedRow checkFolderID %ld", checkFolderID);
+        //NSLog(@"selectedRow checkFolderID %ld", checkFolderID);
         NSString *queryFolderID = [NSString stringWithFormat:@"delete from folderInfo where folderInfoID = %ld", checkFolderID];
         [self.dbFolderManager executeQuery:queryFolderID];
         
@@ -151,7 +151,7 @@
             for (int i = 0; i < self.detectFileID.count; i++) {
                 NSInteger indexOfFileID = [self.dbFileManager.arrColumnNames indexOfObject:@"fileInfoID"];
                 NSInteger fileID = [[[self.detectFileID objectAtIndex:i] objectAtIndex:indexOfFileID] integerValue];
-                NSLog(@"fileID %ld", fileID);
+                //NSLog(@"fileID %ld", fileID);
                 
                 //カード番号を削除。
                 NSString *queryCardNum = [NSString stringWithFormat:@"delete from cardNumberInfo where filename = '%@' ", [NSString stringWithFormat:@"%ld", fileID]];
@@ -220,7 +220,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
     //各フォルダーのファイル数を表示。選択したセルのfolderIDを特定する。
     NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
     NSInteger checkFolderID = [[[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfID] integerValue];
-    NSLog(@"indexPath checkFolderID %ld", checkFolderID);
+    //NSLog(@"indexPath checkFolderID %ld", checkFolderID);
     
     NSString *queryForFileID = [NSString stringWithFormat:@"select * from filenameInfo where foldername = '%@' ", [NSString stringWithFormat:@"%ld", checkFolderID]];
     self.countFile = [self.dbFileManager loadDataFromDB:queryForFileID];
@@ -318,13 +318,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 
 -(void)folderEditingInfoWasFinished{
     // Reload the data.
-    NSLog(@"called editing");
+    //NSLog(@"called editing");
     [self loadData];
 }
 
 -(void)editingFolderInfoWasFinished{
     // Reload the data.
-    NSLog(@"called editing");
+    //NSLog(@"called editing");
     [self loadData];
 }
 

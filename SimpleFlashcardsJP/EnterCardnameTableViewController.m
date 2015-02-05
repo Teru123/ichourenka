@@ -235,9 +235,9 @@
     }
     
     if (self.cardTextManager.affectedRows != 0) {
-        NSLog(@"Query was executed successfully. Affected rows = %d", self.cardTextManager.affectedRows);
+        //NSLog(@"Query was executed successfully. Affected rows = %d", self.cardTextManager.affectedRows);
     }else{
-        NSLog(@"Could not execute the query.");
+        //NSLog(@"Could not execute the query.");
     }
     
     //Delegate先のviewで変更したい値を与える。

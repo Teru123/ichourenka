@@ -346,7 +346,7 @@
                             if (![self.confirmNumber containsObject:checkNumber]) {
                                 [self.searchResults addObject:checkString];
                                 [self.confirmNumber addObject:checkNumber];
-                                NSLog(@"checkNumber %@ count %ld", checkNumber, self.confirmNumber.count);
+                                //NSLog(@"checkNumber %@ count %ld", checkNumber, self.confirmNumber.count);
                             }
                         }
                     }else if (self.confirmNumber.count == 0){
@@ -421,7 +421,7 @@
         self.recordIDToEdit = [[[self.cardNumberInfo objectAtIndex:numberCount] objectAtIndex:0] intValue];
         //最後尾オブジェクトの番号に一を足して編集せずに新しいカードを作る。
         self.recordIDToEdit += 1;
-        NSLog(@"recordIDToEdit %d", self.recordIDToEdit);
+        //NSLog(@"recordIDToEdit %d", self.recordIDToEdit);
         self.newCard = -1;
     }else if (self.cardNumberInfo.count == 0){
         //追加、編集するカード番号を保存。
@@ -605,7 +605,7 @@
         [self.dbCardNumber executeQuery:query];
         
         NSString *queryText = [NSString stringWithFormat:@"delete from cardTextInfo where cardNumber = %d AND filename = '%@' ", self.recordIDToEdit, [NSString stringWithFormat:@"%ld", self.fileID]];
-        NSLog(@"%@", queryText);
+        //NSLog(@"%@", queryText);
         // Execute the query.
         [self.dbCardText executeQuery:queryText];
         
@@ -631,7 +631,7 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //indexPath.row番目のCardNumberを取得。
     self.recordIDToEdit = [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue];
-    NSLog(@"recordIDToEdit %d", [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue]);
+    //NSLog(@"recordIDToEdit %d", [[[self.arrCNInfo objectAtIndex:indexPath.row] objectAtIndex:0] intValue]);
     
     return indexPath;
 }
@@ -641,7 +641,7 @@
     [self loadData];
     //カード編集後にデータを更新する。
     [self updateSearchResultsForSearchController:self.searchController];
-    NSLog(@"cardEditingInfoWasFinished_1 called");
+    //NSLog(@"cardEditingInfoWasFinished_1 called");
 }
 
 -(void)searchEditingInfoWasFinished{
@@ -650,7 +650,7 @@
     //検索後に編集したカードのデータを更新する。
     [self updateSearchResultsForSearchController:self.searchController];
     [self.searchController.searchBar becomeFirstResponder];
-    NSLog(@"searchEditingInfoWasFinished called");
+    //NSLog(@"searchEditingInfoWasFinished called");
 }
 
 -(void)madeTheCard{
