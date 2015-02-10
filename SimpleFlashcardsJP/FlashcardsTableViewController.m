@@ -245,9 +245,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (self.countFile.count == 0) {
         cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", 0];
-        //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
+        //cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
     }else{
-        cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+        if (99 < self.countFile.count) {
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld", self.countFile.count];
+        }else{
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+        }
     }
     
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
@@ -265,9 +269,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
         cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
         if (self.countFile.count == 0) {
             cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", 0];
-            //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
+            //cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
         }else{
-            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+            if (99 < self.countFile.count) {
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld", self.countFile.count];
+            }else{
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+            }
         }
         
         return cell;
@@ -285,9 +293,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
         cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
         if (self.countFile.count == 0) {
             cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", 0];
-            //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
+            //cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
         }else{
-            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+            if (99 < self.countFile.count) {
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld", self.countFile.count];
+            }else{
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+            }
         }
         
         return cell;

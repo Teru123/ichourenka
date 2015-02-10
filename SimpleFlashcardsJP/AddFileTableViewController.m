@@ -217,9 +217,13 @@
     
     if (self.countCard.count == 0) {
         cell.textLabel_2.text = [NSString stringWithFormat:@"%d Cards", 0];
-        //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
+        //cell.textLabel_2.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
     }else{
-        cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+        if (99 < self.countCard.count) {
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld", self.countCard.count];
+        }else{
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+        }
     }
     
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
@@ -237,9 +241,13 @@
         cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
         if (self.countCard.count == 0) {
             cell.textLabel_2.text = [NSString stringWithFormat:@"%d Cards", 0];
-            //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
+            //cell.textLabel_2.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
         }else{
-            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+            if (99 < self.countCard.count) {
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld", self.countCard.count];
+            }else{
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+            }
         }
         
         return cell;
@@ -257,9 +265,13 @@
         cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.dbFileInfo objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
         if (self.countCard.count == 0) {
             cell.textLabel_2.text = [NSString stringWithFormat:@"%d Cards", 0];
-            //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
+            //cell.textLabel_2.text = [NSString stringWithFormat:@"%d Cards", (arc4random() % 50)];
         }else{
-            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+            if (99 < self.countCard.count) {
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld", self.countCard.count];
+            }else{
+                cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Cards", self.countCard.count];
+            }
         }
         
         return cell;
