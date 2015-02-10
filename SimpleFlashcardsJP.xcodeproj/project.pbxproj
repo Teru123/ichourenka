@@ -11,6 +11,12 @@
 		DD0EE5661A6CC7AE00B9AD6B /* Options.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0EE5651A6CC7AE00B9AD6B /* Options.m */; };
 		DD15EDD61A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */; };
 		DD3383E61A67931A0018F2EC /* FoldernameDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD3383E51A67931A0018F2EC /* FoldernameDB.sql */; };
+		DD393A8D1A8A0303007FE4B0 /* Folder_FileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD393A8B1A8A0303007FE4B0 /* Folder_FileTableViewCell.m */; };
+		DD393A8E1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD393A8C1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib */; };
+		DD393A921A8A06BA007FE4B0 /* Folder_File6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD393A901A8A06BA007FE4B0 /* Folder_File6TableViewCell.m */; };
+		DD393A931A8A06BA007FE4B0 /* Folder_File6TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD393A911A8A06BA007FE4B0 /* Folder_File6TableViewCell.xib */; };
+		DD393A971A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD393A951A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.m */; };
+		DD393A981A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD393A961A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.xib */; };
 		DD414C3F1A5BB38A00FFAABB /* cross.png in Resources */ = {isa = PBXBuildFile; fileRef = DD414C3E1A5BB38A00FFAABB /* cross.png */; };
 		DD71DEE71A6E50CD004B8EAF /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD71DEE61A6E50CD004B8EAF /* HelpViewController.m */; };
 		DD72C4E21A5652FD00B6FE4A /* MultibyteDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = DD72C4E11A5652FD00B6FE4A /* MultibyteDescription.m */; };
@@ -95,6 +101,15 @@
 		DD15EDD41A5A2CE2004B38C3 /* ChangeFilenameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeFilenameTableViewController.h; sourceTree = "<group>"; };
 		DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeFilenameTableViewController.m; sourceTree = "<group>"; };
 		DD3383E51A67931A0018F2EC /* FoldernameDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FoldernameDB.sql; sourceTree = "<group>"; };
+		DD393A8A1A8A0303007FE4B0 /* Folder_FileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder_FileTableViewCell.h; sourceTree = "<group>"; };
+		DD393A8B1A8A0303007FE4B0 /* Folder_FileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder_FileTableViewCell.m; sourceTree = "<group>"; };
+		DD393A8C1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Folder_FileTableViewCell.xib; sourceTree = "<group>"; };
+		DD393A8F1A8A06BA007FE4B0 /* Folder_File6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder_File6TableViewCell.h; sourceTree = "<group>"; };
+		DD393A901A8A06BA007FE4B0 /* Folder_File6TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder_File6TableViewCell.m; sourceTree = "<group>"; };
+		DD393A911A8A06BA007FE4B0 /* Folder_File6TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Folder_File6TableViewCell.xib; sourceTree = "<group>"; };
+		DD393A941A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder_File6PlusTableViewCell.h; sourceTree = "<group>"; };
+		DD393A951A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder_File6PlusTableViewCell.m; sourceTree = "<group>"; };
+		DD393A961A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Folder_File6PlusTableViewCell.xib; sourceTree = "<group>"; };
 		DD414C3E1A5BB38A00FFAABB /* cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cross.png; sourceTree = "<group>"; };
 		DD71DEE51A6E50CD004B8EAF /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		DD71DEE61A6E50CD004B8EAF /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
@@ -420,6 +435,15 @@
 				DD8AEA4F1A6BB3180006148F /* FontSizeTableViewController.m */,
 				DD8AEA511A6BB57C0006148F /* BackgroundColorTableViewController.h */,
 				DD8AEA521A6BB57C0006148F /* BackgroundColorTableViewController.m */,
+				DD393A8A1A8A0303007FE4B0 /* Folder_FileTableViewCell.h */,
+				DD393A8B1A8A0303007FE4B0 /* Folder_FileTableViewCell.m */,
+				DD393A8C1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib */,
+				DD393A8F1A8A06BA007FE4B0 /* Folder_File6TableViewCell.h */,
+				DD393A901A8A06BA007FE4B0 /* Folder_File6TableViewCell.m */,
+				DD393A911A8A06BA007FE4B0 /* Folder_File6TableViewCell.xib */,
+				DD393A941A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.h */,
+				DD393A951A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.m */,
+				DD393A961A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.xib */,
 				DD79F21A1A44150C004E2BE8 /* CardListTableViewCell.h */,
 				DD79F21B1A44150C004E2BE8 /* CardListTableViewCell.m */,
 				DD79F21C1A44150C004E2BE8 /* CardListTableViewCell.xib */,
@@ -564,14 +588,17 @@
 			files = (
 				DD9428A31A58F0E700D95CD0 /* arrow-big-11.png in Resources */,
 				DD3383E61A67931A0018F2EC /* FoldernameDB.sql in Resources */,
+				DD393A931A8A06BA007FE4B0 /* Folder_File6TableViewCell.xib in Resources */,
 				DDDB675B1A24790800921E82 /* WhiteTextViewRectangle.png in Resources */,
 				DD9428A71A5946C700D95CD0 /* ios7-help-empty.png in Resources */,
+				DD393A981A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.xib in Resources */,
 				DD8FED541A25D0AC003F2AC2 /* FolderName.sql in Resources */,
 				DD0EE5631A6CC76B00B9AD6B /* options.sql in Resources */,
 				DDC1A6731A21D332003C7EC9 /* Main.storyboard in Resources */,
 				DD94289D1A58EFDE00D95CD0 /* ios7-play.png in Resources */,
 				DD9428A91A5946D700D95CD0 /* ios7-arrow-back.png in Resources */,
 				DDDB67591A2473EB00921E82 /* textView_White.png in Resources */,
+				DD393A8E1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib in Resources */,
 				DD9428A11A58F04C00D95CD0 /* stop.png in Resources */,
 				DDCBA1D91A3D4704000F8AE8 /* CardText.sql in Resources */,
 				DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */,
@@ -612,15 +639,18 @@
 				DDDC2FAA1A303C1D00F342C7 /* EnterFileNameTableViewController.m in Sources */,
 				DD77F0CD1A37E89F00AC40EF /* CardTableViewController.m in Sources */,
 				DD7B4CCD1A74F26C0065721F /* CardList6TableViewCell.m in Sources */,
+				DD393A8D1A8A0303007FE4B0 /* Folder_FileTableViewCell.m in Sources */,
 				DDC1A6951A21D6E7003C7EC9 /* FlashcardsTableViewController.m in Sources */,
 				DD8FED521A25CAFD003F2AC2 /* FolderName.m in Sources */,
 				DD8AEA4D1A6BA1FC0006148F /* CardOrderTableViewController.m in Sources */,
 				DDA0C8FA1A3AE8F800B5F4E9 /* CardText.m in Sources */,
 				DDD520861A30130200527740 /* AddFileTableViewController.m in Sources */,
+				DD393A921A8A06BA007FE4B0 /* Folder_File6TableViewCell.m in Sources */,
 				DDDB67571A24587000921E82 /* EnterFolderNameTableViewController.m in Sources */,
 				DDC1A6921A21D6B8003C7EC9 /* FlashcardsNavigationController.m in Sources */,
 				DDD520891A3014AC00527740 /* CreateFileTableViewController.m in Sources */,
 				DD8AEA501A6BB3180006148F /* FontSizeTableViewController.m in Sources */,
+				DD393A971A8A0782007FE4B0 /* Folder_File6PlusTableViewCell.m in Sources */,
 				DDA6790C1A6F779200E067C4 /* Reachability.m in Sources */,
 				DD96B6E41A580978000CEFC8 /* DataViewController.m in Sources */,
 				DDAE37FF1A665EC80066850E /* ChangeFoldernameTableViewController.m in Sources */,

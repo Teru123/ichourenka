@@ -360,7 +360,7 @@
         }else if ([[[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex] integerValue] == 8) {
             self.backView.backgroundColor = [UIColor yellowColor];
         }
-        self.textView.text = @"'カードを編集'でカードを追加してください。";
+        self.textView.text = @"\"カードを編集\"でカードを追加してください。";
     }
 }
 

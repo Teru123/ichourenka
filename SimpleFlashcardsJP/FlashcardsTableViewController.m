@@ -8,6 +8,9 @@
 
 #import "FlashcardsTableViewController.h"
 #import "AddFileTableViewController.h"
+#import "Folder_FileTableViewCell.h"
+#import "Folder_File6TableViewCell.h"
+#import "Folder_File6PlusTableViewCell.h"
 #import "FoldernameDB.h"
 #import "FilenameDB.h"
 #import "CardNumber.h"
@@ -40,6 +43,8 @@
     [super viewDidLoad];
     
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    
+    self.tableView.rowHeight = 44;
     
     //@selector()で指定メソッドをコール
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addFolder:)];
@@ -75,6 +80,8 @@
     self.navigationItem.rightBarButtonItems = nil;
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(loadButtonItems:)];
     self.navigationItem.rightBarButtonItem = doneButton;
+    
+    
 }
 
 -(void)loadButtonItems: (UIBarButtonItem *)sender{
@@ -91,8 +98,9 @@
 
 //didSelectにすると値が渡せない。値を渡す時はwillSelectとする。戻り値はindexPath。indexPathRowの数だけ処理が繰り返される。
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    self.cellText = cell.textLabel.text;
+    //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+    self.cellText = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
     
     //NSLog(@"indexPath %ld", indexPath.row);
     self.selectedRow = indexPath.row;
@@ -129,11 +137,14 @@
 }
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the selected record.
         // Find the filename.
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        self.cellText = cell.textLabel.text;
+        
+        //UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
+        self.cellText = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
         self.selectedRow = indexPath.row;
         //NSLog(@"%ld", self.selectedRow);
         
@@ -212,10 +223,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"FolderViewCell" forIndexPath:indexPath];
+    static NSString *cellIdentifier = @"FolderFileCell";
+    Folder_FileTableViewCell *cell = (Folder_FileTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    if (cell == nil)
+    {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"Folder_FileTableViewCell" owner:self options:nil];
+        cell = [nib objectAtIndex:0];
+    }
     
     NSInteger indexOfFoldername = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
+    cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
     
     //各フォルダーのファイル数を表示。選択したセルのfolderIDを特定する。
     NSInteger indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
@@ -226,60 +244,62 @@ forRowAtIndexPath:(NSIndexPath *)indexPath{
     self.countFile = [self.dbFileManager loadDataFromDB:queryForFileID];
     
     if (self.countFile.count == 0) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", 0];
+        cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", 0];
         //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
     }else{
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
+        cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
     }
     
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
     
-    if (cell.textLabel.text.length >= 18) {
-        cell.textLabel.font = [UIFont systemFontOfSize:13];
-        if (cell.textLabel.text.length >= 35){
-            cell.textLabel.font = [UIFont systemFontOfSize:11];
+    if (iOSDeviceScreenSize.height == 667) {
+        static NSString *cellIdentifier = @"FolderFileCell6";
+        Folder_FileTableViewCell *cell = (Folder_FileTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"Folder_File6TableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
         }
-        if (cell.textLabel.text.length >= 45){
-            cell.textLabel.font = [UIFont systemFontOfSize:9];
+        
+        cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
+        if (self.countFile.count == 0) {
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", 0];
+            //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
+        }else{
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
         }
-        if (cell.textLabel.text.length >= 55){
-            cell.textLabel.font = [UIFont systemFontOfSize:7];
+        
+        return cell;
+        
+    }else if (iOSDeviceScreenSize.height == 736) {
+        static NSString *cellIdentifier = @"FolderFileCell6Plus";
+        Folder_FileTableViewCell *cell = (Folder_FileTableViewCell *)[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        
+        if (cell == nil)
+        {
+            NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"Folder_File6PlusTableViewCell" owner:self options:nil];
+            cell = [nib objectAtIndex:0];
         }
-    }
-    
-    if (iOSDeviceScreenSize.height == 480)
-    {
-        if (cell.textLabel.text.length >= 13) {
-            cell.textLabel.font = [UIFont systemFontOfSize:11];
-            if (cell.textLabel.text.length >= 32){
-                cell.textLabel.font = [UIFont systemFontOfSize:9];
-            }
-            if (cell.textLabel.text.length >= 42){
-                cell.textLabel.font = [UIFont systemFontOfSize:7];
-            }
-            if (cell.textLabel.text.length >= 52){
-                cell.textLabel.font = [UIFont systemFontOfSize:5];
-            }
+        
+        cell.textLabel_1.text = [NSString stringWithFormat:@"%@", [[self.folderInfoDB objectAtIndex:indexPath.row] objectAtIndex:indexOfFoldername]];
+        if (self.countFile.count == 0) {
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%d Files", 0];
+            //cell.detailTextLabel.text = [NSString stringWithFormat:@"%d Files", (arc4random() % 20)];
+        }else{
+            cell.textLabel_2.text = [NSString stringWithFormat:@"%ld Files", self.countFile.count];
         }
-    }
-    
-    if (iOSDeviceScreenSize.height == 736)
-    {
-        if (cell.textLabel.text.length >= 18) {
-            cell.textLabel.font = [UIFont systemFontOfSize:15];
-            if (cell.textLabel.text.length >= 35){
-                cell.textLabel.font = [UIFont systemFontOfSize:13];
-            }
-            if (cell.textLabel.text.length >= 45){
-                cell.textLabel.font = [UIFont systemFontOfSize:11];
-            }
-            if (cell.textLabel.text.length >= 55){
-                cell.textLabel.font = [UIFont systemFontOfSize:9];
-            }
-        }
+        
+        return cell;
     }
     
     return cell;
+}
+
+//CustomCellを設定したのでdidSelectRowでsegueを実行する。didSelectRowを呼ばないと遷移されない。
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"AddFileTableViewController" sender:self.tableView];
 }
 
 -(void)viewDidLayoutSubviews
