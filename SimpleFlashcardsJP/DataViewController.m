@@ -199,34 +199,91 @@
     [hostReachable startNotifier];
     
     //広告
-    NSString *MY_BANNER_UNIT_ID = @"ca-app-pub-9302632653080358/9670618628";
+    //NSString *MY_BANNER_UNIT_ID = @"ca-app-pub-9302632653080358/9670618628";
     
     // 画面上部に標準サイズのビューを作成する
     // 利用可能な広告サイズの定数値は GADAdSize.h で説明されている
     CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
     
     if (iOSDeviceScreenSize.height == 667) {
-        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView6.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView6.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView6 loadRequest:request];
     }else if (iOSDeviceScreenSize.height == 736) {
-        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-    }else if (iOSDeviceScreenSize.height == 480 || iOSDeviceScreenSize.height == 568){
-        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView6Plus.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView6Plus.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView6Plus loadRequest:request];
+    }else if (iOSDeviceScreenSize.height == 480){
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerViewFour.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerViewFour.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerViewFour loadRequest:request];
+    }else if (iOSDeviceScreenSize.height == 568){
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView loadRequest:request];
     }else{
-        bannerView_ = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView loadRequest:request];
     }
     
     // 広告ユニット ID を指定する
-    bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+    //bannerView_.adUnitID = MY_BANNER_UNIT_ID;
     
     // ユーザーに広告を表示した場所に後で復元する UIViewController をランタイムに知らせて
     // ビュー階層に追加する
-    bannerView_.rootViewController = self;
-    [self.view addSubview:bannerView_];
+    //bannerView_.rootViewController = self;
+    //[self.view addSubview:bannerView_];
     
-    [bannerView_ setDelegate:self];
+    //[bannerView_ setDelegate:self];
     
     // 一般的なリクエストを行って広告を読み込む
-    [bannerView_ loadRequest:[GADRequest request]];
+    //[bannerView_ loadRequest:[GADRequest request]];
     
     //テスト
     //GADRequest *req = [GADRequest request];
@@ -809,35 +866,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
-    [UIView beginAnimations:@"ToggleViews" context:nil];
-    [UIView setAnimationDuration:0.8];
-    
-    // Make the animatable changes.
-    bannerView_.alpha = 0.0;
-    bannerView_.alpha = 1.0;
-    
-    // Commit the changes and perform the animation.
-    [UIView commitAnimations];
-    
-    bannerView.frame = CGRectMake(0,
-                                  self.view.frame.size.height -
-                                  bannerView.frame.size.height,
-                                  bannerView.frame.size.width,
-                                  bannerView.frame.size.height);
-    
-   
-    
-    [UIView commitAnimations];
-}
-
-
-- (void)adView:(GADBannerView *)bannerView
-didFailToReceiveAdWithError:(GADRequestError *)error {
-    //NSLog(@"adView:didFailToReceiveAdWithError:%@", [error localizedDescription]);
-    bannerView_.hidden = YES;
-}
-
 -(void) checkNetworkStatus:(NSNotification *)notice
 {
     // called after network status changes
@@ -866,48 +894,42 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
         }
     }
     
-    /*
-     NetworkStatus hostStatus = [hostReachable currentReachabilityStatus];
-     switch (hostStatus)
-     {
-     case NotReachable:
-     {
-     NSLog(@"A gateway to the host server is down.");
-     self.hostActive = NO;
-     self.wifiAlert = [[UIAlertView alloc] initWithTitle:@"WiFi未接続"
-     message:@"WiFi接続時にご利用可能です。"
-     delegate:self
-     cancelButtonTitle:@"接続を確認する"
-     otherButtonTitles:nil];
-     self.wifiAlert.delegate       = self;
-     [self.wifiAlert show];
-     self.showAlert = 1;
-     break;
-     }
-     case ReachableViaWiFi:
-     {
-     NSLog(@"A gateway to the host server is working via WIFI.");
-     self.hostActive = YES;
-     if (self.showAlert == 1) {
-     [self.wifiAlert dismissWithClickedButtonIndex:0 animated:YES];
-     }
-     self.showAlert = 0;
-     break;
-     }
-     case ReachableViaWWAN:
-     {
-     NSLog(@"A gateway to the host server is working via WWAN.");
-     self.hostActive = YES;
-     
-     break;
-     }
-     }*/
-    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/*
+ - (void)adViewDidReceiveAd:(GADBannerView *)bannerView {
+ [UIView beginAnimations:@"ToggleViews" context:nil];
+ [UIView setAnimationDuration:0.8];
+ 
+ // Make the animatable changes.
+ bannerView_.alpha = 0.0;
+ bannerView_.alpha = 1.0;
+ 
+ // Commit the changes and perform the animation.
+ [UIView commitAnimations];
+ 
+ bannerView.frame = CGRectMake(0,
+ self.view.frame.size.height -
+ bannerView.frame.size.height,
+ bannerView.frame.size.width,
+ bannerView.frame.size.height);
+ 
+ 
+ 
+ [UIView commitAnimations];
+ }
+ 
+ 
+ - (void)adView:(GADBannerView *)bannerView
+ didFailToReceiveAdWithError:(GADRequestError *)error {
+ //NSLog(@"adView:didFailToReceiveAdWithError:%@", [error localizedDescription]);
+ bannerView_.hidden = YES;
+ }
+ */
 
 @end

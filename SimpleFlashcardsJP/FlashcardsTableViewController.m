@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
+//@import GoogleMobileAds;
+
 #import "FlashcardsTableViewController.h"
 #import "AddFileTableViewController.h"
 #import "Folder_FileTableViewCell.h"
@@ -41,6 +43,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //NSLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
     
     [self.tableView setSeparatorInset:UIEdgeInsetsZero];
     

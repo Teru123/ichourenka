@@ -6,15 +6,17 @@
 //  Copyright (c) 2015年 Self. All rights reserved.
 //
 
+@import GoogleMobileAds;
+
 #import <UIKit/UIKit.h>
 #import "Reachability.h"
-#import "GADBannerView.h"
+//#import "GADBannerView.h"
 
-@interface DataViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate, GADBannerViewDelegate>
+@interface DataViewController : UIViewController <UITextViewDelegate, UIAlertViewDelegate>
 {
     Reachability* internetReachable;
     Reachability* hostReachable;
-    GADBannerView *bannerView_;
+    //GADBannerView *bannerView_;
 }
 
 @property (nonatomic, strong) id dataObject;
@@ -22,6 +24,12 @@
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, assign) NSInteger folderID;
 @property (nonatomic, assign) NSInteger fileID;
+
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerViewFour;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6Plus;
+
 
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;

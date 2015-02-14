@@ -423,6 +423,11 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" id="SG7-Ub-NWB" customClass="GADBannerView">
+                                <rect key="frame" x="0.0" y="686" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.80000000000000004" green="0.59999999999999998" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -430,6 +435,7 @@
                     <connections>
                         <outlet property="backButton" destination="d1u-UC-y6k" id="82B-kp-4Vz"/>
                         <outlet property="backView" destination="S2x-2X-s3G" id="7HP-IP-I6V"/>
+                        <outlet property="bannerView6Plus" destination="SG7-Ub-NWB" id="Z4O-to-b8Z"/>
                         <outlet property="crossButton" destination="FSs-ya-5HZ" id="vu6-5f-6Q5"/>
                         <outlet property="gearButton" destination="Gtb-Ri-wNH" id="2Nf-bc-0Si"/>
                         <outlet property="horizontalView" destination="InK-po-e0S" id="0SG-Z7-qnq"/>
