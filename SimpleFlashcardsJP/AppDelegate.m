@@ -9,13 +9,23 @@
 #import "AppDelegate.h"
 #import "FolderName.h"
 #import "Options.h"
+#import "FoldernameDB.h"
+#import "FilenameDB.h"
+#import "CardText.h"
+#import "CardNumber.h"
 
 @interface AppDelegate ()
 
-@property (nonatomic, strong) FolderName *dbFolderManager;
-@property (nonatomic, strong) NSArray *folderInfo;
+@property (nonatomic, strong) FolderName *tempFolderManager;
+@property (nonatomic, strong) NSArray *tempFolderInfo;
 @property (nonatomic, strong) Options *dbOptions;
 @property (nonatomic, strong) NSArray *dbOptionInfo;
+@property (nonatomic, strong) FoldernameDB *dbFolderManager;
+@property (nonatomic, strong) FilenameDB *dbFileManager;
+@property (nonatomic, strong) CardText *cardTextManager;
+@property (nonatomic, strong) NSArray *cardTextInfo;
+@property (nonatomic, strong) CardNumber *dbCardNumber;
+@property (nonatomic, strong) NSArray *cardNumberInfo;
 
 @end
 
@@ -51,6 +61,56 @@
         NSString *queryForBackcolor = [NSString stringWithFormat:@"insert into optionInfo values(%d, %d, '%@')", 2, 1, @"茶色"];
         // Execute the query.
         [self.dbOptions executeQuery:queryForBackcolor];
+        
+        //FolderDB初期化
+        self.dbFolderManager = [[FoldernameDB alloc] initWithDatabaseFilename:@"FoldernameDB.sql"];
+        NSString *queryFolder;
+        queryFolder = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", @"Sample Folder", 0];
+        // Execute the query.
+        [self.dbFolderManager executeQuery:queryFolder];
+        
+        //FileDB初期化
+        self.dbFileManager = [[FilenameDB alloc] initWithDatabaseFilename:@"FilenameDB.sql"];
+        NSString *queryFile;
+        queryFile = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", @"Sample File", @"1"];
+        // Execute the query.
+        [self.dbFileManager executeQuery:queryFile];
+        
+        // Initialize the dbManager object.
+        self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+        self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
+        NSString *queryCT1_1;
+        NSString *queryCT1_2;
+        queryCT1_1 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 1\n\n\"カードを見る\"の使い方\n左右スワイプでカードを移動。青い矢印の上を上下スワイプでテキストを移動。", 0, @"1", 1];
+        queryCT1_2 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 1\n\n\"カードを見る\"で3~5番目のテキストを表示するには、\"カードを編集\"でText 2にテキストを入力してください。", 1, @"1", 1];
+        // Execute the query.
+        [self.cardTextManager executeQuery:queryCT1_1];
+        [self.cardTextManager executeQuery:queryCT1_2];
+        NSString *queryCT2_1;
+        NSString *queryCT2_2;
+        NSString *queryCT2_3;
+        NSString *queryCT2_4;
+        NSString *queryCT2_5;
+        queryCT2_1 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 2 Text 1", 0, @"1", 2];
+        queryCT2_2 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 2 Text 2", 1, @"1", 2];
+        queryCT2_3 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 2 Text 3", 2, @"1", 2];
+        queryCT2_4 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 2 Text 4", 3, @"1", 2];
+        queryCT2_5 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 2 Text 5", 4, @"1", 2];
+        // Execute the query.
+        [self.cardTextManager executeQuery:queryCT2_1];
+        [self.cardTextManager executeQuery:queryCT2_2];
+        [self.cardTextManager executeQuery:queryCT2_3];
+        [self.cardTextManager executeQuery:queryCT2_4];
+        [self.cardTextManager executeQuery:queryCT2_5];
+        
+        NSString *queryForCN_1 = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@', '%@')", @"1", @"1"];
+        NSString *queryForCN_2 = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@', '%@')", @"1", @"1"];
+        // Execute the query.
+        [self.dbCardNumber executeQuery:queryForCN_1];
+        [self.dbCardNumber executeQuery:queryForCN_2];
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"使い方" message:@"1. フォルダーとファイルを作成\n2. \"カードを編集\"でカードを追加\n3. \"カードを見る\"でカードを表示" delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        [alertView show];
     }
     
     //以下、デザイン。
@@ -150,20 +210,20 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     // Initialize the dbManager property.
-    self.dbFolderManager = [[FolderName alloc] initWithDatabaseFilename:@"FolderName.sql"];
+    self.tempFolderManager = [[FolderName alloc] initWithDatabaseFilename:@"FolderName.sql"];
     
     //Load specific data to delete
     NSString *queryLoad = @"select * from FolderNameInfo";
-    self.folderInfo = [[NSArray alloc] initWithArray:[self.dbFolderManager loadDataFromDB:queryLoad]];
+    self.tempFolderInfo = [[NSArray alloc] initWithArray:[self.tempFolderManager loadDataFromDB:queryLoad]];
     //NSLog(@"%ld", self.folderInfo.count);
 
-    if (self.folderInfo.count != 0) {
+    if (self.tempFolderInfo.count != 0) {
         // Prepare the query.
         NSString *query = [NSString stringWithFormat:@"delete from FolderNameInfo"];
         //NSLog(@"%@", query);
         
         // Execute the query.
-        [self.dbFolderManager executeQuery:query];
+        [self.tempFolderManager executeQuery:query];
     }
 
 }
