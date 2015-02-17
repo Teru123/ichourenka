@@ -81,8 +81,8 @@
         self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
         NSString *queryCT1_1;
         NSString *queryCT1_2;
-        queryCT1_1 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 1\n\n\"カードを見る\"の使い方\n左右スワイプでカードを移動。青い矢印の上を上下スワイプでテキストを移動。", 0, @"1", 1];
-        queryCT1_2 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 1\n\n\"カードを見る\"で3~5番目のテキストを表示するには、\"カードを編集\"でText 2にテキストを入力してください。", 1, @"1", 1];
+        queryCT1_1 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 1 Text 1\n\n\"カードを見る\"の使い方\n左右スワイプでカードを移動。青い矢印の上を上下スワイプでテキストを移動。", 0, @"1", 1];
+        queryCT1_2 = [NSString stringWithFormat:@"insert into cardTextInfo values(null, '%@', %d, '%@', %d)", @"Sample Card 1 Text 2\n\n\"カードを見る\"で3~5番目のテキストを表示するには、\"カードを編集\"でText 2にテキストを入力してください。", 1, @"1", 1];
         // Execute the query.
         [self.cardTextManager executeQuery:queryCT1_1];
         [self.cardTextManager executeQuery:queryCT1_2];

@@ -88,7 +88,11 @@
         self.indexOfID = [self.dbFolderManager.arrColumnNames indexOfObject:@"folderInfoID"];
         
         if (self.folderInfoDB.count == 0) {
-            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], 0];
+            NSString *foldername = [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder];
+            //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+            foldername = [foldername stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+            //NSLog(@"foldername %@", foldername);
+            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", foldername, 0];
             // Execute the query.
             [self.dbFolderManager executeQuery:queryInsert];
         }else{
@@ -121,7 +125,11 @@
             }*/
             
             //同一名の合計に１を足して保存。
-            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], 0];
+            NSString *foldername = [[self.tempFolderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder];
+            //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+            foldername = [foldername stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+            //NSLog(@"foldername %@", foldername);
+            queryInsert = [NSString stringWithFormat:@"insert into folderInfo values(null, '%@', %d)", foldername, 0];
             // Execute the query.
             [self.dbFolderManager executeQuery:queryInsert];
         }

@@ -58,6 +58,9 @@
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         
+        //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+        self.folderNameText.text = [self.folderNameText.text stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+        
         // Prepare the query string.
         // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
         NSString *query;
@@ -139,6 +142,9 @@
 }
 
 - (IBAction)saveFolderName:(id)sender {
+    //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+    self.folderNameText.text = [self.folderNameText.text stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    
     // Prepare the query string.
     // If the recordIDToEdit property has value other than -1, then create an update query. Otherwise create an insert query.
     NSString *query;

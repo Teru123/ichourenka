@@ -94,7 +94,12 @@
         self.indexOfFolder = [self.dbFolderManager.arrColumnNames indexOfObject:@"foldername"];
         //FileDB.sqlへ
         NSString *folderIDStr = [NSString stringWithFormat:@"%ld", self.folderID];
-        queryInsert = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder], folderIDStr];
+        
+        NSString *filename = [[self.folderInfo objectAtIndex:0] objectAtIndex:self.indexOfFolder];
+        //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+        filename = [filename stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+        //NSLog(@"filename %@", filename);
+        queryInsert = [NSString stringWithFormat:@"insert into filenameInfo values(null, '%@', '%@')", filename, folderIDStr];
         // Execute the query.
         [self.dbFileManager executeQuery:queryInsert];
         

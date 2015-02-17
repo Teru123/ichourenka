@@ -57,6 +57,9 @@
     if([text isEqualToString:@"\n"]) {
         [textView resignFirstResponder];
         
+        //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+        self.textField.text = [self.textField.text stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+        
         //クエリー作成。
         NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where fileInfoID = %ld ", self.textField.text, self.fileID];
         [self.dbFileManager executeQuery:queryUpdate];
@@ -78,6 +81,9 @@
 }
 
 - (IBAction)saveAction:(id)sender {
+    //single quoteがあるかチェック。あればtwo single quotesにしてsyntax errorを避ける。
+    self.textField.text = [self.textField.text stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    
     //クエリー作成。
     NSString *queryUpdate = [NSString stringWithFormat:@"update filenameInfo set filename ='%@' where fileInfoID = %ld ", self.textField.text, self.fileID];
     [self.dbFileManager executeQuery:queryUpdate];
