@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
+@import GoogleMobileAds;
+
 #import <UIKit/UIKit.h>
 #import "EnterCardnameTableViewController.h"
 
@@ -29,5 +31,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *textThree;
 @property (weak, nonatomic) IBOutlet UILabel *textFour;
 @property (weak, nonatomic) IBOutlet UILabel *textFive;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerViewFour;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6Plus;
+
 
 @end

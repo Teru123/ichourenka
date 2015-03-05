@@ -69,6 +69,77 @@
     if (self.cardNumberInfo.count) {
         [self justLoadInfo];
     }
+    
+    // 画面上部に標準サイズのビューを作成する
+    // 利用可能な広告サイズの定数値は GADAdSize.h で説明されている
+    CGSize iOSDeviceScreenSize = [[UIScreen mainScreen] bounds].size;
+    
+    if (iOSDeviceScreenSize.height == 667) {
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView6.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView6.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView6 loadRequest:request];
+    }else if (iOSDeviceScreenSize.height == 736) {
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView6Plus.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView6Plus.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView6Plus loadRequest:request];
+    }else if (iOSDeviceScreenSize.height == 480){
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerViewFour.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerViewFour.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerViewFour loadRequest:request];
+    }else if (iOSDeviceScreenSize.height == 568){
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView loadRequest:request];
+    }else{
+        // Replace this ad unit ID with your own ad unit ID.
+        self.bannerView.adUnitID = @"ca-app-pub-9302632653080358/9670618628";
+        self.bannerView.rootViewController = self;
+        
+        GADRequest *request = [GADRequest request];
+        
+        // Requests test ads on devices you specify. Your test device ID is printed to the console when
+        // an ad request is made. GADBannerView automatically returns test ads when running on a
+        // simulator.
+        //request.testDevices = @[@"2077ef9a63d2b398840261c8221a0c9a"  // Eric's iPod Touch];
+        
+        [self.bannerView loadRequest:request];
+    }
    
     [self.tableView reloadData];
     

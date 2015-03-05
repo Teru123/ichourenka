@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
+@import GoogleMobileAds;
+
 #import <UIKit/UIKit.h>
 #import "ChangeFilenameTableViewController.h"
 #import "ChangeFoldernameTableViewController.h"
@@ -32,5 +34,9 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *filenameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *foldernameLabel;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6Plus;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerViewFour;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView;
 
 @end

@@ -67,6 +67,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="dIk-vG-zd8" customClass="GADBannerView">
+                            <rect key="frame" x="0.0" y="197" width="414" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection id="fG7-R6-HGK">
                                 <cells>
@@ -113,6 +118,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="p9C-UJ-JO3"/>
                     <connections>
+                        <outlet property="bannerView6Plus" destination="dIk-vG-zd8" id="erZ-Q9-hHV"/>
                         <outlet property="folderName" destination="g0K-lY-yFu" id="JYy-Qj-G3D"/>
                     </connections>
                 </tableViewController>
@@ -129,17 +135,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" id="B4A-qy-s5q">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <view contentMode="scaleToFill" id="9r7-Xy-Z7M" customClass="GADBannerView">
+                                <rect key="frame" x="0.0" y="686" width="414" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="XcN-BX-kES"/>
                     <connections>
+                        <outlet property="bannerView6Plus" destination="9r7-Xy-Z7M" id="8Sz-Hf-wyu"/>
                         <outlet property="textView" destination="B4A-qy-s5q" id="prV-Hk-pnM"/>
                     </connections>
                 </viewController>
@@ -202,6 +214,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="hE0-6k-6al" customClass="GADBannerView">
+                            <rect key="frame" x="0.0" y="197" width="414" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection id="dwf-CT-Oj8">
                                 <cells>
@@ -246,6 +263,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="sug-Bu-fNf"/>
                     <connections>
+                        <outlet property="bannerView6Plus" destination="hE0-6k-6al" id="KcD-L7-JAQ"/>
                         <outlet property="fileName" destination="P5y-3V-8hG" id="f0m-xd-Mbf"/>
                     </connections>
                 </tableViewController>
@@ -459,6 +477,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="X74-5m-Yh6" customClass="GADBannerView">
+                            <rect key="frame" x="0.0" y="393" width="414" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection id="O4X-aH-LNa">
                                 <cells>
@@ -588,6 +611,7 @@
                     <navigationItem key="navigationItem" title="設定" id="PfJ-Hi-puA"/>
                     <connections>
                         <outlet property="backcolorDetail" destination="rx4-4I-OpT" id="k2R-XJ-AHV"/>
+                        <outlet property="bannerView6Plus" destination="X74-5m-Yh6" id="L7Y-u0-LmN"/>
                         <outlet property="fontsizeDetail" destination="vex-DR-fQD" id="chW-ym-gcW"/>
                         <outlet property="orderDetail" destination="PiD-dv-ONg" id="yVI-BA-9ZH"/>
                     </connections>
@@ -839,6 +863,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="5J3-c9-h0U" customClass="GADBannerView">
+                            <rect key="frame" x="0.0" y="383" width="414" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="フォルダー名を変更" id="bgD-Ot-4BG">
                                 <cells>
@@ -940,6 +969,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="NNr-IM-Ze1"/>
                     <connections>
+                        <outlet property="bannerView6Plus" destination="5J3-c9-h0U" id="eCX-9P-Hp4"/>
                         <outlet property="filenameLabel" destination="a9d-oh-luo" id="RiA-Lm-92r"/>
                         <outlet property="foldernameLabel" destination="YTV-BA-6Mr" id="q0v-sL-Nbq"/>
                     </connections>
@@ -1005,6 +1035,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="QMd-4h-wqa" customClass="GADBannerView">
+                            <rect key="frame" x="0.0" y="64" width="414" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection headerTitle="TEXT 1-5" id="j3S-Nc-3PC">
                                 <cells>
@@ -1103,6 +1138,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="カード" id="Pgd-Qz-G4U"/>
                     <connections>
+                        <outlet property="bannerView6Plus" destination="QMd-4h-wqa" id="Qww-9D-WKi"/>
                         <outlet property="textFive" destination="v6g-2Q-p28" id="moI-5r-Yr4"/>
                         <outlet property="textFour" destination="9uf-7k-rCK" id="ET4-Wc-3zZ"/>
                         <outlet property="textOne" destination="AIy-bC-UNh" id="qIk-I1-r8p"/>

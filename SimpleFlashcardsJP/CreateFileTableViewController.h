@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 Self. All rights reserved.
 //
 
+@import GoogleMobileAds;
+
 #import <UIKit/UIKit.h>
 #import "EnterFileNameTableViewController.h"
 
@@ -22,5 +24,9 @@
 @property (nonatomic, strong) NSString *filenameData;
 @property (nonatomic, assign) NSInteger folderID;
 @property (weak, nonatomic) IBOutlet UILabel *fileName;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerViewFour;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6;
+@property (weak, nonatomic) IBOutlet GADBannerView *bannerView6Plus;
 
 @end

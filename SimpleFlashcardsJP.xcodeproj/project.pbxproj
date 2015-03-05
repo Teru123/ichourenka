@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DD08B70F1A8F362900F1389B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD08B70E1A8F362900F1389B /* GoogleMobileAds.framework */; };
+		735F2BCF7902E7A077832F65 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AF073815EC6D3A0F5B471A1 /* libPods.a */; };
 		DD0EE5631A6CC76B00B9AD6B /* options.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD0EE5621A6CC76B00B9AD6B /* options.sql */; };
 		DD0EE5661A6CC7AE00B9AD6B /* Options.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0EE5651A6CC7AE00B9AD6B /* Options.m */; };
 		DD15EDD61A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */; };
@@ -94,7 +94,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DD08B70E1A8F362900F1389B /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		0AF073815EC6D3A0F5B471A1 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		96CA4630300497EDCBE79726 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		DD0EE5621A6CC76B00B9AD6B /* options.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = options.sql; sourceTree = "<group>"; };
 		DD0EE5641A6CC7AE00B9AD6B /* Options.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
 		DD0EE5651A6CC7AE00B9AD6B /* Options.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Options.m; sourceTree = "<group>"; };
@@ -207,6 +208,7 @@
 		DDDB675A1A24790800921E82 /* WhiteTextViewRectangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WhiteTextViewRectangle.png; sourceTree = "<group>"; };
 		DDDC2FA81A303C1D00F342C7 /* EnterFileNameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnterFileNameTableViewController.h; sourceTree = "<group>"; };
 		DDDC2FA91A303C1D00F342C7 /* EnterFileNameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EnterFileNameTableViewController.m; sourceTree = "<group>"; };
+		FCA5343F3123F0613B2AD670 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -214,11 +216,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DD08B70F1A8F362900F1389B /* GoogleMobileAds.framework in Frameworks */,
 				DD8FED5E1A25D1DA003F2AC2 /* CoreGraphics.framework in Frameworks */,
 				DD8FED5C1A25D1D4003F2AC2 /* libsqlite3.dylib in Frameworks */,
 				DD8FED5A1A25D1C4003F2AC2 /* Foundation.framework in Frameworks */,
 				DD8FED591A25D1BA003F2AC2 /* UIKit.framework in Frameworks */,
+				735F2BCF7902E7A077832F65 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +234,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77F874C13E5EF72017074FFB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FCA5343F3123F0613B2AD670 /* Pods.debug.xcconfig */,
+				96CA4630300497EDCBE79726 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		DD8FED571A25D198003F2AC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +250,7 @@
 				DD8FED5B1A25D1D4003F2AC2 /* libsqlite3.dylib */,
 				DD8FED581A25D1BA003F2AC2 /* UIKit.framework */,
 				DD8FED551A25D15E003F2AC2 /* Foundation.framework */,
+				0AF073815EC6D3A0F5B471A1 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -271,12 +283,12 @@
 		DDC1A65B1A21D332003C7EC9 = {
 			isa = PBXGroup;
 			children = (
-				DD08B70E1A8F362900F1389B /* GoogleMobileAds.framework */,
 				DDA0C8FB1A3AEC2E00B5F4E9 /* DB */,
 				DDC1A6661A21D332003C7EC9 /* SimpleFlashcardsJP */,
 				DDC1A6801A21D332003C7EC9 /* SimpleFlashcardsJPTests */,
 				DDC1A6651A21D332003C7EC9 /* Products */,
 				DD8FED571A25D198003F2AC2 /* Frameworks */,
+				77F874C13E5EF72017074FFB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -414,9 +426,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DDC1A6871A21D332003C7EC9 /* Build configuration list for PBXNativeTarget "SimpleFlashcardsJP" */;
 			buildPhases = (
+				A619C28E6B557583C9D2242A /* Check Pods Manifest.lock */,
 				DDC1A6601A21D332003C7EC9 /* Sources */,
 				DDC1A6611A21D332003C7EC9 /* Frameworks */,
 				DDC1A6621A21D332003C7EC9 /* Resources */,
+				BF65E1CDED8280266CE4CC2A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -532,6 +546,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A619C28E6B557583C9D2242A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		BF65E1CDED8280266CE4CC2A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DDC1A6601A21D332003C7EC9 /* Sources */ = {
@@ -693,6 +740,7 @@
 		};
 		DDC1A6881A21D332003C7EC9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FCA5343F3123F0613B2AD670 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -702,16 +750,14 @@
 				);
 				INFOPLIST_FILE = SimpleFlashcardsJP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/GoogleMobileAdsSdkiOS-6.12.2",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		DDC1A6891A21D332003C7EC9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 96CA4630300497EDCBE79726 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -721,10 +767,7 @@
 				);
 				INFOPLIST_FILE = SimpleFlashcardsJP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/GoogleMobileAdsSdkiOS-6.12.2",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
