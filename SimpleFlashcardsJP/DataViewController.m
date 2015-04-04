@@ -45,6 +45,9 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.navigationController setNavigationBarHidden:YES];
     
+    // make this textView align center vertically
+    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    
     self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
     //NSLog(@"fileIDStr %@", self.fileIDStr);
     
@@ -291,7 +294,20 @@
     //[bannerView_ loadRequest:req];
 }
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    UITextView *tv = object;
+    CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
+    topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
+    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+}
+
 - (void)viewWillAppear:(BOOL)animated{
+    [self.textView removeObserver:self forKeyPath:@"contentSize"];
+    
+    // make this textView align center vertically
+    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    
     //設定を更新する。
     if (self.dbCardTextInfo.count != 0){
         // Initialize the dbManager object.
@@ -441,8 +457,8 @@
         [self resetPageAndText];
         self.movePageSlider.value = self.pageIndex;
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+        [self animationStart];
     }
-    [self animationStart];
 }
 
 - (void)view_SwipeRight:(UISwipeGestureRecognizer *)sender{
@@ -451,8 +467,8 @@
         [self resetPageAndText];
         self.movePageSlider.value = self.pageIndex;
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+        [self animationStart];
     }
-    [self animationStart];
 }
 
 - (void)view_SwipeUp:(UISwipeGestureRecognizer *)sender{
@@ -860,6 +876,7 @@
 }
 
 - (IBAction)backAction:(id)sender {
+    [self.textView removeObserver:self forKeyPath:@"contentSize"];
     // 隠していたNavBarを表示。
     [self.navigationController setNavigationBarHidden:NO];
     // コードからNavのBackボタンタップで前画面に戻る。
