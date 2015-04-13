@@ -51,6 +51,4 @@
 - (IBAction)movePageAction:(id)sender;
 - (IBAction)crossAction:(id)sender;
 
--(void) checkNetworkStatus:(NSNotification *)notice;
-
 @end

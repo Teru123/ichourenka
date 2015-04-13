@@ -26,6 +26,7 @@
 @property (nonatomic, strong) NSString *fileIDStr;
 @property (nonatomic, assign) int textNumber;
 @property (nonatomic, assign) BOOL randomSwitch;
+@property (nonatomic, assign) BOOL alertShowing;
 
 @property(nonatomic,strong) NSArray *sourceArry;     //数据源
 @property(nonatomic,strong) NSMutableArray *passDataArr;
@@ -191,16 +192,6 @@
         //NSLog(@"%ld", self.sourceArry.count);
     }
     
-    // check for internet connection
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNetworkStatus:) name:kReachabilityChangedNotification object:nil];
-    
-    internetReachable = [Reachability reachabilityForInternetConnection];
-    [internetReachable startNotifier];
-    
-    // check if a pathway to a random host exists
-    hostReachable = [Reachability reachabilityWithHostName:@"www.apple.com"];
-    [hostReachable startNotifier];
-    
     //広告
     //NSString *MY_BANNER_UNIT_ID = @"ca-app-pub-9302632653080358/9670618628";
     
@@ -303,6 +294,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    
     [self.textView removeObserver:self forKeyPath:@"contentSize"];
     
     // make this textView align center vertically
@@ -359,13 +351,17 @@
         //カードの順序。
         if ([[[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex] integerValue] == 0) {
             self.textNumber = 0;
-            self.pageIndex = 0;
             self.randomSwitch = NO;
             [self resetPageAndText];
+            
+            // 最初のカードに戻らないようにpageIndexを0にしない
+            //self.pageIndex = 0;
         }else if ([[[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex] integerValue] == 1) {
             //random
             self.textNumber = 0;
-            self.pageIndex = 0;
+            
+            // 最初のカードに戻らないようにpageIndexを0にしない
+            //self.pageIndex = 0;
             //NSLog(@"count %ld", self.sourceArry.count);
             
             for (int k = 0; k < self.sourceArry.count; k++) {
@@ -881,36 +877,6 @@
     [self.navigationController setNavigationBarHidden:NO];
     // コードからNavのBackボタンタップで前画面に戻る。
     [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void) checkNetworkStatus:(NSNotification *)notice
-{
-    // called after network status changes
-    NetworkStatus internetStatus = [internetReachable currentReachabilityStatus];
-    switch (internetStatus)
-    {
-        case NotReachable:
-        {
-            self.internetActive = NO;
-            
-            self.wifiAlert = [[UIAlertView alloc] initWithTitle:@"アプリを使用するには、機内モードをオフにするか、Wi-Fiを使用してからアプリを再起動してください" message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-            [self.wifiAlert show];
-            break;
-        }
-        case ReachableViaWiFi:
-        {
-            self.internetActive = YES;
-            
-            break;
-        }
-        case ReachableViaWWAN:
-        {
-            self.internetActive = YES;
-            
-            break;
-        }
-    }
-    
 }
 
 - (void)didReceiveMemoryWarning {
