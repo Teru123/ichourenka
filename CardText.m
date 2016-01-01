@@ -165,4 +165,59 @@
     [self runQuery:[query UTF8String] isQueryExecutable:YES];
 }
 
+// 指定のカラムが存在するか確認
+-(BOOL)checkColumnExists
+{
+    BOOL columnExists = NO;
+    
+    sqlite3_stmt *selectStmt;
+    
+    // Create a sqlite object.
+    sqlite3 *sqlite3Database;
+    
+    // Set the database file path.
+    NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
+    
+    BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
+    
+    const char *sqlStatement = "select memorised from cardTextInfo";
+    if(openDatabaseResult == SQLITE_OK){
+        if(sqlite3_prepare_v2(sqlite3Database, sqlStatement, -1, &selectStmt, NULL) == SQLITE_OK)
+            columnExists = YES;
+    }
+    return columnExists;
+}
+
+// カラムが存在しなければ追加
+-(void) alterDB{
+    sqlite3_stmt *statement;
+
+    // Set the database file path.
+    NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
+    
+    // Create a sqlite object.
+    sqlite3 *sqlite3Database;
+    
+    if(sqlite3_open([databasePath UTF8String], &sqlite3Database) == SQLITE_OK)
+    {
+        
+        NSString *updateSQL = [NSString stringWithFormat: @"ALTER TABLE cardTextInfo ADD COLUMN memorised BOOL DEFAULT false"];
+        const char *update_stmt = [updateSQL UTF8String];
+        sqlite3_prepare_v2(sqlite3Database, update_stmt, -1, &statement, NULL);
+        
+        if(sqlite3_step(statement)==SQLITE_DONE)
+        {
+            NSLog(@"%@", @"DONE");
+            
+        }
+        else
+        {
+            NSLog(@"DB Error: %s", sqlite3_errmsg(sqlite3Database));
+        }
+        // Release the compiled statement from memory
+        sqlite3_finalize(statement);
+        sqlite3_close(sqlite3Database);
+    }
+}
+
 @end
