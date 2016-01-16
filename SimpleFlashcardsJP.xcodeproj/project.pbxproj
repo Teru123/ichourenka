@@ -11,6 +11,8 @@
 		DD0EE5631A6CC76B00B9AD6B /* options.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD0EE5621A6CC76B00B9AD6B /* options.sql */; };
 		DD0EE5661A6CC7AE00B9AD6B /* Options.m in Sources */ = {isa = PBXBuildFile; fileRef = DD0EE5651A6CC7AE00B9AD6B /* Options.m */; };
 		DD15EDD61A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */; };
+		DD335DA21C364215008CABD5 /* ios7-star-outline.png in Resources */ = {isa = PBXBuildFile; fileRef = DD335DA01C364215008CABD5 /* ios7-star-outline.png */; };
+		DD335DA31C364215008CABD5 /* ios7-star.png in Resources */ = {isa = PBXBuildFile; fileRef = DD335DA11C364215008CABD5 /* ios7-star.png */; };
 		DD3383E61A67931A0018F2EC /* FoldernameDB.sql in Resources */ = {isa = PBXBuildFile; fileRef = DD3383E51A67931A0018F2EC /* FoldernameDB.sql */; };
 		DD393A8D1A8A0303007FE4B0 /* Folder_FileTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DD393A8B1A8A0303007FE4B0 /* Folder_FileTableViewCell.m */; };
 		DD393A8E1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DD393A8C1A8A0303007FE4B0 /* Folder_FileTableViewCell.xib */; };
@@ -101,6 +103,8 @@
 		DD0EE5651A6CC7AE00B9AD6B /* Options.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Options.m; sourceTree = "<group>"; };
 		DD15EDD41A5A2CE2004B38C3 /* ChangeFilenameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeFilenameTableViewController.h; sourceTree = "<group>"; };
 		DD15EDD51A5A2CE2004B38C3 /* ChangeFilenameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeFilenameTableViewController.m; sourceTree = "<group>"; };
+		DD335DA01C364215008CABD5 /* ios7-star-outline.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-star-outline.png"; sourceTree = "<group>"; };
+		DD335DA11C364215008CABD5 /* ios7-star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ios7-star.png"; sourceTree = "<group>"; };
 		DD3383E51A67931A0018F2EC /* FoldernameDB.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = FoldernameDB.sql; sourceTree = "<group>"; };
 		DD393A8A1A8A0303007FE4B0 /* Folder_FileTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder_FileTableViewCell.h; sourceTree = "<group>"; };
 		DD393A8B1A8A0303007FE4B0 /* Folder_FileTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder_FileTableViewCell.m; sourceTree = "<group>"; };
@@ -391,6 +395,8 @@
 				DD9428A01A58F04C00D95CD0 /* stop.png */,
 				DD94289E1A58F03600D95CD0 /* ios7-pause.png */,
 				DD94289C1A58EFDE00D95CD0 /* ios7-play.png */,
+				DD335DA01C364215008CABD5 /* ios7-star-outline.png */,
+				DD335DA11C364215008CABD5 /* ios7-star.png */,
 				DD94289A1A58EF0300D95CD0 /* question.png */,
 				DD9428981A58EE8A00D95CD0 /* arrow-small-17.png */,
 				DDDB67581A2473EB00921E82 /* textView_White.png */,
@@ -519,6 +525,7 @@
 				DD9428A11A58F04C00D95CD0 /* stop.png in Resources */,
 				DDCBA1D91A3D4704000F8AE8 /* CardText.sql in Resources */,
 				DD79F21E1A44150C004E2BE8 /* CardListTableViewCell.xib in Resources */,
+				DD335DA31C364215008CABD5 /* ios7-star.png in Resources */,
 				DD8135431A63E96B000E53D3 /* SwipeArrow.png in Resources */,
 				DD7B4CD31A74F8E00065721F /* CardList6PlusTableViewCell.xib in Resources */,
 				DDC1A6781A21D332003C7EC9 /* LaunchScreen.xib in Resources */,
@@ -532,6 +539,7 @@
 				DDA790081A70A7DB00CA1544 /* iPhone6Plus.storyboard in Resources */,
 				DD94289F1A58F03600D95CD0 /* ios7-pause.png in Resources */,
 				DD414C3F1A5BB38A00FFAABB /* cross.png in Resources */,
+				DD335DA21C364215008CABD5 /* ios7-star-outline.png in Resources */,
 				DDC1A6751A21D332003C7EC9 /* Images.xcassets in Resources */,
 				DDA488641A69FD3C00F34370 /* CardNumberDB.sql in Resources */,
 				DDA790061A70966800CA1544 /* iPhone6.storyboard in Resources */,

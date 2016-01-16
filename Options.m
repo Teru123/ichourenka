@@ -165,4 +165,26 @@
     [self runQuery:[query UTF8String] isQueryExecutable:YES];
 }
 
+// 指定のレコードが存在するか確認
+-(void)alterDB
+{
+    // Create a sqlite object.
+    sqlite3 *sqlite3Database;
+    
+    // Set the database file path.
+    NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
+    
+    BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
+    
+    if(openDatabaseResult == SQLITE_OK){
+        //なければ暗記レコード追加。
+        NSString *queryForMemorised = [NSString stringWithFormat:@"INSERT OR IGNORE INTO optionInfo values(%d, %d, '%@')", 3, 0, @"未暗記"];
+        
+        //const char *update_stmt = [updateSQL UTF8String];
+        //sqlite3_prepare_v2(sqlite3Database, update_stmt, -1, &statement, NULL);
+        
+        [self runQuery:[queryForMemorised UTF8String] isQueryExecutable:YES];
+    }
+}
+
 @end

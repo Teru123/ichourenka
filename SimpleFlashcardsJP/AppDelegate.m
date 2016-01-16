@@ -204,11 +204,14 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
     
-    if ([self.cardTextManager checkColumnExists] == false) {
-        [self.cardTextManager alterDB];
+    if ([self.dbCardNumber checkColumnExists] == false) {
+        [self.dbCardNumber alterDB];
     }
+    
+    self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
+    [self.dbOptions alterDB];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

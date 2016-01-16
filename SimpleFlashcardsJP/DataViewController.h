@@ -45,10 +45,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *crossButton;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
 @property (weak, nonatomic) IBOutlet UILabel *pageLabel;
+@property (weak, nonatomic) IBOutlet UIButton *memorisedBtn;
+@property (weak, nonatomic) IBOutlet UIButton *memorisedBtnBlue;
 
 - (IBAction)backAction:(id)sender;
 - (IBAction)changeTextAction:(id)sender;
 - (IBAction)movePageAction:(id)sender;
 - (IBAction)crossAction:(id)sender;
+- (IBAction)memorised:(id)sender;
+- (IBAction)cancelMemorised:(id)sender;
+
 
 @end

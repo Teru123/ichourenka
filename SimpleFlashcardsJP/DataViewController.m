@@ -31,6 +31,8 @@
 @property(nonatomic,strong) NSArray *sourceArry;     //数据源
 @property(nonatomic,strong) NSMutableArray *passDataArr;
 @property(nonatomic,strong) NSMutableArray *randomIndex;
+@property(nonatomic,strong) NSMutableArray *cardNumArry;
+@property (nonatomic, assign) int isMemorised;
 
 @property (assign, nonatomic) BOOL internetActive;
 @property (assign, nonatomic) BOOL hostActive;
@@ -42,6 +44,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.cardNumArry = [[NSMutableArray alloc] init]; //arry初期化
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.navigationController setNavigationBarHidden:YES];
@@ -63,6 +67,11 @@
     //データを読み込んで配列に追加。
     self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
     self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCN]];
+    
+//    for (int i = 0; i < self.dbCardNumberInfo.count; i++){
+//        NSInteger cardNum = [self.dbCardNumber.arrColumnNames indexOfObject:@"cardNumberInfoID"];
+//        [self.cardNumArry addObject:[[self.dbCardNumberInfo objectAtIndex:i] objectAtIndex:cardNum]];
+//    }
     
     //NSLog(@"count txtinfo %ld, cninfo %ld", self.dbCardTextInfo.count, self.dbCardNumberInfo.count);
     
@@ -133,7 +142,6 @@
                 //テキストデータ格納。
                 [self.passDataArr addObject:dataText];
                 //NSLog(@"%ld", self.passDataArr.count);
-                
             }
             
             //Arrayにデータを含むMutableArrを渡す。
@@ -142,6 +150,18 @@
             
             // 配列に各データを含む配列を追加してsetViewControllers時のエラーを防ぐ。配列と配列の結合。
             self.sourceArry = [self.sourceArry arrayByAddingObjectsFromArray:@[dataArray]];
+            
+            // カード番号取得
+            NSInteger cardNum = [self.dbCardNumber.arrColumnNames indexOfObject:@"cardNumberInfoID"];
+            
+            NSLog(@"%@", [self.dbCardNumberInfo objectAtIndex:i]);
+            
+            // クラス名を文字列で取得 クラス名は "NSCFString"
+            NSString *cardNumData = [NSString stringWithFormat:@"%@", [[self.dbCardNumberInfo objectAtIndex:i] objectAtIndex:cardNum]];
+//            cardNumData = NSStringFromClass([NSString class]);
+            NSNumber *cardNumIntData = [NSNumber numberWithInteger: [cardNumData integerValue]];
+            
+            [self.cardNumArry addObject:cardNumIntData];
         }
         
         // Do any additional setup after loading the view.
@@ -185,6 +205,8 @@
         [self.view addGestureRecognizer:swipeDownGesture];
         
         [self animationStart];
+        
+        [self checkMemorised];
         
         //self.textNumber = 0;
         //self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[0][0]];
@@ -454,6 +476,7 @@
         self.movePageSlider.value = self.pageIndex;
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
         [self animationStart];
+        [self checkMemorised];
     }
 }
 
@@ -464,6 +487,7 @@
         self.movePageSlider.value = self.pageIndex;
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
         [self animationStart];
+        [self checkMemorised];
     }
 }
 
@@ -860,6 +884,8 @@
         
         [self resetPageAndText];
         self.pageLabel.text = [NSString stringWithFormat:@"%ld", self.pageIndex + 1];
+        
+        [self checkMemorised];
     }
     //[self animationStart];
 }
@@ -869,6 +895,93 @@
     self.movePageSlider.hidden = YES;
     self.crossButton.hidden = YES;
     self.pageLabel.hidden = YES;
+}
+
+- (IBAction)memorised:(id)sender {
+//    self.memorisedBtn.hidden = YES;
+//    self.memorisedBtnBlue.hidden = NO;
+//    NSLog(@"%ld", (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]);
+//    
+//    //クエリー作成。
+//    NSString *queryUpdate = [NSString stringWithFormat:@"update cardNumberInfo set memorised = %d where cardNumberInfoID = %ld ", 1, (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]];
+//    
+//    //NSLog(@"queryUpdate %@", queryUpdate);
+//    [self.dbCardNumber executeQuery:queryUpdate];
+    
+    [self toggleMemorised];
+}
+
+- (IBAction)cancelMemorised:(id)sender {
+//    self.memorisedBtnBlue.hidden =YES;
+//    self.memorisedBtn.hidden = NO;
+//     NSLog(@"%ld", (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]);
+//    
+//    //クエリー作成。
+//    NSString *queryUpdate = [NSString stringWithFormat:@"update cardNumberInfo set memorised = %d where cardNumberInfoID = %ld ", 0, (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]];
+//    
+//    //NSLog(@"queryUpdate %@", queryUpdate);
+//    [self.dbCardNumber executeQuery:queryUpdate];
+    
+    [self toggleMemorised];
+}
+
+- (void)readyForMemorised {
+    NSString *queryLoadMemorised = [NSString stringWithFormat:@"select memorised from cardNumberInfo where filename = '%@' AND cardNumberInfoID = %ld", self.fileIDStr, (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]];
+    
+    // 暗記したか取得
+    //    NSInteger columnIndex = [self.dbCardNumber.arrColumnNames indexOfObject:@"memorised"];
+    //    if(columnIndex == NSNotFound){
+    //         NSLog(@"%ld", (long)columnIndex);
+    //    }
+    
+    // データを読み込んで配列に追加。
+    NSArray *memorisedArr = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadMemorised]];
+    
+    NSString *memorisedStr = [NSString stringWithFormat:@"%@", [[memorisedArr objectAtIndex:0] objectAtIndex:0]];
+    
+    NSLog(@"%@", memorisedStr);
+    
+    self.isMemorised = (int)[memorisedStr intValue];
+}
+
+- (void)toggleMemorised {
+    [self readyForMemorised];
+    
+    if (self.isMemorised == 1) { // 暗記済み
+        self.memorisedBtnBlue.hidden =YES;
+        self.memorisedBtn.hidden = NO;
+        
+        //クエリー作成。
+        NSString *queryUpdate = [NSString stringWithFormat:@"update cardNumberInfo set memorised = %d where cardNumberInfoID = %ld ", 0, (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]];
+        
+        //NSLog(@"queryUpdate %@", queryUpdate);
+        [self.dbCardNumber executeQuery:queryUpdate];
+    }else{ // 暗記していない
+        self.memorisedBtn.hidden = YES;
+        self.memorisedBtnBlue.hidden = NO;
+        
+        //クエリー作成。
+        NSString *queryUpdate = [NSString stringWithFormat:@"update cardNumberInfo set memorised = %d where cardNumberInfoID = %ld ", 1, (long)[[self.cardNumArry objectAtIndex:self.pageIndex] integerValue]];
+        
+        //NSLog(@"queryUpdate %@", queryUpdate);
+        [self.dbCardNumber executeQuery:queryUpdate];
+    }
+}
+
+- (void)checkMemorised {
+    [self readyForMemorised];
+    
+    // todo viewdidload, swipe, card移動時のmemorisedbtn更新 memorised並び替え表示
+    
+    if (self.isMemorised == 1) { // 暗記済み
+        self.memorisedBtn.hidden = YES;
+        self.memorisedBtnBlue.hidden = NO;
+        
+    }else{ // 暗記していない
+        self.memorisedBtnBlue.hidden =YES;
+        self.memorisedBtn.hidden = NO;
+        
+    }
 }
 
 - (IBAction)backAction:(id)sender {
