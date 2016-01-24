@@ -217,7 +217,7 @@
 -(void)loadInfoToEdit{
     if (self.newCard == -1) {
         //追加、編集するカード番号を保存。
-        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@', '%@')", [NSString stringWithFormat:@"%ld", self.fileID], [NSString stringWithFormat:@"%ld", self.folderID]];
+        NSString *queryForCardNumber = [NSString stringWithFormat:@"insert into cardNumberInfo values(null, '%@', '%@', %d)", [NSString stringWithFormat:@"%ld", self.fileID], [NSString stringWithFormat:@"%ld", self.folderID], 0];
         // Execute the query.
         [self.dbCardNumber executeQuery:queryForCardNumber];
         

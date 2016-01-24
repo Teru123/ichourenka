@@ -178,7 +178,7 @@
     
     if(openDatabaseResult == SQLITE_OK){
         //なければ暗記レコード追加。
-        NSString *queryForMemorised = [NSString stringWithFormat:@"INSERT OR IGNORE INTO optionInfo values(%d, %d, '%@')", 3, 0, @"未暗記"];
+        NSString *queryForMemorised = [NSString stringWithFormat:@"INSERT OR IGNORE INTO optionInfo values(%d, %d, '%@')", 3, 0, @"全表示"];
         
         //const char *update_stmt = [updateSQL UTF8String];
         //sqlite3_prepare_v2(sqlite3Database, update_stmt, -1, &statement, NULL);

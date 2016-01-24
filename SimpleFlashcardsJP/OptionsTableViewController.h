@@ -21,4 +21,6 @@
 @property (weak, nonatomic) IBOutlet GADBannerView *bannerView6;
 @property (weak, nonatomic) IBOutlet GADBannerView *bannerView6Plus;
 
+@property (weak, nonatomic) IBOutlet UITableViewCell *MemorisedCell;
+
 @end

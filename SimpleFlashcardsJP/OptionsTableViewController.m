@@ -109,7 +109,13 @@
     self.fontsizeDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex]];
     self.backcolorDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex]];
     
-    //todo: 未暗記のオプション追加
+    int isMemorised = [[[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex] intValue];
+    
+    if (isMemorised) {
+        self.MemorisedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }else{
+        self.MemorisedCell.accessoryType = UITableViewCellAccessoryNone;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -118,54 +124,78 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1)
-    {
+    if (indexPath.section == 0){
+        if (indexPath.row == 3) {
+            if  (self.MemorisedCell.accessoryType == UITableViewCellAccessoryNone){
+                [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+                
+                //クエリー作成。
+                NSString *queryUpdate = [NSString stringWithFormat:@"update optionInfo set selectedop = %d where optionInfoID = %d ", 1, 3];
+                NSString *queryUpdateStr = [NSString stringWithFormat:@"update optionInfo set selectedopstr = '%@' where optionInfoID = %d ", @"未暗記表示", 3];
+                //NSLog(@"queryUpdate %@", queryUpdate);
+                [self.dbOptions executeQuery:queryUpdate];
+                [self.dbOptions executeQuery:queryUpdateStr];
+            }else{
+                [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+                
+                //クエリー作成。
+                NSString *queryUpdate = [NSString stringWithFormat:@"update optionInfo set selectedop = %d where optionInfoID = %d ", 0, 3];
+                NSString *queryUpdateStr = [NSString stringWithFormat:@"update optionInfo set selectedopstr = '%@' where optionInfoID = %d ", @"全表示", 3];
+                //NSLog(@"queryUpdate %@", queryUpdate);
+                [self.dbOptions executeQuery:queryUpdate];
+                [self.dbOptions executeQuery:queryUpdateStr];
+            }
+        }
+    }else if (indexPath.section == 1){
         if (indexPath.row == 0) {
             //ウェブサイト
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.sokusyueitango.com"]];
-        }else if (indexPath.row == 1) {
-            //速習英単語1のDLページ
-            // AppStoreのレビューURLを開く (引数に AppStoreのアプリIDを指定)
-            // レビュー画面の URL
-            NSString *reviewUrl;
-            
-            // iOSのバージョンを判別
-            NSString *osversion = [UIDevice currentDevice].systemVersion;
-            NSArray *a = [osversion componentsSeparatedByString:@"."];
-            BOOL isIOS7 = [(NSString *)[a objectAtIndex:0] intValue] >= 7;
-            if (isIOS7) {
-                // iOS 7以降
-                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", @"783634975"];
-            } else {
-                // iOS 7未満
-                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", @"783634975"];
-            }
-            
-            // レビュー画面へ遷移
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewUrl]];
-        }else if (indexPath.row == 2){
-            //速習英単語2のDLページ
-            // AppStoreのレビューURLを開く (引数に AppStoreのアプリIDを指定)
-            // レビュー画面の URL
-            NSString *reviewUrl;
-            
-            // iOSのバージョンを判別
-            NSString *osversion = [UIDevice currentDevice].systemVersion;
-            NSArray *a = [osversion componentsSeparatedByString:@"."];
-            BOOL isIOS7 = [(NSString *)[a objectAtIndex:0] intValue] >= 7;
-            if (isIOS7) {
-                // iOS 7以降
-                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", @"894481309"];
-            } else {
-                // iOS 7未満
-                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", @"894481309"];
-            }
-            
-            // レビュー画面へ遷移
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewUrl]];
-            
-            //[self toggleMenu];
         }
+        
+        
+//        else if (indexPath.row == 1) {
+//            //速習英単語1のDLページ
+//            // AppStoreのレビューURLを開く (引数に AppStoreのアプリIDを指定)
+//            // レビュー画面の URL
+//            NSString *reviewUrl;
+//            
+//            // iOSのバージョンを判別
+//            NSString *osversion = [UIDevice currentDevice].systemVersion;
+//            NSArray *a = [osversion componentsSeparatedByString:@"."];
+//            BOOL isIOS7 = [(NSString *)[a objectAtIndex:0] intValue] >= 7;
+//            if (isIOS7) {
+//                // iOS 7以降
+//                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", @"783634975"];
+//            } else {
+//                // iOS 7未満
+//                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", @"783634975"];
+//            }
+//            
+//            // レビュー画面へ遷移
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewUrl]];
+//        }else if (indexPath.row == 2){
+//            //速習英単語2のDLページ
+//            // AppStoreのレビューURLを開く (引数に AppStoreのアプリIDを指定)
+//            // レビュー画面の URL
+//            NSString *reviewUrl;
+//            
+//            // iOSのバージョンを判別
+//            NSString *osversion = [UIDevice currentDevice].systemVersion;
+//            NSArray *a = [osversion componentsSeparatedByString:@"."];
+//            BOOL isIOS7 = [(NSString *)[a objectAtIndex:0] intValue] >= 7;
+//            if (isIOS7) {
+//                // iOS 7以降
+//                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", @"894481309"];
+//            } else {
+//                // iOS 7未満
+//                reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", @"894481309"];
+//            }
+//            
+//            // レビュー画面へ遷移
+//            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewUrl]];
+//            
+//            //[self toggleMenu];
+//        }
     }
     
     [tableView reloadData];
