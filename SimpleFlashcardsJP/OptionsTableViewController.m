@@ -104,13 +104,15 @@
     self.dbOptionInfo = [[NSArray alloc] initWithArray:[self.dbOptions loadDataFromDB:queryOrder]];
     //arrColumnNamesでselectedopstrのindexを取得。
     NSInteger opIndex = [self.dbOptions.arrColumnNames indexOfObject:@"selectedopstr"];
+    NSInteger selectedopIndex = [self.dbOptions.arrColumnNames indexOfObject:@"selectedop"];
     //dbOptionsの*番目の値を取得。
     self.orderDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex]];
     self.fontsizeDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:1] objectAtIndex:opIndex]];
     self.backcolorDetail.text = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex]];
     
-    int isMemorised = [[[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex] intValue];
-    
+    NSString *isMemorisedStr = [NSString stringWithFormat:@"%@", [[self.dbOptionInfo objectAtIndex:3] objectAtIndex:selectedopIndex]];
+    int isMemorised = [isMemorisedStr intValue];
+                             
     if (isMemorised) {
         self.MemorisedCell.accessoryType = UITableViewCellAccessoryCheckmark;
     }else{

@@ -45,193 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.cardNumArry = [[NSMutableArray alloc] init]; //arry初期化
-    
-    self.automaticallyAdjustsScrollViewInsets = NO;
-    [self.navigationController setNavigationBarHidden:YES];
-    
-    // make this textView align center vertically
-    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-    
-    self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
-    //NSLog(@"fileIDStr %@", self.fileIDStr);
-    
-    // Initialize the dbManager object.
-    self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
-    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
-    self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
-    
-    // 暗記済みチェック用クエリ
-    //クエリー作成。
-    NSString *memorisedQuery = [NSString stringWithFormat:@"select selectedop from optionInfo where optionInfoID = %d", 3];
-    
-    //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
-    NSInteger indexOfMemorisedOption = [self.dbOptions.arrColumnNames indexOfObject:@"selectedop"];
-    
-    //データを読み込んで配列に追加。カードのテキスト数を渡す。
-    NSArray *memorisedArr = [[NSArray alloc] initWithArray:[self.dbOptions loadDataFromDB:memorisedQuery]];
-    NSNumber *allCardNumber = [[memorisedArr objectAtIndex:0] objectAtIndex:indexOfMemorisedOption];
-    int allCard = [allCardNumber intValue];
-    
-    //クエリー作成。
-    NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, self.fileIDStr];
-    
-    if (allCard == 0) { // 全表示
-        NSString *queryLoadCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.fileIDStr];
-        self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCN]];
-    }else if (allCard == 1) { // 未暗記
-        NSString *queryLoadCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' AND memorised = %d ", self.fileIDStr, 1];
-        self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCN]];
-    }
-    
-    //データを読み込んで配列に追加。
-    self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
-    
-//    for (int i = 0; i < self.dbCardNumberInfo.count; i++){
-//        NSInteger cardNum = [self.dbCardNumber.arrColumnNames indexOfObject:@"cardNumberInfoID"];
-//        [self.cardNumArry addObject:[[self.dbCardNumberInfo objectAtIndex:i] objectAtIndex:cardNum]];
-//    }
-    
-    //NSLog(@"count txtinfo %ld, cninfo %ld", self.dbCardTextInfo.count, self.dbCardNumberInfo.count);
-    
-    if (self.dbCardTextInfo.count == 0 || self.dbCardNumberInfo.count == 0) {
-        //NSLog(@"STOP");
-        self.pageCountLabel.text = @"1 of 1";
-        self.pageControl.numberOfPages = 1;
-        self.movePageSlider.minimumValue = 0;
-        self.movePageSlider.maximumValue = 0;
-        
-    }else{
-        //現在表示しているカード番号と合計数を表示する。
-        self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
-        
-        //クエリー作成。カード番号のテキストを取得。
-        NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.fileIDStr];
-        
-        //データを読み込んで配列に追加。カードのテキスト数を渡す。
-        self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
-        
-        //カード2番目のテキストをチェック。
-        [self checkTheSecondText];
-        
-        //カード2番目のテキストが空欄の場合はドット表示は1Pageのみ。
-        if ([self.secondText isEqualToString:@""]) {
-            self.pageControl.numberOfPages = 1;
-        }else{
-            self.pageControl.numberOfPages = self.cardTextCount.count;
-        }
-        
-        self.movePageSlider.minimumValue = 0;
-        //countは1から数えるので-1をする。
-        self.movePageSlider.maximumValue = self.dbCardNumberInfo.count - 1;
-        // 値が変更された時にsliderValueメソッドを呼び出す
-        [self.movePageSlider addTarget:self action:@selector(sliderValue:) forControlEvents:UIControlEventValueChanged];
-        
-        // NSMutableArrayを初期化。
-        self.sourceArry = [[NSMutableArray alloc] init];
-        
-        //NSMutableArrayにテキストを渡してarrayに格納。
-        for (int i = 0; i < self.dbCardNumberInfo.count; i++) {
-            // NSMutableArrayを初期化。
-            self.passDataArr = [[NSMutableArray alloc] init];
-            
-            //クエリー作成。カード番号のテキストを取得。
-            NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:i], self.fileIDStr];
-            
-            //データを読み込んで配列に追加。カードのテキスト数を渡す。
-            self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
-            
-            //テキスト番号のデータを取得。
-            for (int k = 0; k < self.cardTextCount.count; k++) {
-                //NSLog(@"k %d, i %d %@", k, i, [self.dbCardNumberInfo objectAtIndex:i]);
-                
-                //クエリー作成。
-                NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@ AND filename = '%@' ", k, [self.dbCardNumberInfo objectAtIndex:i], self.fileIDStr];
-                
-                //データを読み込んで配列に追加。
-                self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
-                
-                //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
-                NSInteger indexOfText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
-                
-                //cardTextのpageIndex番目を表示。
-                NSString *dataText = [NSString stringWithFormat:@"%@", [[self.dbCardTextInfo objectAtIndex:0] objectAtIndex:indexOfText]];
-                //NSLog(@"%@", dataText);
-                
-                //テキストデータ格納。
-                [self.passDataArr addObject:dataText];
-                //NSLog(@"%ld", self.passDataArr.count);
-            }
-            
-            //Arrayにデータを含むMutableArrを渡す。
-            NSArray *dataArray = [[NSArray alloc] initWithArray:self.passDataArr];
-            //NSLog(@"%ld", dataArray.count);
-            
-            // 配列に各データを含む配列を追加してsetViewControllers時のエラーを防ぐ。配列と配列の結合。
-            self.sourceArry = [self.sourceArry arrayByAddingObjectsFromArray:@[dataArray]];
-            
-            // カード番号取得
-            NSInteger cardNum = [self.dbCardNumber.arrColumnNames indexOfObject:@"cardNumberInfoID"];
-            
-            NSLog(@"%@", [self.dbCardNumberInfo objectAtIndex:i]);
-            
-            // クラス名を文字列で取得 クラス名は "NSCFString"
-            NSString *cardNumData = [NSString stringWithFormat:@"%@", [[self.dbCardNumberInfo objectAtIndex:i] objectAtIndex:cardNum]];
-//            cardNumData = NSStringFromClass([NSString class]);
-            NSNumber *cardNumIntData = [NSNumber numberWithInteger: [cardNumData integerValue]];
-            
-            [self.cardNumArry addObject:cardNumIntData];
-        }
-        
-        // Do any additional setup after loading the view.
-        [self.backView addSubview:_backButton];
-        [self.backView addSubview:_textView];
-        [self.backView addSubview:_gearButton];
-        [self.backView addSubview:_stopButton];
-        [self.backView addSubview:_playButton];
-        [self.backView addSubview:_pauseButton];
-        [self.backView addSubview:_moveButton];
-        [self.backView addSubview:_horizontalView];
-        [self.horizontalView addSubview:_movePageSlider];
-        [self.horizontalView addSubview:_crossButton];
-        
-        /* 左スワイプ */
-        UISwipeGestureRecognizer* swipeLeftGesture =
-        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeLeft:)];
-        swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
-        
-        [self.view addGestureRecognizer:swipeLeftGesture];
-        
-        /* 右スワイプ */
-        UISwipeGestureRecognizer* swipeRightGesture =
-        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeRight:)];
-        swipeRightGesture.direction = UISwipeGestureRecognizerDirectionRight;
-        
-        [self.view addGestureRecognizer:swipeRightGesture];
-        
-        /* 上スワイプ */
-        UISwipeGestureRecognizer* swipeUpGesture =
-        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeUp:)];
-        swipeUpGesture.direction = UISwipeGestureRecognizerDirectionUp;
-        
-        [self.view addGestureRecognizer:swipeUpGesture];
-        
-        /* 下スワイプ */
-        UISwipeGestureRecognizer* swipeDownGesture =
-        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeDown:)];
-        swipeDownGesture.direction = UISwipeGestureRecognizerDirectionDown;
-        
-        [self.view addGestureRecognizer:swipeDownGesture];
-        
-        [self animationStart];
-        
-        [self checkMemorised];
-        
-        //self.textNumber = 0;
-        //self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[0][0]];
-        
-        //NSLog(@"%ld", self.sourceArry.count);
-    }
+    [self remakeSrcArr];
     
     //広告
     //NSString *MY_BANNER_UNIT_ID = @"ca-app-pub-9302632653080358/9670618628";
@@ -335,8 +149,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    // TODO: 全表示または未暗記表示の更新反映
-    
     [self.textView removeObserver:self forKeyPath:@"contentSize"];
     
     // make this textView align center vertically
@@ -389,6 +201,16 @@
             self.backView.backgroundColor = [UIColor redColor];
         }else if ([[[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex] integerValue] == 8) {
             self.backView.backgroundColor = [UIColor yellowColor];
+        }
+        // TODO: 全表示から未暗記のみにした際、現在の表示位置が未暗記のみのcountを超えていると落ちる問題の修正。
+        
+        //未暗記または全表示
+        if ([[[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex] integerValue] == 0) {
+            [self remakeSrcArr];
+            //[self resetPageAndText];
+        }else if ([[[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex] integerValue] == 1){
+            [self remakeSrcArr];
+            //[self resetPageAndText];
         }
         //カードの順序。
         if ([[[self.dbOptionInfo objectAtIndex:0] objectAtIndex:opIndex] integerValue] == 0) {
@@ -477,7 +299,197 @@
     }
 }
 
-- (void)animationStart{
+- (void)remakeSrcArr {
+    self.cardNumArry = [[NSMutableArray alloc] init]; //arry初期化
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self.navigationController setNavigationBarHidden:YES];
+    
+    // make this textView align center vertically
+    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    
+    self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
+    //NSLog(@"fileIDStr %@", self.fileIDStr);
+    
+    // Initialize the dbManager object.
+    self.cardTextManager = [[CardText alloc] initWithDatabaseFilename:@"CardText.sql"];
+    self.dbCardNumber = [[CardNumber alloc] initWithDatabaseFilename:@"CardNumberDB.sql"];
+    self.dbOptions = [[Options alloc] initWithDatabaseFilename:@"options.sql"];
+    
+    // 暗記済みチェック用クエリ
+    //クエリー作成。
+    NSString *memorisedQuery = [NSString stringWithFormat:@"select selectedop from optionInfo where optionInfoID = %d", 3];
+    
+    //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
+    NSInteger indexOfMemorisedOption = [self.dbOptions.arrColumnNames indexOfObject:@"selectedop"];
+    
+    //データを読み込んで配列に追加。カードのテキスト数を渡す。
+    NSArray *memorisedArr = [[NSArray alloc] initWithArray:[self.dbOptions loadDataFromDB:memorisedQuery]];
+    NSNumber *allCardNumber = [[memorisedArr objectAtIndex:0] objectAtIndex:indexOfMemorisedOption];
+    int allCard = [allCardNumber intValue];
+    
+    //クエリー作成。
+    NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND filename = '%@' ", 0, self.fileIDStr];
+    
+    if (allCard == 0) { // 全表示
+        NSString *queryLoadCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' ", self.fileIDStr];
+        self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCN]];
+    }else if (allCard == 1) { // 未暗記
+        NSString *queryLoadCN = [NSString stringWithFormat:@"select cardNumberInfoID from cardNumberInfo where filename = '%@' AND memorised = %d ", self.fileIDStr, 0];
+        self.dbCardNumberInfo = [[NSArray alloc] initWithArray:[self.dbCardNumber loadDataFromDB:queryLoadCN]];
+    }
+    
+    //データを読み込んで配列に追加。
+    self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
+    
+    //    for (int i = 0; i < self.dbCardNumberInfo.count; i++){
+    //        NSInteger cardNum = [self.dbCardNumber.arrColumnNames indexOfObject:@"cardNumberInfoID"];
+    //        [self.cardNumArry addObject:[[self.dbCardNumberInfo objectAtIndex:i] objectAtIndex:cardNum]];
+    //    }
+    
+    //NSLog(@"count txtinfo %ld, cninfo %ld", self.dbCardTextInfo.count, self.dbCardNumberInfo.count);
+    
+    if (self.dbCardTextInfo.count == 0 || self.dbCardNumberInfo.count == 0) {
+        //NSLog(@"STOP");
+        self.pageCountLabel.text = @"1 of 1";
+        self.pageControl.numberOfPages = 1;
+        self.movePageSlider.minimumValue = 0;
+        self.movePageSlider.maximumValue = 0;
+        
+    }else{
+        //現在表示しているカード番号と合計数を表示する。
+        self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
+        
+        //クエリー作成。カード番号のテキストを取得。
+        NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:self.pageIndex], self.fileIDStr];
+        
+        //データを読み込んで配列に追加。カードのテキスト数を渡す。
+        self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
+        
+        //カード2番目のテキストをチェック。
+        [self checkTheSecondText];
+        
+        //カード2番目のテキストが空欄の場合はドット表示は1Pageのみ。
+        if ([self.secondText isEqualToString:@""]) {
+            self.pageControl.numberOfPages = 1;
+        }else{
+            self.pageControl.numberOfPages = self.cardTextCount.count;
+        }
+        
+        self.movePageSlider.minimumValue = 0;
+        //countは1から数えるので-1をする。
+        self.movePageSlider.maximumValue = self.dbCardNumberInfo.count - 1;
+        // 値が変更された時にsliderValueメソッドを呼び出す
+        [self.movePageSlider addTarget:self action:@selector(sliderValue:) forControlEvents:UIControlEventValueChanged];
+        
+        // NSMutableArrayを初期化。
+        self.sourceArry = [[NSMutableArray alloc] init];
+        
+        //NSMutableArrayにテキストを渡してarrayに格納。
+        for (int i = 0; i < self.dbCardNumberInfo.count; i++) {
+            // NSMutableArrayを初期化。
+            self.passDataArr = [[NSMutableArray alloc] init];
+            
+            //クエリー作成。カード番号のテキストを取得。
+            NSString *queryLoadCTC = [NSString stringWithFormat:@"select cardText from cardTextInfo where cardNumber = %@ AND filename = '%@' ", [self.dbCardNumberInfo objectAtIndex:i], self.fileIDStr];
+            
+            //データを読み込んで配列に追加。カードのテキスト数を渡す。
+            self.cardTextCount = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCTC]];
+            
+            //テキスト番号のデータを取得。
+            for (int k = 0; k < self.cardTextCount.count; k++) {
+                //NSLog(@"k %d, i %d %@", k, i, [self.dbCardNumberInfo objectAtIndex:i]);
+                
+                //クエリー作成。
+                NSString *queryLoadCT = [NSString stringWithFormat:@"select cardText from cardTextInfo where textNumber = %d AND cardNumber = %@ AND filename = '%@' ", k, [self.dbCardNumberInfo objectAtIndex:i], self.fileIDStr];
+                
+                //データを読み込んで配列に追加。
+                self.dbCardTextInfo = [[NSArray alloc] initWithArray:[self.cardTextManager loadDataFromDB:queryLoadCT]];
+                
+                //arrColumnNamesでindexを指定。そうすることでSQLの空白と改行をなくせる。
+                NSInteger indexOfText = [self.cardTextManager.arrColumnNames indexOfObject:@"cardText"];
+                
+                //cardTextのpageIndex番目を表示。
+                NSString *dataText = [NSString stringWithFormat:@"%@", [[self.dbCardTextInfo objectAtIndex:0] objectAtIndex:indexOfText]];
+                //NSLog(@"%@", dataText);
+                
+                //テキストデータ格納。
+                [self.passDataArr addObject:dataText];
+                //NSLog(@"%ld", self.passDataArr.count);
+            }
+            
+            //Arrayにデータを含むMutableArrを渡す。
+            NSArray *dataArray = [[NSArray alloc] initWithArray:self.passDataArr];
+            //NSLog(@"%ld", dataArray.count);
+            
+            // 配列に各データを含む配列を追加してsetViewControllers時のエラーを防ぐ。配列と配列の結合。
+            self.sourceArry = [self.sourceArry arrayByAddingObjectsFromArray:@[dataArray]];
+            
+            // カード番号取得
+            NSInteger cardNum = [self.dbCardNumber.arrColumnNames indexOfObject:@"cardNumberInfoID"];
+            
+            NSLog(@"%@", [self.dbCardNumberInfo objectAtIndex:i]);
+            
+            // クラス名を文字列で取得 クラス名は "NSCFString"
+            NSString *cardNumData = [NSString stringWithFormat:@"%@", [[self.dbCardNumberInfo objectAtIndex:i] objectAtIndex:cardNum]];
+            //            cardNumData = NSStringFromClass([NSString class]);
+            NSNumber *cardNumIntData = [NSNumber numberWithInteger: [cardNumData integerValue]];
+            
+            [self.cardNumArry addObject:cardNumIntData];
+        }
+        
+        // Do any additional setup after loading the view.
+        [self.backView addSubview:_backButton];
+        [self.backView addSubview:_textView];
+        [self.backView addSubview:_gearButton];
+        [self.backView addSubview:_stopButton];
+        [self.backView addSubview:_playButton];
+        [self.backView addSubview:_pauseButton];
+        [self.backView addSubview:_moveButton];
+        [self.backView addSubview:_horizontalView];
+        [self.horizontalView addSubview:_movePageSlider];
+        [self.horizontalView addSubview:_crossButton];
+        
+        /* 左スワイプ */
+        UISwipeGestureRecognizer* swipeLeftGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeLeft:)];
+        swipeLeftGesture.direction = UISwipeGestureRecognizerDirectionLeft;
+        
+        [self.view addGestureRecognizer:swipeLeftGesture];
+        
+        /* 右スワイプ */
+        UISwipeGestureRecognizer* swipeRightGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeRight:)];
+        swipeRightGesture.direction = UISwipeGestureRecognizerDirectionRight;
+        
+        [self.view addGestureRecognizer:swipeRightGesture];
+        
+        /* 上スワイプ */
+        UISwipeGestureRecognizer* swipeUpGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeUp:)];
+        swipeUpGesture.direction = UISwipeGestureRecognizerDirectionUp;
+        
+        [self.view addGestureRecognizer:swipeUpGesture];
+        
+        /* 下スワイプ */
+        UISwipeGestureRecognizer* swipeDownGesture =
+        [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(view_SwipeDown:)];
+        swipeDownGesture.direction = UISwipeGestureRecognizerDirectionDown;
+        
+        [self.view addGestureRecognizer:swipeDownGesture];
+        
+        [self animationStart];
+        
+        [self checkMemorised];
+        
+        //self.textNumber = 0;
+        //self.textView.text = [NSString stringWithFormat:@"%@", self.sourceArry[0][0]];
+        
+        //NSLog(@"%ld", self.sourceArry.count);
+    }
+}
+
+- (void)animationStart {
     [UIView beginAnimations:@"fadeIn" context:nil];
     [UIView setAnimationDuration:0.5];
     
