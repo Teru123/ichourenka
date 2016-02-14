@@ -33,6 +33,8 @@
 @property(nonatomic,strong) NSMutableArray *randomIndex;
 @property(nonatomic,strong) NSMutableArray *cardNumArry;
 @property (nonatomic, assign) int isMemorised;
+@property (nonatomic, assign) int isChangedMemoriseOption;
+@property (nonatomic, assign) int checkMemoriseOptionChanged;
 
 @property (assign, nonatomic) BOOL internetActive;
 @property (assign, nonatomic) BOOL hostActive;
@@ -46,6 +48,7 @@
     [super viewDidLoad];
     
     [self remakeSrcArr];
+    self.checkMemoriseOptionChanged = self.isChangedMemoriseOption;
     
     //広告
     //NSString *MY_BANNER_UNIT_ID = @"ca-app-pub-9302632653080358/9670618628";
@@ -121,6 +124,9 @@
         [self.bannerView loadRequest:request];
     }
     
+    // make this textView align center vertically
+    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+    
     // 広告ユニット ID を指定する
     //bannerView_.adUnitID = MY_BANNER_UNIT_ID;
     
@@ -145,14 +151,13 @@
     UITextView *tv = object;
     CGFloat topCorrect = ([tv bounds].size.height - [tv contentSize].height * [tv zoomScale])/2.0;
     topCorrect = ( topCorrect < 0.0 ? 0.0 : topCorrect );
-    tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+    dispatch_async(dispatch_get_main_queue(), ^{
+        // メインスレッドで処理をしたい内容、UIを変更など。
+        tv.contentOffset = (CGPoint){.x = 0, .y = -topCorrect};
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    [self.textView removeObserver:self forKeyPath:@"contentSize"];
-    
-    // make this textView align center vertically
-    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     
     //設定を更新する。
     if (self.dbCardTextInfo.count != 0 && self.dbCardNumberInfo.count != 0){
@@ -202,13 +207,14 @@
         }else if ([[[self.dbOptionInfo objectAtIndex:2] objectAtIndex:opIndex] integerValue] == 8) {
             self.backView.backgroundColor = [UIColor yellowColor];
         }
-        // TODO: 全表示から未暗記のみにした際、現在の表示位置が未暗記のみのcountを超えていると落ちる問題の修正。
         
         //未暗記または全表示
         if ([[[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex] integerValue] == 0) {
+            self.isChangedMemoriseOption = 0;
             [self remakeSrcArr];
             //[self resetPageAndText];
         }else if ([[[self.dbOptionInfo objectAtIndex:3] objectAtIndex:opIndex] integerValue] == 1){
+            self.isChangedMemoriseOption = 1;
             [self remakeSrcArr];
             //[self resetPageAndText];
         }
@@ -305,9 +311,6 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.navigationController setNavigationBarHidden:YES];
     
-    // make this textView align center vertically
-    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-    
     self.fileIDStr = [NSString stringWithFormat:@"%ld", self.fileID];
     //NSLog(@"fileIDStr %@", self.fileIDStr);
     
@@ -357,6 +360,12 @@
         self.movePageSlider.maximumValue = 0;
         
     }else{
+        // 暗記済みの切替時に合計数が超えると落ちるので、参照する値 pageIndexをリセット
+        if (self.checkMemoriseOptionChanged != self.isChangedMemoriseOption) {
+            self.pageIndex = 0;
+            self.checkMemoriseOptionChanged = self.isChangedMemoriseOption;
+        }
+        
         //現在表示しているカード番号と合計数を表示する。
         self.pageCountLabel.text = [NSString stringWithFormat:@"%ld of %ld", self.pageIndex + 1, self.dbCardNumberInfo.count];
         
